@@ -1,0 +1,10 @@
+/*  FOOTER  */
+footer {
+	width: 230px;
+	height: 30px;
+	margin: 10px auto;
+}
+footer > p {
+	font: normal 12px Cambria;
+	background: transparent;
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appenders>
+		<file name="TxtFile" fileName="logs/log.txt" bufferedIO="true">
+			<patternLayout
+				pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{1} - %msg%n" />
+		</file>
+		<console name="Console" target="SYSTEM_OUT">
+			<patternLayout
+				pattern="%d{ABSOLUTE} %-5level %logger{1} - %msg%n" />
+		</console>
+	</appenders>
+	<loggers>
+		<root level="debug">
+			<appenderRef ref="TxtFile" />
+			<appenderRef ref="Console" />
+		</root>
+	</loggers>
+</configuration>
