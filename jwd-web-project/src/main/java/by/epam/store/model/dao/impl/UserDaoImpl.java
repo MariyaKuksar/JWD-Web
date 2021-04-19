@@ -29,6 +29,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String PERCENT = "%";
 	private static final String SQL_INSERT_USER = "INSERT INTO USERS (LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_STATUS = "UPDATE USERS SET STATUS=? WHERE ID=? AND STATUS=?";
+	private static final String SQL_UPDATE_USER = "UPDATE USERS SET LOGIN=?, PASSWORD=?, NAME=?, PHONE=? WHERE ID=?";
 
 	@Override
 	public Optional<User> findUserByLogin(String login) throws DaoException {
@@ -57,6 +58,7 @@ public class UserDaoImpl implements UserDao {
 		return userOptional;
 	}
 
+// нужно доработать, если буду использовать
 	@Override
 	public List<User> findUsersByName(String userName) throws DaoException {
 		List<User> users = new ArrayList<>();
@@ -77,6 +79,7 @@ public class UserDaoImpl implements UserDao {
 		return users;
 	}
 
+	// нужно доработать, если буду использовать
 	@Override
 	public List<User> findAll() throws DaoException {
 		List<User> users = new ArrayList<>();
@@ -123,8 +126,19 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public boolean update(User user) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+		boolean userUpdated;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
+			statement.setString(1, user.getLogin());
+			statement.setString(2, user.getPassword());
+			statement.setString(3, user.getName());
+			statement.setString(4, user.getPassword());
+			statement.setLong(5, user.getUserId());
+			userUpdated = statement.executeUpdate() == 1;
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return userUpdated;
 	}
 
 	@Override

@@ -9,6 +9,7 @@ public final class PagePath {
 	public static final String MAIN = "jsp/main.jsp";
 	public static final String LOGIN = "jsp/login.jsp";
 	public static final String REGISTRATION = "jsp/registration.jsp";
+	public static final String FORGOT_PASSWORD = "jsp/forgot_password.jsp";
 
 	public static final String GO_TO_MAIN_PAGE = "controller?command=go_to_main_page";
 	

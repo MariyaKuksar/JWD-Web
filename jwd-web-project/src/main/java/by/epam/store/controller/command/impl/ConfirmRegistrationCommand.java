@@ -5,7 +5,6 @@ import java.util.Arrays;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +36,7 @@ public class ConfirmRegistrationCommand implements Command {
 			}
 			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "user activation error", e);
+			logger.error("user activation error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

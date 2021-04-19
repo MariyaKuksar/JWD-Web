@@ -10,5 +10,6 @@ public enum CommandType {
 	RU,
 	SIGN_UP,
 	CONFIRM_REGISTRATION,
-	SIGN_OUT
+	SIGN_OUT,
+	FORGOT_PASSWORD
 }

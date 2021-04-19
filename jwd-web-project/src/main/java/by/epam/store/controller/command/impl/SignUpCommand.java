@@ -5,7 +5,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -41,7 +40,7 @@ public class SignUpCommand implements Command {
 				router = new Router(PagePath.REGISTRATION, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "user creation error", e);
+			logger.error("user creation error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

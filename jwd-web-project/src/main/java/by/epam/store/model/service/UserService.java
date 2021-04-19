@@ -12,7 +12,9 @@ public interface UserService {
 	
 	Optional<User> authorization(String login, String password) throws ServiceException;
 	
+	boolean changeForgottenPassword(String login) throws ServiceException;	
+	
 	List<User> findAllUsers() throws ServiceException;
 
-	List<User> findUsersByName(String userName) throws ServiceException;	
+	List<User> findUsersByName(String userName) throws ServiceException;
 }

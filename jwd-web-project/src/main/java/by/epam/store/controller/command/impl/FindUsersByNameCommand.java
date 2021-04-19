@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +32,7 @@ public class FindUsersByNameCommand implements Command {
 			request.setAttribute(ATTRIBUTE_USERS, users);
 			router = new Router(PagePath.USERS, RouteType.FORWARD);
 		} catch (ServiceException e) {
-			logger.log(Level.ERROR, "users search error", e);
+			logger.error("users search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

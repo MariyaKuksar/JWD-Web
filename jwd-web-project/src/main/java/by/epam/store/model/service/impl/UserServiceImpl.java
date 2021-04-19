@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,6 +29,9 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl();
 	private static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
 	private static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link http://localhost:8080/jwd-web-project/controller?command=confirm_registration&userId=";
+	private static final String CHANGE_PASSWORD_MESSAGE_SUBJECT = "Change password";
+	private static final String CHANGE_PASSWORD_MESSAGE_TEXT = "Your new login password is ";
+	private static final int NUMBER_PASSWORD_CHARACTERS = 8;
 
 	@Override
 	public List<String> registration(User user) throws ServiceException {
@@ -45,29 +49,28 @@ public class UserServiceImpl implements UserService {
 			user.setRole(UserRole.CLIENT);
 			user.setStatus(UserStatus.INACTIVE);
 			long userId = userDao.create(user);
-			MailSender.send(user.getLogin(), REGISTRATION_MESSAGE_SUBJECT,
-					REGISTRATION_MESSAGE_TEXT + userId);
+			MailSender.send(user.getLogin(), REGISTRATION_MESSAGE_SUBJECT, REGISTRATION_MESSAGE_TEXT + userId);
 		} catch (MessagingException | DaoException e) {
 			throw new ServiceException("user creation error", e);
 		}
 		return errorMessageList;
 	}
-	
+
 	@Override
 	public boolean activation(String userId) throws ServiceException {
 		boolean userActivated;
 		try {
 			long id = Long.parseLong(userId);
 			userActivated = userDao.changeUserStatus(id, UserStatus.INACTIVE, UserStatus.ACTIVE);
-		} catch (NumberFormatException e) { 
-			logger.info ("userId incorrect");
+		} catch (NumberFormatException e) {
+			logger.info("userId incorrect");
 			userActivated = false;
 		} catch (DaoException e) {
 			throw new ServiceException("user activation error", e);
-		}	
+		}
 		return userActivated;
 	}
-	
+
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
 		if (!UserDataValidator.isValidLogin(login) || !UserDataValidator.isValidPassword(password)) {
@@ -80,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			if (userOptional.isPresent()) {
 				User user = userOptional.get();
 				String encryptedPassword = PasswordEncryption.encrypt(password);
-				if (!StringUtils.equals(encryptedPassword,user.getPassword())) {
+				if (!StringUtils.equals(encryptedPassword, user.getPassword())) {
 					logger.debug("incorrect Password");
 					userOptional = Optional.empty();
 				}
@@ -92,6 +95,34 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public boolean changeForgottenPassword(String login) throws ServiceException {
+		if (!UserDataValidator.isValidLogin(login)) {
+			logger.debug("incorrect login");
+			return false;
+		}
+		try {
+			Optional<User> userOptional = userDao.findUserByLogin(login);
+			if (userOptional.isEmpty()) {
+				logger.debug("not such user");
+				return false;
+			}
+			User user = userOptional.get();
+			String newPassword = generatePassword();
+			String encryptedPassword = PasswordEncryption.encrypt(newPassword);
+			user.setPassword(encryptedPassword);
+			if (userDao.update(user)) {
+				MailSender.send(user.getLogin(), CHANGE_PASSWORD_MESSAGE_SUBJECT, CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
+			} else {
+				throw new ServiceException("password change error");
+			}
+		} catch (MessagingException | DaoException e) {
+			throw new ServiceException("password change error", e);
+		}
+		return true;
+	}
+
+	// нужно доработать, если буду использовать
+	@Override
 	public List<User> findAllUsers() throws ServiceException {
 		List<User> users;
 		try {
@@ -102,6 +133,7 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+	// нужно доработать, если буду использовать
 	@Override
 	public List<User> findUsersByName(String userName) throws ServiceException {
 		if (!UserDataValidator.isValidName(userName)) {
@@ -124,5 +156,9 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceException("impossible to check whether the login is free", e);
 		}
 		return userOptional.isEmpty();
+	}
+
+	private String generatePassword() {
+		return RandomStringUtils.randomAlphanumeric(NUMBER_PASSWORD_CHARACTERS);
 	}
 }
