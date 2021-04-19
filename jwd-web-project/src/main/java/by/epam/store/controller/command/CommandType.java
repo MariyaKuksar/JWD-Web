@@ -9,5 +9,6 @@ public enum CommandType {
 	EN,
 	RU,
 	SIGN_UP,
-	CONFIRM_REGISTRATION
+	CONFIRM_REGISTRATION,
+	SIGN_OUT
 }

@@ -16,6 +16,7 @@
   <fmt:message key="local.password" var="password"/>
   <fmt:message key="local.sign_in" var="sign_in"/>
   <fmt:message key="local.sign_up" var="sign_up"/>
+  <fmt:message key="local.forgot_password" var="forgot_password"/>
   <title>${title}</title>
 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login/style.css" type="text/css" />
@@ -59,6 +60,7 @@
 		  <input type="password" name="password" required placeholder="${password}"/>
 		  <input type="submit" value="${sign_in}"/>
 		  <a class="info" href="${pageContext.request.contextPath}/jsp/registration.jsp">${sign_up}</a>
+		  <a class="info" href="${pageContext.request.contextPath}/jsp/forgot_password.jsp">${forgot_password}</a>
 		</form>
 	  </fieldset>
 	</div>

@@ -16,43 +16,19 @@ public final class UserDataValidator {
 	}
 
 	public static boolean isValidLogin(String login) {
-		boolean isValidLogin;
-		if (login != null) {
-			isValidLogin = login.matches(LOGIN_PATTERN);
-		} else {
-			isValidLogin = Boolean.FALSE;
-		}
-		return isValidLogin;
+		return (login != null) ? login.matches(LOGIN_PATTERN) : false;
 	}
 
 	public static boolean isValidPassword(String password) {
-		boolean isValidPassword;
-		if (password != null) {
-			isValidPassword = password.matches(PASSWORD_PATTERN);
-		} else {
-			isValidPassword = Boolean.FALSE;
-		}
-		return isValidPassword;
+		return (password != null) ? password.matches(PASSWORD_PATTERN) : false;
 	}
 
 	public static boolean isValidName(String name) {
-		boolean isValidName;
-		if (name != null) {
-			isValidName = name.matches(NAME_PATTERN);
-		} else {
-			isValidName = Boolean.FALSE;
-		}
-		return isValidName;
+		return (name != null) ? name.matches(NAME_PATTERN) : false;
 	}
 
 	public static boolean isValidPhone(String phone) {
-		boolean isValidPhone;
-		if (phone != null) {
-			isValidPhone = phone.matches(PHONE_PATTERN);
-		} else {
-			isValidPhone = Boolean.FALSE;
-		}
-		return isValidPhone;
+		return (phone != null)?phone.matches(PHONE_PATTERN):false;
 	}
 
 	public static List<String> getErrorMessageList(User user) {

@@ -13,6 +13,8 @@
   <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
   <fmt:message key="local.sign_in" var="sign_in"/>
   <fmt:message key="local.sign_up" var="sign_up"/>
+  <fmt:message key="local.sign_out" var="sign_out"/>
+  <fmt:message key="local.welcome" var="welcome"/>
   <title>${title}</title>
 </head>
 <body>
@@ -31,5 +33,8 @@
 		  <a class="info" href="${pageContext.request.contextPath}/jsp/login.jsp">${sign_in}</a>
 		  <br />
 		  <a class="info" href="${pageContext.request.contextPath}/jsp/registration.jsp">${sign_up}</a>
+		  <br />
+		  <p>${welcome}, ${sessionScope.login}!</p>
+        <a href="controller?command=sign_out">${sign_out}</a>
 </body>
 </html>

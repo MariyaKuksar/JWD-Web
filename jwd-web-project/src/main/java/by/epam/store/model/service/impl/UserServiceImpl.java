@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,7 +59,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			long id = Long.parseLong(userId);
 			userActivated = userDao.changeUserStatus(id, UserStatus.INACTIVE, UserStatus.ACTIVE);
-		} catch (NumberFormatException e) { //можно так валидировать userId??
+		} catch (NumberFormatException e) { 
 			logger.info ("userId incorrect");
 			userActivated = false;
 		} catch (DaoException e) {
@@ -66,10 +67,11 @@ public class UserServiceImpl implements UserService {
 		}	
 		return userActivated;
 	}
+	
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
-		if (!UserDataValidator.isValidLogin(login) && !UserDataValidator.isValidPassword(password)) {
-			logger.debug("is not Valid Login And Password");
+		if (!UserDataValidator.isValidLogin(login) || !UserDataValidator.isValidPassword(password)) {
+			logger.debug("is not Valid Login or Password");
 			return Optional.empty();
 		}
 		Optional<User> userOptional;
@@ -78,7 +80,7 @@ public class UserServiceImpl implements UserService {
 			if (userOptional.isPresent()) {
 				User user = userOptional.get();
 				String encryptedPassword = PasswordEncryption.encrypt(password);
-				if (!encryptedPassword.equals(user.getPassword())) {
+				if (!StringUtils.equals(encryptedPassword,user.getPassword())) {
 					logger.debug("incorrect Password");
 					userOptional = Optional.empty();
 				}
