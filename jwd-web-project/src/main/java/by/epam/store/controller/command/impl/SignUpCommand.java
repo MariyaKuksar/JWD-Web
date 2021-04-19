@@ -15,6 +15,7 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.User;
+import by.epam.store.model.entity.builder.UserBuilder;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.model.service.UserService;
@@ -25,13 +26,8 @@ public class SignUpCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		User user = new User();
-		user.setName(request.getParameter(ParameterAndAttribute.USER_NAME));
-		user.setPhone(request.getParameter(ParameterAndAttribute.PHONE));
-		user.setLogin(request.getParameter(ParameterAndAttribute.LOGIN));
-		user.setPassword(request.getParameter(ParameterAndAttribute.PASSWORD));
-		ServiceFactory factory = ServiceFactory.getInstance();
-		UserService userService = factory.getUserService();
+		User user = UserBuilder.getInstance().build(request);
+		UserService userService =  ServiceFactory.getInstance().getUserService();
 		Router router;
 		try {
 			List<String> errorMessageList = userService.registration(user);

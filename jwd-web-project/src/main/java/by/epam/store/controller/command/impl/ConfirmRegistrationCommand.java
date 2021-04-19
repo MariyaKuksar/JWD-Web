@@ -1,7 +1,6 @@
 package by.epam.store.controller.command.impl;
 
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,8 +25,7 @@ public class ConfirmRegistrationCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
-		ServiceFactory factory = ServiceFactory.getInstance();
-		UserService userService = factory.getUserService();
+		UserService userService =  ServiceFactory.getInstance().getUserService();
 		Router router;
 		try {
 			HttpSession session = request.getSession(true);

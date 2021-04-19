@@ -16,7 +16,6 @@ import by.epam.store.model.entity.User;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.model.service.UserService;
-import by.epam.store.model.service.impl.UserServiceImpl;
 
 //еще корявая реализация, надо доделывать
 public class FindAllUsersCommand implements Command {
@@ -25,8 +24,7 @@ public class FindAllUsersCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		ServiceFactory factory = ServiceFactory.getInstance();
-		UserService userService = factory.getUserService();
+		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
 		try {
 			List<User> users = userService.findAllUsers();

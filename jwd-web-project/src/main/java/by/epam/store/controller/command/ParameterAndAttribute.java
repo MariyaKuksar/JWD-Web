@@ -14,6 +14,5 @@ public final class ParameterAndAttribute {
 	public static final String ERROR_MESSAGE_LIST = "errorMessageList";
 		
 	private ParameterAndAttribute() {
-		
 	}	
 }

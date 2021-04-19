@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,6 +56,9 @@ public class Controller extends HttpServlet {
 				logger.debug("forward " + router.getPagePath());
 				RequestDispatcher dispatcher = request.getRequestDispatcher(router.getPagePath());
 				dispatcher.forward(request, response);
+				break;
+			default:
+				logger.error("incorrect route type");
 				break;
 			}
 		} else {

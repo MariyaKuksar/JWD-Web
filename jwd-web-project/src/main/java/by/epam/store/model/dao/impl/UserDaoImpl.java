@@ -39,13 +39,13 @@ public class UserDaoImpl implements UserDao {
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				User user = new User();
-				user.setUserId(resultSet.getInt(ColumnName.USERS_ID));
+				user.setUserId(resultSet.getLong(ColumnName.USERS_ID));
 				user.setLogin(resultSet.getString(ColumnName.USERS_LOGIN));
 				user.setPassword(resultSet.getString(ColumnName.USERS_PASSWORD));
 				user.setRole(UserRole.valueOf(resultSet.getString(ColumnName.USERS_ROLE).toUpperCase()));
 				user.setName(resultSet.getString(ColumnName.USERS_NAME));
 				user.setPhone(resultSet.getString(ColumnName.USERS_PHONE));
-				user.setStatus(UserStatus.valueOf(resultSet.getString(ColumnName.USERS_STATUS)));
+				user.setStatus(UserStatus.valueOf(resultSet.getString(ColumnName.USERS_STATUS.toUpperCase())));
 				userOptional = Optional.of(user);
 			} else {
 				userOptional = Optional.empty();
@@ -66,7 +66,7 @@ public class UserDaoImpl implements UserDao {
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				User user = new User();
-				user.setUserId(resultSet.getInt(ColumnName.USERS_ID));
+				user.setUserId(resultSet.getLong(ColumnName.USERS_ID));
 				user.setPhone(resultSet.getString(ColumnName.USERS_PHONE));
 				user.setName(resultSet.getString(ColumnName.USERS_NAME));
 				users.add(user);
@@ -111,7 +111,7 @@ public class UserDaoImpl implements UserDao {
 			statement.executeUpdate();
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
-				userId = resultSet.getInt(1);
+				userId = resultSet.getLong(1);
 			} else {
 				throw new DaoException("database error");
 			}
