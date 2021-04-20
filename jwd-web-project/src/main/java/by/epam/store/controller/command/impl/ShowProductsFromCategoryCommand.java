@@ -13,27 +13,28 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
-import by.epam.store.model.entity.ProductCategory;
+import by.epam.store.model.entity.Product;
 import by.epam.store.model.service.ProductService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 
-public class GoToMainPageCommand implements Command {
+public class ShowProductsFromCategoryCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
 	public Router execute(HttpServletRequest request) {
+		String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
 		ProductService productService = ServiceFactory.getInstance().getProductService();
 		Router router;
 		try {
-			List<ProductCategory> productCategories = productService.findAllProductCategories();
-			logger.debug(productCategories.toString());
-			request.setAttribute(ParameterAndAttribute.PRODUCT_CATEGORIES, productCategories);
+			List<Product> products = productService.findProductsFromCategory(categoryId);
+			logger.debug(products.toString());
+			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
 			HttpSession session = request.getSession(true);
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_MAIN_PAGE);
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_SHOW_PRODUCTS + categoryId);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);
 		} catch (ServiceException e) {
-			logger.error("product categories search error", e);
+			logger.error("products from category search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

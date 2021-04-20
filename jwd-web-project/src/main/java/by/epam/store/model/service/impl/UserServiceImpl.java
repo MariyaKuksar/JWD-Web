@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	public boolean activation(String userId) throws ServiceException {
 		boolean userActivated;
 		try {
-			long id = Long.parseLong(userId);
+			Long id = Long.parseLong(userId);
 			userActivated = userDao.changeUserStatus(id, UserStatus.INACTIVE, UserStatus.ACTIVE);
 		} catch (NumberFormatException e) {
 			logger.info("userId incorrect");

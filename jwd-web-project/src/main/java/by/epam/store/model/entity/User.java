@@ -1,22 +1,22 @@
 package by.epam.store.model.entity;
 
 public class User {
-	private long userId;
+	private Long userId;
 	private String login;
 	private String password;
 	private UserRole role;
 	private String name;
 	private String phone;
 	private UserStatus status;
-	
+
 	public User() {
 	}
 
-	public long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(long userId) {
+	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
@@ -78,7 +78,7 @@ public class User {
 		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
 		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
-		result = prime * result + (int) (userId ^ (userId >>> 32));
+		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
 
@@ -115,7 +115,10 @@ public class User {
 			return false;
 		if (status != other.status)
 			return false;
-		if (userId != other.userId)
+		if (userId == null) {
+			if (other.userId != null)
+				return false;
+		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
 	}
@@ -140,4 +143,4 @@ public class User {
 		builder.append("]");
 		return builder.toString();
 	}
-	}
+}

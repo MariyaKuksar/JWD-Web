@@ -12,6 +12,7 @@ public final class PagePath {
 	public static final String FORGOT_PASSWORD = "jsp/forgot_password.jsp";
 
 	public static final String GO_TO_MAIN_PAGE = "controller?command=go_to_main_page";
+	public static final Object GO_TO_SHOW_PRODUCTS = "controller?command=show_products_from_category&categoryId=";
 	
 	private PagePath() {
 	}

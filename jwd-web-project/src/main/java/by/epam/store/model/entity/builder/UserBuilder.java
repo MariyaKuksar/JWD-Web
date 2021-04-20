@@ -2,6 +2,8 @@ package by.epam.store.model.entity.builder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,15 +34,19 @@ public class UserBuilder implements EntityBuilder<User> {
 	}
 
 	@Override
-	public User build(ResultSet resultSet) throws SQLException {
-		User user = new User();
-		user.setUserId(resultSet.getLong(ColumnName.USERS_ID));
-		user.setLogin(resultSet.getString(ColumnName.USERS_LOGIN));
-		user.setPassword(resultSet.getString(ColumnName.USERS_PASSWORD));
-		user.setRole(UserRole.valueOf(resultSet.getString(ColumnName.USERS_ROLE).toUpperCase()));
-		user.setName(resultSet.getString(ColumnName.USERS_NAME));
-		user.setPhone(resultSet.getString(ColumnName.USERS_PHONE));
-		user.setStatus(UserStatus.valueOf(resultSet.getString(ColumnName.USERS_STATUS.toUpperCase())));
-		return user;
+	public List<User> build(ResultSet resultSet) throws SQLException {
+		List<User> usersList = new ArrayList<>();
+		while (resultSet.next()) {
+			User user = new User();
+			user.setUserId(resultSet.getLong(ColumnName.USERS_ID));
+			user.setLogin(resultSet.getString(ColumnName.USERS_LOGIN));
+			user.setPassword(resultSet.getString(ColumnName.USERS_PASSWORD));
+			user.setRole(UserRole.valueOf(resultSet.getString(ColumnName.USERS_ROLE).toUpperCase()));
+			user.setName(resultSet.getString(ColumnName.USERS_NAME));
+			user.setPhone(resultSet.getString(ColumnName.USERS_PHONE));
+			user.setStatus(UserStatus.valueOf(resultSet.getString(ColumnName.USERS_STATUS.toUpperCase())));
+			usersList.add(user);
+		}
+		return usersList;
 	}
 }

@@ -12,6 +12,7 @@ import by.epam.store.controller.command.impl.DefaultCommand;
 import by.epam.store.controller.command.impl.FindUsersByNameCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
 import by.epam.store.controller.command.impl.GoToMainPageCommand;
+import by.epam.store.controller.command.impl.ShowProductsFromCategoryCommand;
 import by.epam.store.controller.command.impl.SignInCommand;
 import by.epam.store.controller.command.impl.SignOutCommand;
 import by.epam.store.controller.command.impl.SignUpCommand;
@@ -33,6 +34,7 @@ public final class CommandProvider {
 		commands.put(CommandType.CONFIRM_REGISTRATION, new ConfirmRegistrationCommand());
 		commands.put(CommandType.SIGN_OUT, new SignOutCommand());
 		commands.put(CommandType.FORGOT_PASSWORD, new ForgotPasswordCommand());
+		commands.put(CommandType.SHOW_PRODUCTS_FROM_CATEGORY, new ShowProductsFromCategoryCommand());
 	}
 
 	private CommandProvider() {
