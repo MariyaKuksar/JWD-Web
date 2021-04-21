@@ -21,7 +21,9 @@ import by.epam.store.model.entity.builder.UserBuilder;
 public class ProductDaoImpl implements ProductDao {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT, IS_PRODUCABLE FROM PRODUCTS WHERE CATEGORY_ID=?";
-
+	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT, IS_PRODUCABLE FROM PRODUCTS WHERE NAME LIKE ?";
+	private static final String PERCENT = "%";
+	
 	@Override
 	public List<Product> findAll() throws DaoException {
 		// TODO Auto-generated method stub
@@ -46,6 +48,20 @@ public class ProductDaoImpl implements ProductDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_CATEGORY_ID)) {
 			statement.setLong(1, id);
+			ResultSet resultSet = statement.executeQuery();
+			products = ProductBuilder.getInstance().build(resultSet);
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> findProductsByName(String productName) throws DaoException {
+		List<Product> products;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_NAME)) {
+			statement.setString(1, PERCENT + productName + PERCENT);
 			ResultSet resultSet = statement.executeQuery();
 			products = ProductBuilder.getInstance().build(resultSet);
 		} catch (ConnectionPoolException | SQLException e) {

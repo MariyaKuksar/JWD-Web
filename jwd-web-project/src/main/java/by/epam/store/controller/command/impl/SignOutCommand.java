@@ -16,7 +16,7 @@ public class SignOutCommand implements Command {
 		if (session != null) {
 			session.invalidate();
 		}
-		Router router = new Router(PagePath.MAIN, RouteType.REDIRECT);
+		Router router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 		return router;
 	}
 }

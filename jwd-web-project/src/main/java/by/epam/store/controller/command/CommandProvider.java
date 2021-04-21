@@ -17,6 +17,7 @@ import by.epam.store.controller.command.impl.SignInCommand;
 import by.epam.store.controller.command.impl.SignOutCommand;
 import by.epam.store.controller.command.impl.SignUpCommand;
 import by.epam.store.controller.command.impl.FindAllUsersCommand;
+import by.epam.store.controller.command.impl.FindProductsByNameCommand;
 
 public final class CommandProvider {
 	private static final Logger logger = LogManager.getLogger();
@@ -35,6 +36,7 @@ public final class CommandProvider {
 		commands.put(CommandType.SIGN_OUT, new SignOutCommand());
 		commands.put(CommandType.FORGOT_PASSWORD, new ForgotPasswordCommand());
 		commands.put(CommandType.SHOW_PRODUCTS_FROM_CATEGORY, new ShowProductsFromCategoryCommand());
+		commands.put(CommandType.FIND_PRODUCTS_BY_NAME, new FindProductsByNameCommand());
 	}
 
 	private CommandProvider() {

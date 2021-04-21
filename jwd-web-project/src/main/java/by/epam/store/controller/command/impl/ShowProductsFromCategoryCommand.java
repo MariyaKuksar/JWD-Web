@@ -14,7 +14,7 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.Product;
-import by.epam.store.model.service.ProductService;
+import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 
@@ -24,14 +24,14 @@ public class ShowProductsFromCategoryCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
-		ProductService productService = ServiceFactory.getInstance().getProductService();
+		CatalogService productService = ServiceFactory.getInstance().getCatalogService();
 		Router router;
 		try {
-			List<Product> products = productService.findProductsFromCategory(categoryId);
+			List<Product> products = productService.takeProductsFromCategory(categoryId);
 			logger.debug(products.toString());
 			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
 			HttpSession session = request.getSession(true);
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_SHOW_PRODUCTS + categoryId);
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("products from category search error", e);

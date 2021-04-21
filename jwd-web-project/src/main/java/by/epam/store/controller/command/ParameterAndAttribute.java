@@ -15,6 +15,7 @@ public final class ParameterAndAttribute {
 	public static final String PRODUCT_CATEGORIES = "productCategories";
 	public static final String CATEGORY_ID = "categoryId";
 	public static final String PRODUCTS = "products";
+	public static final String PRODUCT_NAME = "productName";
 	
 	private ParameterAndAttribute() {
 	}	

@@ -14,7 +14,7 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.ProductCategory;
-import by.epam.store.model.service.ProductService;
+import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 
@@ -23,14 +23,14 @@ public class GoToMainPageCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		ProductService productService = ServiceFactory.getInstance().getProductService();
+		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		Router router;
 		try {
-			List<ProductCategory> productCategories = productService.findAllProductCategories();
+			List<ProductCategory> productCategories = catalogService.takeAllProductCategories();
 			logger.debug(productCategories.toString());
-			request.setAttribute(ParameterAndAttribute.PRODUCT_CATEGORIES, productCategories);
 			HttpSession session = request.getSession(true);
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_MAIN_PAGE);
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.MAIN);
+			session.setAttribute(ParameterAndAttribute.PRODUCT_CATEGORIES, productCategories);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("product categories search error", e);

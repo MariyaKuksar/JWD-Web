@@ -39,7 +39,8 @@ public final class SessionControl {
 			session.setAttribute(ParameterAndAttribute.ROLE, user.getRole());
 			session.setAttribute(ParameterAndAttribute.LOGIN, user.getLogin());
 			session.setAttribute(ParameterAndAttribute.USER_ID, user.getUserId());
-			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.MAIN);
+			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
 			break;
 		case INACTIVE:
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE_LIST,

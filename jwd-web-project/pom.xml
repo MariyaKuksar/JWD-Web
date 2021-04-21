@@ -6,11 +6,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>by.epam.online_store</groupId>
-	<artifactId>jwd-web-final_project</artifactId>
+	<artifactId>jwd-web-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
-	<name>jwd-web-final_project Maven Webapp</name>
+	<name>jwd-web-project Maven Webapp</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
@@ -70,7 +70,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>jwd-web-final_project</finalName>
+		<finalName>jwd-web-project</finalName>
 		<pluginManagement><!-- lock down plugins versions to avoid using Maven 
 				defaults (may be moved to parent pom) -->
 			<plugins>
