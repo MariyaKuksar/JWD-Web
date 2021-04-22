@@ -1,7 +1,5 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,39 +11,36 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
-import by.epam.store.model.entity.User;
+import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
-import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.SessionControl;
 
-public class SignInCommand implements Command {
+public class AddProductToCartCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
 		Router router;
-		if (session.getAttribute(ParameterAndAttribute.LOGIN) != null) {
-			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_REPEATED_LOGIN_MESSAGE);
+		if (!SessionControl.isLoggedInUser(request)) {
 			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
 			return router;
 		}
-		String login = request.getParameter(ParameterAndAttribute.LOGIN);
-		String password = request.getParameter(ParameterAndAttribute.PASSWORD);
-		UserService userService = ServiceFactory.getInstance().getUserService();
+		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
+		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		try {
-			Optional<User> userOptional = userService.authorization(login, password);
-			if (userOptional.isPresent()) {
-				User user = userOptional.get();
-				router = SessionControl.userStatusControl(user, session);
+			if (orderService.addProductToCart(productId)) {
+				HttpSession session = request.getSession(true);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_CART_MESSAGE);
+				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+				router = new Router(page, RouteType.REDIRECT);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_LOGIN_MESSAGE);
-				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+				logger.info("product not added to cart");
+				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {
-			logger.error("user search error", e);
+			logger.error("error adding product to order", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

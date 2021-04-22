@@ -11,11 +11,12 @@ public final class ParameterAndAttribute {
 	public static final String ROLE = "role";
 	public static final String USER_ID = "userId";
 	public static final String PHONE = "phone";
-	public static final String ERROR_MESSAGE_LIST = "errorMessageList";
+	public static final String ERROR_MESSAGE = "errorMessageList";
 	public static final String PRODUCT_CATEGORIES = "productCategories";
 	public static final String CATEGORY_ID = "categoryId";
 	public static final String PRODUCTS = "products";
 	public static final String PRODUCT_NAME = "productName";
+	public static final String PRODUCT_ID = "productId";
 	
 	private ParameterAndAttribute() {
 	}	

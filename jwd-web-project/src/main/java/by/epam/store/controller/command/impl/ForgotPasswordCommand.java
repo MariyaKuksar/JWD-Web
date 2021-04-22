@@ -1,7 +1,5 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.Arrays;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -32,7 +30,7 @@ public class ForgotPasswordCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PASSWORD_SENT_MESSAGE);
 				router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE_LIST, Arrays.asList(MessageKey.ERROR_NO_SUCH_USER_MESSAGE));
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_NO_SUCH_USER_MESSAGE);
 				router = new Router(PagePath.FORGOT_PASSWORD, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {

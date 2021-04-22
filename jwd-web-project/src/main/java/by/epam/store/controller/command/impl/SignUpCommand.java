@@ -26,7 +26,7 @@ public class SignUpCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		User user = UserBuilder.getInstance().build(request);
-		UserService userService =  ServiceFactory.getInstance().getUserService();
+		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
 		try {
 			List<String> errorMessageList = userService.registration(user);
@@ -36,7 +36,7 @@ public class SignUpCommand implements Command {
 						MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
 				router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE_LIST, errorMessageList);
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, errorMessageList);
 				router = new Router(PagePath.REGISTRATION, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {

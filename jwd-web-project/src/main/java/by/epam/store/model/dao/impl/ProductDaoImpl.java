@@ -6,22 +6,17 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductDao;
 import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.User;
 import by.epam.store.model.entity.builder.ProductBuilder;
-import by.epam.store.model.entity.builder.UserBuilder;
 
 public class ProductDaoImpl implements ProductDao {
-	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT, IS_PRODUCABLE FROM PRODUCTS WHERE CATEGORY_ID=?";
-	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT, IS_PRODUCABLE FROM PRODUCTS WHERE NAME LIKE ?";
+	//private static final Logger logger = LogManager.getLogger();
+	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE CATEGORY_ID=?";
+	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE NAME LIKE ?";
 	private static final String PERCENT = "%";
 	
 	@Override

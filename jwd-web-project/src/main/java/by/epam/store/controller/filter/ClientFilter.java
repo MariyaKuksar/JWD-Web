@@ -37,7 +37,7 @@ public class ClientFilter implements Filter {
 		HttpSession session = httpRequest.getSession(true);
 		if (session.getAttribute(ParameterAndAttribute.ROLE) != UserRole.CLIENT) {
 			((HttpServletResponse) response).sendRedirect(httpRequest.getContextPath() + SLASH + PagePath.LOGIN);
-			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE_LIST,
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 					Arrays.asList(MessageKey.ERROR_ACCESS_MESSAGE));
 		}
 		chain.doFilter(request, response);

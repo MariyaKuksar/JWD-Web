@@ -9,7 +9,6 @@ public class Product {
 	private String imageName;
 	private BigDecimal price;
 	private int amount;
-	private boolean isProducable;
 
 	public Product() {
 	}
@@ -62,14 +61,6 @@ public class Product {
 		this.amount = amount;
 	}
 
-	public boolean isProducable() {
-		return isProducable;
-	}
-
-	public void setProducable(boolean isProducable) {
-		this.isProducable = isProducable;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -77,7 +68,6 @@ public class Product {
 		result = prime * result + amount;
 		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
 		result = prime * result + ((imageName == null) ? 0 : imageName.hashCode());
-		result = prime * result + (isProducable ? 1231 : 1237);
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		result = prime * result + ((productName == null) ? 0 : productName.hashCode());
@@ -104,8 +94,6 @@ public class Product {
 			if (other.imageName != null)
 				return false;
 		} else if (!imageName.equals(other.imageName))
-			return false;
-		if (isProducable != other.isProducable)
 			return false;
 		if (price == null) {
 			if (other.price != null)
@@ -140,8 +128,6 @@ public class Product {
 		builder.append(price);
 		builder.append(", amount=");
 		builder.append(amount);
-		builder.append(", isProducable=");
-		builder.append(isProducable);
 		builder.append("]");
 		return builder.toString();
 	}

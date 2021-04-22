@@ -37,7 +37,6 @@ public class ProductBuilder implements EntityBuilder<Product> {
 			product.setImageName(resultSet.getString(ColumnName.PRODUCTS_IMAGE_NAME));
 			product.setPrice(resultSet.getBigDecimal(ColumnName.PRODUCTS_PRICE));
 			product.setAmount(resultSet.getInt(ColumnName.PRODUCTS_AMOUNT));
-			product.setProducable(resultSet.getBoolean(ColumnName.PRODUCTS_IS_PRODUCABLE));
 			products.add(product);
 		}
 		return products;

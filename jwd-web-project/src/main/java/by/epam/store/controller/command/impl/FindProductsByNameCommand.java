@@ -34,8 +34,7 @@ public class FindProductsByNameCommand implements Command {
 			HttpSession session = request.getSession(true);
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_PRODUCTS_BY_NAME + productName);
 			if (products.isEmpty()) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
-						MessageKey.INFO_NOTHING_FOUND_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);
 		} catch (ServiceException e) {
