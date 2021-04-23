@@ -19,7 +19,6 @@ public final class ColumnName {
 	public static final String PRODUCTS_IMAGE_NAME = "image_name";
 	public static final String PRODUCTS_PRICE = "price";
 	public static final String PRODUCTS_AMOUNT = "amount";
-	public static final String PRODUCTS_IS_PRODUCABLE = "is_producable";
 	
 	private ColumnName() {
 	}

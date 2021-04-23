@@ -20,7 +20,7 @@ public final class MessageKey {
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";
 	public static final String INFO_PASSWORD_SENT_MESSAGE = "local.message.password_sent";
 	public static final String INFO_NOTHING_FOUND_MESSAGE = "local.message.nothing_found";
-	public static final String INFO_PRODUCT_ADDED_TO_CART_MESSAGE = "local.message.product_added_to_cart";
+	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";
 	
 	private MessageKey() {
 	}

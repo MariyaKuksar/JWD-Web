@@ -16,7 +16,7 @@
 <fmt:message key="local.sign_out" var="sign_out" />
 <fmt:message key="local.welcome" var="welcome" />
 <fmt:message key="local.search" var="search" />
-<fmt:message key="local.add_to_cart" var="add_to_cart" />
+<fmt:message key="local.add_to_basket" var="add_to_basket" />
 <title>${title}</title>
 </head>
 <body>
@@ -77,9 +77,9 @@
 				<td><c:out value="${product.price}$" /></td>
 			</tr>
 			<form action="${pageContext.request.contextPath}/controller" method="post" >
-			<input type="hidden" name="command" value="add_product_to_cart" /> 
+			<input type="hidden" name="command" value="add_product_to_basket" /> 
 			<input type="hidden" name="productId" value="${product.productId}" />
-			<input type="submit" value="${add_to_cart}" />
+			<input type="submit" value="${add_to_basket}" />
 		</form>
 	</c:forEach>
 	

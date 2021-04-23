@@ -17,7 +17,7 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.SessionControl;
 
-public class AddProductToCartCommand implements Command {
+public class AddProductToBasketCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
@@ -30,13 +30,13 @@ public class AddProductToCartCommand implements Command {
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		try {
-			if (orderService.addProductToCart(productId)) {
+			if (orderService.addProductToOrder(productId)) {
 				HttpSession session = request.getSession(true);
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_CART_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
 				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 				router = new Router(page, RouteType.REDIRECT);
 			} else {
-				logger.info("product not added to cart");
+				logger.info("product not added to order");
 				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.store.controller.command.impl.AddProductToCartCommand;
+import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
@@ -38,7 +38,7 @@ public final class CommandProvider {
 		commands.put(CommandType.FORGOT_PASSWORD, new ForgotPasswordCommand());
 		commands.put(CommandType.SHOW_PRODUCTS_FROM_CATEGORY, new ShowProductsFromCategoryCommand());
 		commands.put(CommandType.FIND_PRODUCTS_BY_NAME, new FindProductsByNameCommand());
-		commands.put(CommandType.ADD_PRODUCT_TO_CART, new AddProductToCartCommand());
+		commands.put(CommandType.ADD_PRODUCT_TO_BASKET, new AddProductToBasketCommand());
 	}
 
 	private CommandProvider() {

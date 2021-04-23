@@ -29,7 +29,7 @@ public class Controller extends HttpServlet {
 	}
 
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		logger.debug("doGet");
 		processRequest(req, resp);
 	}
