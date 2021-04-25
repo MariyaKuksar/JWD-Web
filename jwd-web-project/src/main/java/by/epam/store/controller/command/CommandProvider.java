@@ -7,6 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.impl.AddProductToBasketCommand;
+import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
@@ -39,6 +40,7 @@ public final class CommandProvider {
 		commands.put(CommandType.SHOW_PRODUCTS_FROM_CATEGORY, new ShowProductsFromCategoryCommand());
 		commands.put(CommandType.FIND_PRODUCTS_BY_NAME, new FindProductsByNameCommand());
 		commands.put(CommandType.ADD_PRODUCT_TO_BASKET, new AddProductToBasketCommand());
+		commands.put(CommandType.ADD_PRODUCT_TO_CATALOG, new AddProductToCatalogCommand());
 	}
 
 	private CommandProvider() {

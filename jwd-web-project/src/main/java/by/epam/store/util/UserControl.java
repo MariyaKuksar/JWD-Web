@@ -7,15 +7,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.PagePath;
-import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.User;
+import by.epam.store.model.entity.UserRole;
 
-public final class SessionControl {
+public final class UserControl {
 	private static final Logger logger = LogManager.getLogger();
 
-	private SessionControl() {
+	private UserControl() {
 	}
 
 	public static boolean isLoggedInUser(HttpServletRequest request) {
@@ -57,5 +57,15 @@ public final class SessionControl {
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;
+	}
+
+	public static boolean isValidForRole(HttpServletRequest request, UserRole permissibleRole) {
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute(ParameterAndAttribute.ROLE) != permissibleRole) {
+			logger.info("impossible operation for user role");
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+			return false;
+		}
+		return true;
 	}
 }

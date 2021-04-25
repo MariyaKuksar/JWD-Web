@@ -10,6 +10,7 @@ public final class PagePath {
 	public static final String LOGIN = "jsp/login.jsp";
 	public static final String REGISTRATION = "jsp/registration.jsp";
 	public static final String FORGOT_PASSWORD = "jsp/forgot_password.jsp";
+	public static final String ADDED_PRODUCT = "jsp/admin/adding_product.jsp";
 
 	public static final String GO_TO_MAIN_PAGE = "controller?command=go_to_main_page";
 	public static final String SHOW_PRODUCTS_FROM_CATEGORY = "controller?command=show_products_from_category&categoryId=";

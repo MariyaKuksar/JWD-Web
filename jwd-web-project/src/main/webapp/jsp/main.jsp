@@ -17,6 +17,7 @@
 <fmt:message key="local.welcome" var="welcome" />
 <fmt:message key="local.search" var="search" />
 <fmt:message key="local.add_to_basket" var="add_to_basket" />
+<fmt:message key="local.add_product_to_catalog" var="add_product_to_catalog" />
 <title>${title}</title>
 </head>
 <body>
@@ -32,14 +33,17 @@
 	</header>
 
 	<br />
-	<a class="info" href="${pageContext.request.contextPath}/jsp/login.jsp">${sign_in}</a>
+	<a href="${pageContext.request.contextPath}/jsp/login.jsp">${sign_in}</a>
 	<br />
-	<a class="info"
-		href="${pageContext.request.contextPath}/jsp/registration.jsp">${sign_up}</a>
+	<p></p>
+	<a href="${pageContext.request.contextPath}/jsp/registration.jsp">${sign_up}</a>
 	<br />
-	<p>${welcome},${sessionScope.login}!</p>
+	<p>${welcome}, ${sessionScope.login}!</p>
 	<a href="${pageContext.request.contextPath}/controller?command=sign_out">${sign_out}</a>
 	<br />
+	<p></p>
+	<a href="${pageContext.request.contextPath}/jsp/admin/adding_product.jsp">${add_product_to_catalog}</a>
+	<p></p>
 	<form action="${pageContext.request.contextPath}/controller" method="post">
 		<input type="text" name="productName"> 
 		<input type="hidden" name="command" value="find_products_by_name" /> 

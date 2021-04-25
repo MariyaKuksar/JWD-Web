@@ -24,7 +24,7 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_SELECT_ALL_USERS = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS";
 	private static final String SQL_SELECT_USERS_BY_NAME = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS WHERE NAME LIKE ?";
 	private static final String SQL_SELECT_USERS_BY_LOGIN = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS WHERE LOGIN=?";
-	private static final String PERCENT = "%";
+	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_USER = "INSERT INTO USERS (LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_STATUS = "UPDATE USERS SET STATUS=? WHERE ID=? AND STATUS=?";
 	private static final String SQL_UPDATE_USER = "UPDATE USERS SET LOGIN=?, PASSWORD=?, NAME=?, PHONE=? WHERE ID=?";
@@ -55,7 +55,7 @@ public class UserDaoImpl implements UserDao {
 		List<User> users;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USERS_BY_NAME)) {
-			statement.setString(1, userName + PERCENT);
+			statement.setString(1, userName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
 			users = UserBuilder.getInstance().build(resultSet);
 		} catch (ConnectionPoolException | SQLException e) {
@@ -76,10 +76,10 @@ public class UserDaoImpl implements UserDao {
 		}
 		return users;
 	}
-
+//нужно ли тут возвращающее значение
 	@Override
-	public Long create(User user) throws DaoException {
-		Long userId;
+	public boolean create(User user) throws DaoException {
+		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER,
 						Statement.RETURN_GENERATED_KEYS)) {
@@ -89,22 +89,22 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(4, user.getName());
 			statement.setString(5, user.getPhone());
 			statement.setString(6, String.valueOf(user.getStatus()));
-			statement.executeUpdate();
+			numberUpdatedRows = statement.executeUpdate();
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
-				userId = resultSet.getLong(1);
+				user.setUserId(resultSet.getLong(1));
 			} else {
 				throw new DaoException("database error");
 			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return userId;
+		return numberUpdatedRows == 1;
 	}
 
 	@Override
 	public boolean update(User user) throws DaoException {
-		boolean userUpdated;
+		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
 			statement.setString(1, user.getLogin());
@@ -112,26 +112,25 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(3, user.getName());
 			statement.setString(4, user.getPassword());
 			statement.setLong(5, user.getUserId());
-			userUpdated = statement.executeUpdate() == 1;
+			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return userUpdated;
+		return numberUpdatedRows == 1;
 	}
 
 	@Override
 	public boolean changeUserStatus(Long id, UserStatus statusFrom, UserStatus statusTo) throws DaoException {
-		boolean statusChanged;
+		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_STATUS)) {
 			statement.setString(1, String.valueOf(statusTo));
 			statement.setLong(2, id);
 			statement.setString(3, String.valueOf(statusFrom));
-			statusChanged = statement.executeUpdate() == 1;
+			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		logger.debug("changeUserStatus = " + statusChanged);
-		return statusChanged;
+		return numberUpdatedRows == 1;
 	}
 }

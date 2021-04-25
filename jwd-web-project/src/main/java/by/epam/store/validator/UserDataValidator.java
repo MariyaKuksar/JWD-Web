@@ -2,9 +2,10 @@ package by.epam.store.validator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import by.epam.store.model.entity.User;
 import by.epam.store.util.MessageKey;
+import by.epam.store.util.ParameterAndAttribute;
 
 public final class UserDataValidator {
 	private static final String LOGIN_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -13,6 +14,24 @@ public final class UserDataValidator {
 	private static final String PHONE_PATTERN = "^\\+375[0-9]{9}$";
 
 	private UserDataValidator() {
+	}
+
+	public static List<String> getErrorMessageList(Map<String, String> userInfo) {
+		List<String> errorMessageList = new ArrayList<>();
+		if (!isValidName(userInfo.get(ParameterAndAttribute.USER_NAME))) {
+			errorMessageList.add(MessageKey.ERROR_NAME_MESSAGE);
+		}
+		if (!isValidPhone(userInfo.get(ParameterAndAttribute.PHONE))) {
+			errorMessageList.add(MessageKey.ERROR_PHONE_MESSAGE);
+		}
+
+		if (!isValidLogin(userInfo.get(ParameterAndAttribute.LOGIN))) {
+			errorMessageList.add(MessageKey.ERROR_EMAIL_MESSAGE);
+		}
+		if (!isValidPassword(userInfo.get(ParameterAndAttribute.PASSWORD))) {
+			errorMessageList.add(MessageKey.ERROR_PASSWORD_MESSAGE);
+		}
+		return errorMessageList;
 	}
 
 	public static boolean isValidLogin(String login) {
@@ -28,24 +47,6 @@ public final class UserDataValidator {
 	}
 
 	public static boolean isValidPhone(String phone) {
-		return (phone != null)?phone.matches(PHONE_PATTERN):false;
-	}
-
-	public static List<String> getErrorMessageList(User user) {
-		List<String> errorMessageList = new ArrayList<>();
-		if (!isValidName(user.getName())) {
-			errorMessageList.add(MessageKey.ERROR_NAME_MESSAGE);
-		}
-		if (!isValidPhone(user.getPhone())) {
-			errorMessageList.add(MessageKey.ERROR_PHONE_MESSAGE);
-		}
-
-		if (!isValidLogin(user.getLogin())) {
-			errorMessageList.add(MessageKey.ERROR_EMAIL_MESSAGE);
-		}
-		if (!isValidPassword(user.getPassword())) {
-			errorMessageList.add(MessageKey.ERROR_PASSWORD_MESSAGE);
-		}
-		return errorMessageList;
+		return (phone != null) ? phone.matches(PHONE_PATTERN) : false;
 	}
 }

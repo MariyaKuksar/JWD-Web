@@ -1,14 +1,15 @@
 package by.epam.store.model.entity.builder;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.entity.Product;
+import by.epam.store.util.ColumnName;
+import by.epam.store.util.ParameterAndAttribute;
 
 public class ProductBuilder implements EntityBuilder<Product> {
 	private static final ProductBuilder instance = new ProductBuilder();
@@ -21,9 +22,13 @@ public class ProductBuilder implements EntityBuilder<Product> {
 	}
 	
 	@Override
-	public Product build(HttpServletRequest request) {
-		// TODO Auto-generated method stub
-		return null;
+	public Product build(Map<String, String> productInfo) {
+		Product product = new Product();
+		product.setCategoryId(Long.parseLong(productInfo.get(ParameterAndAttribute.CATEGORY_ID)));
+		product.setProductName(productInfo.get(ParameterAndAttribute.PRODUCT_NAME));
+		product.setImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME));
+		product.setPrice(new BigDecimal(productInfo.get(ParameterAndAttribute.PRICE)));
+		return product;
 	}
 
 	@Override

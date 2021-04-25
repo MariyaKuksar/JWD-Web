@@ -3,11 +3,10 @@ package by.epam.store.model.entity.builder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 public interface EntityBuilder <T> {
-	T build (HttpServletRequest request);
+	T build (Map<String, String> entityInfo);
 	
 	List<T> build (ResultSet resultSet) throws SQLException;
 }

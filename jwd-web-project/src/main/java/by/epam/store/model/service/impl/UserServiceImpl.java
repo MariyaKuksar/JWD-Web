@@ -2,6 +2,7 @@ package by.epam.store.model.service.impl;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.mail.MessagingException;
@@ -15,12 +16,13 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.UserDao;
 import by.epam.store.model.dao.impl.UserDaoImpl;
 import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserRole;
 import by.epam.store.model.entity.UserStatus;
+import by.epam.store.model.entity.builder.UserBuilder;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.UserService;
 import by.epam.store.util.MailSender;
 import by.epam.store.util.MessageKey;
+import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PasswordEncryption;
 import by.epam.store.validator.UserDataValidator;
 
@@ -34,9 +36,9 @@ public class UserServiceImpl implements UserService {
 	private static final int NUMBER_PASSWORD_CHARACTERS = 8;
 
 	@Override
-	public List<String> registration(User user) throws ServiceException {
-		List<String> errorMessageList = UserDataValidator.getErrorMessageList(user);
-		String login = user.getLogin();
+	public List<String> registration(Map<String, String> userInfo) throws ServiceException {
+		List<String> errorMessageList = UserDataValidator.getErrorMessageList(userInfo);
+		String login = userInfo.get(ParameterAndAttribute.LOGIN);
 		if (UserDataValidator.isValidLogin(login) && !checkIfLoginFree(login)) {
 			errorMessageList.add(MessageKey.ERROR_LOGIN_IS_BUSY_MESSAGE);
 		}
@@ -44,12 +46,12 @@ public class UserServiceImpl implements UserService {
 			return errorMessageList;
 		}
 		try {
-			String encryptedPassword = PasswordEncryption.encrypt(user.getPassword());
-			user.setPassword(encryptedPassword);
-			user.setRole(UserRole.CLIENT);
-			user.setStatus(UserStatus.INACTIVE);
-			long userId = userDao.create(user);
-			MailSender.send(user.getLogin(), REGISTRATION_MESSAGE_SUBJECT, REGISTRATION_MESSAGE_TEXT + userId);
+			String encryptedPassword = PasswordEncryption.encrypt(userInfo.get(ParameterAndAttribute.PASSWORD));
+			userInfo.put(ParameterAndAttribute.PASSWORD, encryptedPassword);
+			User user = UserBuilder.getInstance().build(userInfo);
+			userDao.create(user);
+			MailSender.send(user.getLogin(), REGISTRATION_MESSAGE_SUBJECT,
+					REGISTRATION_MESSAGE_TEXT + user.getUserId());
 		} catch (MessagingException | DaoException e) {
 			throw new ServiceException("user creation error", e);
 		}
@@ -111,7 +113,8 @@ public class UserServiceImpl implements UserService {
 			String encryptedPassword = PasswordEncryption.encrypt(newPassword);
 			user.setPassword(encryptedPassword);
 			if (userDao.update(user)) {
-				MailSender.send(user.getLogin(), CHANGE_PASSWORD_MESSAGE_SUBJECT, CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
+				MailSender.send(user.getLogin(), CHANGE_PASSWORD_MESSAGE_SUBJECT,
+						CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
 			} else {
 				throw new ServiceException("password change error");
 			}

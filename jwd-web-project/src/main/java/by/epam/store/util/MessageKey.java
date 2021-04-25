@@ -15,13 +15,19 @@ public final class MessageKey {
 	public static final String ERROR_NO_SUCH_USER_MESSAGE = "local.error.no_such_user";
 	public static final String ERROR_SESSION_TIMED_OUT_MESSAGE = "local.error.session_timed_out";
 	public static final String ERROR_NEED_TO_LOGIN_MESSAGE = "local.error.need_to_login";
-	
+	public static final String ERROR_IMPOSSIBLE_OPERATION_MESSAGE = "local.error.impossible_operation";
+	public static final String ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE = "local.error.incorrect_product_category";
+	public static final String ERROR_INCORRECT_PRODUCT_NAME_MESSAGE = "local.error.incorrect_product_name";
+	public static final String ERROR_INCORRECT_PRICE_MESSAGE = "local.error.incorrect_price";
+	public static final String ERROR_INCORRECT_IMAGE_NAME_MESSAGE = "local.error.incorrect_image_name";
+
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";
 	public static final String INFO_PASSWORD_SENT_MESSAGE = "local.message.password_sent";
 	public static final String INFO_NOTHING_FOUND_MESSAGE = "local.message.nothing_found";
 	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";
-	
+	public static final String INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE = "local.message.product_added_to_catalog";
+
 	private MessageKey() {
 	}
 }

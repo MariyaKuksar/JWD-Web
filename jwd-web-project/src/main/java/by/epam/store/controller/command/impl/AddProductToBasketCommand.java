@@ -8,14 +8,15 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
-import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
+import by.epam.store.model.entity.UserRole;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.SessionControl;
+import by.epam.store.util.ParameterAndAttribute;
+import by.epam.store.util.UserControl;
 
 public class AddProductToBasketCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
@@ -23,8 +24,12 @@ public class AddProductToBasketCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
-		if (!SessionControl.isLoggedInUser(request)) {
+		if (!UserControl.isLoggedInUser(request)) {
 			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
+			return router;
+		}
+		if (!UserControl.isValidForRole(request, UserRole.CLIENT)) {
+			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
 			return router;
 		}
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);

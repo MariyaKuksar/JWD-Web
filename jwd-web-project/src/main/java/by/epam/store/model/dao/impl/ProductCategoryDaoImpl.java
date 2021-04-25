@@ -31,9 +31,9 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao {
 	}
 
 	@Override
-	public Long create(ProductCategory entity) throws DaoException {
+	public boolean create(ProductCategory entity) throws DaoException {
 		// TODO Auto-generated method stub
-		return null;
+		return false;
 	}
 
 	@Override

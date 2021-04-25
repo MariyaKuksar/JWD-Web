@@ -4,14 +4,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import by.epam.store.controller.command.ParameterAndAttribute;
-import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.entity.User;
 import by.epam.store.model.entity.UserRole;
 import by.epam.store.model.entity.UserStatus;
+import by.epam.store.util.ColumnName;
+import by.epam.store.util.ParameterAndAttribute;
 
 public class UserBuilder implements EntityBuilder<User> {
 	private static final UserBuilder instance = new UserBuilder();
@@ -24,12 +23,14 @@ public class UserBuilder implements EntityBuilder<User> {
 	}
 
 	@Override
-	public User build(HttpServletRequest request) {
+	public User build(Map<String, String> userInfo) {
 		User user = new User();
-		user.setName(request.getParameter(ParameterAndAttribute.USER_NAME));
-		user.setPhone(request.getParameter(ParameterAndAttribute.PHONE));
-		user.setLogin(request.getParameter(ParameterAndAttribute.LOGIN));
-		user.setPassword(request.getParameter(ParameterAndAttribute.PASSWORD));
+		user.setLogin(userInfo.get(ParameterAndAttribute.LOGIN));
+		user.setPassword(userInfo.get(ParameterAndAttribute.PASSWORD));
+		user.setRole(UserRole.CLIENT);
+		user.setName(userInfo.get(ParameterAndAttribute.USER_NAME));
+		user.setPhone(userInfo.get(ParameterAndAttribute.PHONE));
+		user.setStatus(UserStatus.INACTIVE);	
 		return user;
 	}
 

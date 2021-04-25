@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>CHILDROOM</title>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="style/style.css">
+	</head>
+	<body onload=timer()>
+	<header>
+		<div class="header_top">
+			<div >
+				<span class="slogan">
+					CHILDROOM - МЕБЕЛЬ ДЛЯ СЧАСТЛИВЫХ ДЕТЕЙ
+				</span>
+				<form>
+					<input type="text" placeholder="Я ищу..." value=""/>
+					<input type="submit" value="Поиск"/>
+				</form>
+				<nav class="menu">
+						<ul class="menu1" >
+							<li><a href="#nogo">КОРЗИНА</a></li>
+							<li><a href="#nogo">КАТАЛОГ</a>
+								<ul class="menu2">
+									<li><a href="#nogo">Детская мебель</a></li>
+									<li><a href="#nogo">Детская одежда</a></li>
+									<li><a href="#nogo">Аксессуары</a></li>
+								</ul>
+							</li>
+							<li><a href="#nogo">ПРОФИЛЬ</a>
+								<ul class="menu2">
+									<li><a href="#nogo">Личные данные</a></li>
+									<li><a href="#nogo">Заказы</a></li>
+									<li><a href="#nogo">Выйти</a></li>
+								</ul>
+							</li>
+						</ul>
+				</nav>
+			</div>
+		</div>
+		<!--<div class="shadow"></div> -->
+	</header>
+	<div class="contant clearfix">
+		<div class="left">
+			<div class="login">
+				<div class="login_text">Вход<a href="">Регистрация</a></div>
+				<div class="login_input">
+					<p><label>Логин<p><input type="text" placeholder="Логин" name="login" class="log"></p></label></p>
+            		<p><label>Пароль<p><input type="password" placeholder="Пароль" name="password" class="log"></p></label></p>
+            		<a href="#nogo"><input type="button" value="Войти" class="button" onclick="fun1()"/></a>
+				</div>
+			</div>
+			<div class="calendar">
+				<table id="calendar2">
+				  <thead>
+				    <tr><td>‹<td colspan="5"><td>›
+				    <tr><td>Пн<td>Вт<td>Ср<td>Чт<td>Пт<td>Сб<td>Вс
+				   </thead>
+				  <tbody><script type="text/javascript" src="scripts/calendar.js"></script></tbody>
+				</table>	
+			</div>
+		</div>
+		<div class="center">
+			<c:if test="${requestScope.categories != null}">
+			<div class="categories">
+				<!-- добавить foreach по каждому продукту-->
+				<figure class="category">
+					<div class="image"><a href="#category1"  title="category1"><img src="img/5.jpg" alt="category1"></a></div>
+					<div class="name"><a href="#category1" title="category1">Category1</a></div>
+				</figure>
+			</div>
+			</c:if>
+			<c:if test="${requestScope.products != null}">
+			<div class="menu3">
+				<p><a href="">Каталог</a> > Category1 </p>
+			</div>
+			<div class="products">
+			<!-- добавить foreach по каждому продукту-->
+				<figure class="product">
+					<div class="image"><img src="img/pr1.jpg" alt="product1"></div>
+					<div class="name"><p>Product1</p></div>
+					<div class="price"><p>100$</p></div>
+					<div class="status"><p>В наличие</p></div>
+					<form>
+						<input type="hidden" value="product_id"/>
+						<input type="submit" placeholder="В корзину"/>
+					</form>
+				</figure>
+			</div>
+			</c:if>
+		</div>
+		<hr/>
+			
+	</div>
+	
+	<footer>
+		<p>&copy; Copyright 2021 by Maria Podgayskaya</p>
+	</footer>
+	</body>
+	</html>
+
+

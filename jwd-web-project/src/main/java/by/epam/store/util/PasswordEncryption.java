@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PasswordEncryption {
+public final class PasswordEncryption {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String MESSAGE_DIGEST_ALGORITHM = "SHA-1";
 	private static final String ENCODING = "utf8";
@@ -17,6 +17,7 @@ public class PasswordEncryption {
 	}
 
 	public static String encrypt(String password) {
+		//нужно проверять password на null?
 		String encryptedPassword;
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance(MESSAGE_DIGEST_ALGORITHM);

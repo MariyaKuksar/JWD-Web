@@ -1,4 +1,4 @@
-package by.epam.store.model.dao;
+package by.epam.store.util;
 
 public final class ColumnName {
 	public static final String USERS_ID = "id";

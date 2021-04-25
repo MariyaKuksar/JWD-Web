@@ -1,4 +1,4 @@
-package by.epam.store.controller.command;
+package by.epam.store.util;
 
 public final class ParameterAndAttribute {
 	public static final String COMMAND = "command";
@@ -17,6 +17,9 @@ public final class ParameterAndAttribute {
 	public static final String PRODUCTS = "products";
 	public static final String PRODUCT_NAME = "productName";
 	public static final String PRODUCT_ID = "productId";
+	public static final String PRICE = "price";
+	public static final String IMAGE_NAME = "imageName";
+	public static final String USER_STATUS = "userStatus";
 	
 	private ParameterAndAttribute() {
 	}	

@@ -10,13 +10,13 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
-import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.Product;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
+import by.epam.store.util.ParameterAndAttribute;
 
 public class ShowProductsFromCategoryCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
