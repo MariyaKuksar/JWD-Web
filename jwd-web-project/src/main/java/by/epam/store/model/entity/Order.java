@@ -2,16 +2,19 @@ package by.epam.store.model.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.Map;
 
 public class Order {
 	private Long orderId;
 	private Long userId;
+	private Map<Product, Integer> products;
 	private LocalDateTime dataTime;
 	private OrderStatus orderStatus;
 	private PaymentMethod paymentMethod;
 	private BigDecimal price;
-	
-	private Order() {
+
+	public Order() {
 	}
 
 	public Long getOrderId() {
@@ -36,6 +39,14 @@ public class Order {
 
 	public void setDataTime(LocalDateTime dataTime) {
 		this.dataTime = dataTime;
+	}
+
+	public Map<Product, Integer> getProducts() {
+		return Collections.unmodifiableMap(products);
+	}
+
+	public void setProducts(Map<Product, Integer> products) {
+		this.products = products;
 	}
 
 	public OrderStatus getOrderStatus() {
@@ -71,6 +82,7 @@ public class Order {
 		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
 		result = prime * result + ((paymentMethod == null) ? 0 : paymentMethod.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
+		result = prime * result + ((products == null) ? 0 : products.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
 	}
@@ -103,6 +115,11 @@ public class Order {
 				return false;
 		} else if (!price.equals(other.price))
 			return false;
+		if (products == null) {
+			if (other.products != null)
+				return false;
+		} else if (!products.equals(other.products))
+			return false;
 		if (userId == null) {
 			if (other.userId != null)
 				return false;
@@ -120,6 +137,8 @@ public class Order {
 		builder.append(userId);
 		builder.append(", dataTime=");
 		builder.append(dataTime);
+		builder.append(", products=");
+		builder.append(products);
 		builder.append(", orderStatus=");
 		builder.append(orderStatus);
 		builder.append(", paymentMethod=");

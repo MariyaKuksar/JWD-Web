@@ -25,7 +25,8 @@ public class ProductDaoImpl implements ProductDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	//нужно ли тут возвращающее значение
+
+	// нужно ли тут возвращающее значение
 	@Override
 	public boolean create(Product product) throws DaoException {
 		int numberUpdatedRows;
@@ -35,7 +36,7 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setString(2, product.getProductName());
 			statement.setString(3, product.getImageName());
 			statement.setBigDecimal(4, product.getPrice());
-			numberUpdatedRows = statement.executeUpdate() ;
+			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
@@ -49,11 +50,11 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findProductByCategoryId(Long id) throws DaoException {
+	public List<Product> findProductByCategoryId(String id) throws DaoException {
 		List<Product> products;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_CATEGORY_ID)) {
-			statement.setLong(1, id);
+			statement.setString(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			products = ProductBuilder.getInstance().build(resultSet);
 		} catch (ConnectionPoolException | SQLException e) {

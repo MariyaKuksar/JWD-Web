@@ -32,16 +32,17 @@ public class AddProductToBasketCommand implements Command {
 			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
 			return router;
 		}
+		HttpSession session = request.getSession(true);
+		String userId = (String) session.getAttribute(ParameterAndAttribute.USER_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		try {
-			if (orderService.addProductToOrder(productId)) {
-				HttpSession session = request.getSession(true);
+			if (orderService.addProduct(userId, productId)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
 				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 				router = new Router(page, RouteType.REDIRECT);
 			} else {
-				logger.info("product not added to order");
+				logger.info("incorrect product or user id");
 				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {

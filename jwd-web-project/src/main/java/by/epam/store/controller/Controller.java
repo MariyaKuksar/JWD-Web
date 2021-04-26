@@ -63,6 +63,7 @@ public class Controller extends HttpServlet {
 				break;
 			default:
 				logger.error("incorrect route type");
+				response.sendRedirect(PagePath.ERROR);
 				break;
 			}
 		} else {

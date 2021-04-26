@@ -9,7 +9,6 @@ import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.XssProtectUtil;
 
 public final class ProductInfoValidator {
-	private static final String ID_PATTERN = "\\d{1,19}";
 	private static final String PRICE_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
 	private static final String IMAGE_NAME_PATTERN = "^.+\\.\\p{Lower}+$";
 
@@ -18,7 +17,8 @@ public final class ProductInfoValidator {
 
 	public static List<String> getErrorMessageList(Map<String, String> productInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		if (!isValidCatetoryId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
+		//вызываю валидатор из валидатора, норм?
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
 		}
 		if (!isValidName(productInfo.get(ParameterAndAttribute.PRODUCT_NAME))) {
@@ -31,10 +31,6 @@ public final class ProductInfoValidator {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_IMAGE_NAME_MESSAGE);
 		}
 		return errorMessageList;
-	}
-
-	public static boolean isValidCatetoryId(String categoryId) {
-		return (categoryId != null) ? categoryId.matches(ID_PATTERN) : false;
 	}
 
 	public static boolean isValidName(String productName) {

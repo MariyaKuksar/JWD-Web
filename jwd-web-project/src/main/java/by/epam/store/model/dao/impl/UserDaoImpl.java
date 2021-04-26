@@ -76,6 +76,7 @@ public class UserDaoImpl implements UserDao {
 		}
 		return users;
 	}
+
 //нужно ли тут возвращающее значение
 	@Override
 	public boolean create(User user) throws DaoException {
@@ -120,12 +121,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean changeUserStatus(Long id, UserStatus statusFrom, UserStatus statusTo) throws DaoException {
+	public boolean changeUserStatus(String id, UserStatus statusFrom, UserStatus statusTo) throws DaoException {
 		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_STATUS)) {
 			statement.setString(1, String.valueOf(statusTo));
-			statement.setLong(2, id);
+			statement.setString(2, id);
 			statement.setString(3, String.valueOf(statusFrom));
 			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {

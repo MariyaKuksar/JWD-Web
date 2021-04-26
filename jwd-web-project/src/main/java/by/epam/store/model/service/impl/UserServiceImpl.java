@@ -24,6 +24,7 @@ import by.epam.store.util.MailSender;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PasswordEncryption;
+import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.UserDataValidator;
 
 public class UserServiceImpl implements UserService {
@@ -60,13 +61,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean activation(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return false;
+		}
 		boolean userActivated;
 		try {
-			Long id = Long.parseLong(userId);
-			userActivated = userDao.changeUserStatus(id, UserStatus.INACTIVE, UserStatus.ACTIVE);
-		} catch (NumberFormatException e) {
-			logger.info("userId incorrect");
-			userActivated = false;
+			userActivated = userDao.changeUserStatus(userId, UserStatus.INACTIVE, UserStatus.ACTIVE);
 		} catch (DaoException e) {
 			throw new ServiceException("user activation error", e);
 		}

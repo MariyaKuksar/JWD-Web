@@ -17,6 +17,7 @@ import by.epam.store.model.entity.ProductCategory;
 import by.epam.store.model.entity.builder.ProductBuilder;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.ProductInfoValidator;
 
 public class CatalogServiceImpl implements CatalogService {
@@ -37,13 +38,12 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<Product> takeProductsFromCategory(String categoryId) throws ServiceException {
+		if (!IdValidator.isValidId(categoryId)) {
+			return Collections.emptyList();
+		}
 		List<Product> products;
 		try {
-			Long id = Long.parseLong(categoryId);
-			products = productDao.findProductByCategoryId(id);
-		} catch (NumberFormatException e) {
-			logger.info("categoryId incorrect");
-			products = Collections.emptyList();
+			products = productDao.findProductByCategoryId(categoryId);
 		} catch (DaoException e) {
 			throw new ServiceException("products from category search error", e);
 		}
@@ -72,7 +72,6 @@ public class CatalogServiceImpl implements CatalogService {
 			return errorMessageList;
 		}
 		Product product = ProductBuilder.getInstance().build(productInfo);
-		// нужно ли проверять categoryId на наличие такой в базе данных?
 		try {
 			productDao.create(product);
 		} catch (DaoException e) {
