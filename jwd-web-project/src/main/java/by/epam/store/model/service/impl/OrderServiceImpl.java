@@ -21,13 +21,13 @@ public class OrderServiceImpl implements OrderService {
 		if (!IdValidator.isValidId(productId) || !IdValidator.isValidId(userId)) {
 			return false;
 		}
-		Optional<Order> orderOptional = orderDao.findOrderBasket(userId);
+	/*	Optional<Order> orderOptional = orderDao.findOrderBasket(userId);
 		Order order;
 		if (orderOptional.isEmpty()) {
 			order = new Order();
 			order.setUserId(Long.parseLong(userId));
 			orderDao.create(order);
-		}
+		} */
 		return true;
 	}
 }
