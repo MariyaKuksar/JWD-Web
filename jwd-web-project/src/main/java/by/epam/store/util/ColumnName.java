@@ -20,6 +20,13 @@ public final class ColumnName {
 	public static final String PRODUCTS_PRICE = "price";
 	public static final String PRODUCTS_AMOUNT = "amount";
 	
+	public static final String ORDERS_ID = "id";
+	public static final String ORDERS_USER_ID = "user_id";
+	public static final String ORDERS_DATA_TIME = "data_time";
+	public static final String ORDERS_STATUS = "orders_status";
+	public static final String ORDERS_PAYMENT_METHOD = "payment_method";
+	public static final String ORDERS_PRICE = "price";
+	
 	private ColumnName() {
 	}
 }

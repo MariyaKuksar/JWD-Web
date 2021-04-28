@@ -43,7 +43,7 @@ public class CatalogServiceImpl implements CatalogService {
 		}
 		List<Product> products;
 		try {
-			products = productDao.findProductByCategoryId(categoryId);
+			products = productDao.findProductByCategoryId(Long.parseLong(categoryId));
 		} catch (DaoException e) {
 			throw new ServiceException("products from category search error", e);
 		}

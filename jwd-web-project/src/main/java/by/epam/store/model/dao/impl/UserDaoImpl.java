@@ -77,10 +77,8 @@ public class UserDaoImpl implements UserDao {
 		return users;
 	}
 
-//нужно ли тут возвращающее значение
 	@Override
-	public boolean create(User user) throws DaoException {
-		int numberUpdatedRows;
+	public void create(User user) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT_USER,
 						Statement.RETURN_GENERATED_KEYS)) {
@@ -90,7 +88,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(4, user.getName());
 			statement.setString(5, user.getPhone());
 			statement.setString(6, String.valueOf(user.getStatus()));
-			numberUpdatedRows = statement.executeUpdate();
+			statement.executeUpdate();
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
 				user.setUserId(resultSet.getLong(1));
@@ -100,7 +98,6 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == 1;
 	}
 
 	@Override
@@ -121,12 +118,12 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public boolean changeUserStatus(String id, UserStatus statusFrom, UserStatus statusTo) throws DaoException {
+	public boolean changeUserStatus(Long id, UserStatus statusFrom, UserStatus statusTo) throws DaoException {
 		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_STATUS)) {
 			statement.setString(1, String.valueOf(statusTo));
-			statement.setString(2, id);
+			statement.setLong(2, id);
 			statement.setString(3, String.valueOf(statusFrom));
 			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {

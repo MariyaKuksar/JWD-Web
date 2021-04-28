@@ -1,5 +1,7 @@
 package by.epam.store.controller.command.impl;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -33,16 +35,20 @@ public class AddProductToBasketCommand implements Command {
 			return router;
 		}
 		HttpSession session = request.getSession(true);
-		String userId = (String) session.getAttribute(ParameterAndAttribute.USER_ID);
+		Long userId = (Long) session.getAttribute(ParameterAndAttribute.USER_ID);
+		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		try {
-			if (orderService.addProduct(userId, productId)) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
+			Optional<Long> orderBasketIdOptional = orderService.addProduct(userId, orderBasketId, productId);
+			if (orderBasketIdOptional.isPresent()) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
+						MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketIdOptional.get());
 				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 				router = new Router(page, RouteType.REDIRECT);
 			} else {
-				logger.info("incorrect product or user id");
+				logger.info("incorrect data");
 				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {

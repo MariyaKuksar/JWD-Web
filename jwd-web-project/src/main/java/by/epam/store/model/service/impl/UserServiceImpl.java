@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
 		}
 		boolean userActivated;
 		try {
-			userActivated = userDao.changeUserStatus(userId, UserStatus.INACTIVE, UserStatus.ACTIVE);
+			userActivated = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.INACTIVE, UserStatus.ACTIVE);
 		} catch (DaoException e) {
 			throw new ServiceException("user activation error", e);
 		}

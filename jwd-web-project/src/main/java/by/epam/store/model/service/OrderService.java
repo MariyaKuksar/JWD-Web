@@ -1,7 +1,9 @@
 package by.epam.store.model.service;
 
+import java.util.Optional;
+
 public interface OrderService {
 
-	boolean addProduct(String userId, String productId) throws ServiceException;
+	Optional<Long> addProduct(Long userId, Long orderBascetId, String productId) throws ServiceException;
 
 }

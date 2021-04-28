@@ -15,8 +15,8 @@ import by.epam.store.model.entity.builder.ProductBuilder;
 
 public class ProductDaoImpl implements ProductDao {
 	// private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE CATEGORY_ID=?";
-	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE NAME LIKE ?";
+	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
+	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 
@@ -26,21 +26,18 @@ public class ProductDaoImpl implements ProductDao {
 		return null;
 	}
 
-	// нужно ли тут возвращающее значение
 	@Override
-	public boolean create(Product product) throws DaoException {
-		int numberUpdatedRows;
+	public void create(Product product) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT_PRODUCT)) {
-			statement.setLong(1, product.getCategoryId());
+			statement.setLong(1, product.getCategory().getCategoryId());
 			statement.setString(2, product.getProductName());
 			statement.setString(3, product.getImageName());
 			statement.setBigDecimal(4, product.getPrice());
-			numberUpdatedRows = statement.executeUpdate();
+			statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == 1;
 	}
 
 	@Override
@@ -50,11 +47,11 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findProductByCategoryId(String id) throws DaoException {
+	public List<Product> findProductByCategoryId(Long id) throws DaoException {
 		List<Product> products;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_CATEGORY_ID)) {
-			statement.setString(1, id);
+			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			products = ProductBuilder.getInstance().build(resultSet);
 		} catch (ConnectionPoolException | SQLException e) {

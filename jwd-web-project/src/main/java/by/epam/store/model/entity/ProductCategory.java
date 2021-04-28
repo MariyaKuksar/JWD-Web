@@ -1,11 +1,23 @@
 package by.epam.store.model.entity;
 
-public class ProductCategory {
+import java.io.Serializable;
+
+public class ProductCategory implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private Long categoryId;
 	private String categoryName;
 	private String imageName;
 	
 	public ProductCategory() {
+	}
+
+	public ProductCategory(Long categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public ProductCategory(Long categoryId, String categoryName) {
+		this.categoryId = categoryId;
+		this.categoryName = categoryName;
 	}
 
 	public Long getCategoryId() {
