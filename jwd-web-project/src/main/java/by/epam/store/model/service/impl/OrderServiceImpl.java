@@ -1,5 +1,6 @@
 package by.epam.store.model.service.impl;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
@@ -12,7 +13,6 @@ import by.epam.store.model.dao.impl.OrderDaoImpl;
 import by.epam.store.model.dao.impl.OrderProductConnectionDaoImpl;
 import by.epam.store.model.entity.Order;
 import by.epam.store.model.entity.OrderProductConnection;
-import by.epam.store.model.entity.OrderStatus;
 import by.epam.store.model.entity.Product;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
@@ -24,7 +24,8 @@ public class OrderServiceImpl implements OrderService {
 	private OrderProductConnectionDao orderProductConnectionDao = new OrderProductConnectionDaoImpl();
 
 	@Override
-	public Optional<Long> addProduct(Long userId, Long orderBasketId, String productId) throws ServiceException {
+	public Optional<Long> addProductToBasket(Long userId, Long orderBasketId, String productId)
+			throws ServiceException {
 		if (!IdValidator.isValidId(productId) || userId == null) {
 			return Optional.empty();
 		}
@@ -44,14 +45,34 @@ public class OrderServiceImpl implements OrderService {
 		return Optional.of(orderBasketId);
 	}
 
+	@Override
+	public Optional<Order> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
+		if (userId == null) {
+			return Optional.empty();
+		}
+		Optional<Order> orderOptional;
+		try {
+			if (orderBasketId == null) {
+				orderBasketId = findOrderBasketId(userId);
+			}
+			Order order = new Order(orderBasketId, userId);
+			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
+			order.setProducts(products);
+			orderOptional = Optional.of(order);
+		} catch (DaoException e) {
+			throw new ServiceException("product search error", e);
+		}
+		return orderOptional;
+	}
+
 	private Long findOrderBasketId(Long userId) throws DaoException {
 		Long orderBasketId;
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);
 		if (orderBasketIdOptional.isPresent()) {
 			orderBasketId = orderBasketIdOptional.get();
-			logger.debug("order Basket Id = " +  orderBasketId);
+			logger.debug("order Basket Id = " + orderBasketId);
 		} else {
-			Order order = new Order(userId, OrderStatus.BASKET);
+			Order order = new Order(userId);
 			orderDao.create(order);
 			orderBasketId = order.getOrderId();
 		}

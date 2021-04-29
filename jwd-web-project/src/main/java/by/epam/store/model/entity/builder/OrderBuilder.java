@@ -2,8 +2,6 @@ package by.epam.store.model.entity.builder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import by.epam.store.model.entity.Order;
@@ -25,18 +23,14 @@ public class OrderBuilder implements EntityBuilder<Order> {
 		// TODO Auto-generated method stub
 		return null;
 	}
-//ока не использую, доработать
+//пока не использую, доработать
 	@Override
-	public List<Order> build(ResultSet resultSet) throws SQLException {
-		List<Order> orders = new ArrayList<>();
-		while (resultSet.next()) {
+	public Order build(ResultSet resultSet) throws SQLException {	
 			Order order = new Order();
 			order.setOrderId(resultSet.getLong(ColumnName.ORDERS_ID));
 			order.setUserId(resultSet.getLong(ColumnName.ORDERS_USER_ID));
 			order.setDataTime(resultSet.getTimestamp(ColumnName.ORDERS_DATA_TIME).toLocalDateTime());
-			order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));
-		}
-		return orders;
+			order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));	
+		return order;
 	}
-
 }

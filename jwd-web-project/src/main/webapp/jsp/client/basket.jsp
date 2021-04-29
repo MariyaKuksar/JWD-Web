@@ -6,20 +6,16 @@
 <html>
 <head>
 <meta charset="utf-8">
-    <fmt:setLocale value="${sessionScope.locale}"/>
+  <fmt:setLocale value="${sessionScope.locale}"/>
   <fmt:setBundle basename="local"/>
-  <fmt:message key="local.title.adding_product" var="title"/>
+  <fmt:message key="local.title.basket" var="title"/>
   <fmt:message key="local.locbutton.name.en" var="en_button"/>
   <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
-  <fmt:message key="local.product_name" var="product_name"/>
-  <fmt:message key="local.price" var="price"/>
-  <fmt:message key="local.add_to_catalog" var="add_to_catalog"/>
   <title>${title}</title>
-
 </head>
 <body>
-<header>
-		<form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
+    <header>
+        <form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
 			<input type="hidden" name="command" value="en" /> 
 			<input type="submit" value="${en_button}" />
 		</form>
@@ -29,27 +25,6 @@
 		</form>
 	</header>
 	<p></p>
-	
-	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
-	
-	<form action="${pageContext.request.contextPath}/controller" enctype="multipart/form-data" method="post">
-	<input type="hidden" name="command" value="add_product_to_catalog"/>
-	<br />
-	<select size="1" id="category" name="categoryId" required>
-                        <c:forEach var="category" items="${sessionScope.productCategories}">
-                            <option value="${category.categoryId}">${category.categoryName}</option>
-                        </c:forEach>
-    </select>
-    <br />
-	<input type="text" name="productName" required placeholder="${product_name}"/>
-	<br />
-	<input type="text" name="price" required placeholder="${price}"/>
-	<br />
-    <input type="file" name="file" value="" height="150">
-    <br />
-    <input type="submit" value="${add_to_catalog}">
-</form>
-
     <c:if test="${errorMessageList != null}">
 		<c:forEach var="errorMessageKey" items="${errorMessageList}">
 		<fmt:message key="${errorMessageKey}" var="error"/>
@@ -67,5 +42,16 @@
 		</div>
 		<c:remove var="infoMessage"/>
 	</c:if>
+	
+		<c:forEach var="product" items="${requestScope.order.products}">
+		<img id="product_img" src="${pageContext.request.contextPath}/img/${product.key.imageName}" />
+			<tr>
+				<td><c:out value="${product.key.productName}" /></td>
+				<td><c:out value="${product.key.price}$" /></td>
+				<td><c:out value="${product.value}" /></td>
+			</tr>
+		</form>
+	</c:forEach>
+	
 </body>
 </html>

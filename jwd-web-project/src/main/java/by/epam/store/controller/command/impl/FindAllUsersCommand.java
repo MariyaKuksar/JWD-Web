@@ -26,7 +26,7 @@ public class FindAllUsersCommand implements Command {
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
 		try {
-			List<User> users = userService.findAllUsers();
+			List<User> users = userService.takeAllUsers();
 			request.setAttribute(ATTRIBUTE_USERS, users);
 			router = new Router(PagePath.USERS, RouteType.FORWARD);
 		} catch (ServiceException e) {

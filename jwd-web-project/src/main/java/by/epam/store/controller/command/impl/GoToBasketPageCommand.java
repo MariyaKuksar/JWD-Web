@@ -12,6 +12,7 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
+import by.epam.store.model.entity.Order;
 import by.epam.store.model.entity.UserRole;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
@@ -20,7 +21,7 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
-public class AddProductToBasketCommand implements Command {
+public class GoToBasketPageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
@@ -37,22 +38,25 @@ public class AddProductToBasketCommand implements Command {
 		HttpSession session = request.getSession(true);
 		Long userId = (Long) session.getAttribute(ParameterAndAttribute.USER_ID);
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
-		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		try {
-			Optional<Long> orderBasketIdOptional = orderService.addProductToBasket(userId, orderBasketId, productId);
-			if (orderBasketIdOptional.isPresent()) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
-						MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
-				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketIdOptional.get());
-				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-				router = new Router(page, RouteType.REDIRECT);
+			Optional<Order> orderOptional = orderService.takeOrderBasket(userId, orderBasketId);
+			if (orderOptional.isPresent()) {
+				Order order = orderOptional.get();
+				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, order.getOrderId());
+				if (!order.getProducts().isEmpty()) {
+					request.setAttribute(ParameterAndAttribute.ORDER, order); //здесь можно сразу мэп достать и передать
+				} else {
+					session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_BASKET_IS_EMPTY_MESSAGE);
+				}
+				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);
+				router = new Router(PagePath.BASKET, RouteType.FORWARD);
 			} else {
 				logger.info("incorrect data");
 				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {
-			logger.error("error adding product to order", e);
+			logger.error("basket search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

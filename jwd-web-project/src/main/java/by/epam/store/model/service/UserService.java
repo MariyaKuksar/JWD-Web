@@ -15,7 +15,7 @@ public interface UserService {
 	
 	boolean changeForgottenPassword(String login) throws ServiceException;	
 	
-	List<User> findAllUsers() throws ServiceException;
+	List<User> takeAllUsers() throws ServiceException;
 
-	List<User> findUsersByName(String userName) throws ServiceException;
+	List<User> takeUsersByName(String userName) throws ServiceException;
 }

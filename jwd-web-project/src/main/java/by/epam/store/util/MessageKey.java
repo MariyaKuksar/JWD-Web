@@ -27,7 +27,8 @@ public final class MessageKey {
 	public static final String INFO_NOTHING_FOUND_MESSAGE = "local.message.nothing_found";
 	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";
 	public static final String INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE = "local.message.product_added_to_catalog";
-
+	public static final String INFO_BASKET_IS_EMPTY_MESSAGE = "local.message.basket_is_empty";
+	
 	private MessageKey() {
 	}
 }

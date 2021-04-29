@@ -13,6 +13,7 @@ import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
 import by.epam.store.controller.command.impl.FindUsersByNameCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
+import by.epam.store.controller.command.impl.GoToBasketPageCommand;
 import by.epam.store.controller.command.impl.GoToMainPageCommand;
 import by.epam.store.controller.command.impl.ShowProductsFromCategoryCommand;
 import by.epam.store.controller.command.impl.SignInCommand;
@@ -41,6 +42,7 @@ public final class CommandProvider {
 		commands.put(CommandType.FIND_PRODUCTS_BY_NAME, new FindProductsByNameCommand());
 		commands.put(CommandType.ADD_PRODUCT_TO_BASKET, new AddProductToBasketCommand());
 		commands.put(CommandType.ADD_PRODUCT_TO_CATALOG, new AddProductToCatalogCommand());
+		commands.put(CommandType.GO_TO_BASKET_PAGE, new GoToBasketPageCommand());
 	}
 
 	private CommandProvider() {

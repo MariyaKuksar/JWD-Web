@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import by.epam.store.model.connection.ConnectionPool;
@@ -48,12 +49,16 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> findProductByCategoryId(Long id) throws DaoException {
-		List<Product> products;
+		List<Product> products = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_CATEGORY_ID)) {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
-			products = ProductBuilder.getInstance().build(resultSet);
+			Product product;
+			while (resultSet.next()) {
+				 product = ProductBuilder.getInstance().build(resultSet);
+				 products.add(product);
+			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
@@ -62,12 +67,16 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public List<Product> findProductsByName(String productName) throws DaoException {
-		List<Product> products;
+		List<Product> products = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_NAME)) {
 			statement.setString(1, ZERO_OR_MORE_CHARACTERS + productName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
-			products = ProductBuilder.getInstance().build(resultSet);
+			Product product;
+			while (resultSet.next()) {
+				 product = ProductBuilder.getInstance().build(resultSet);
+				 products.add(product);
+			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}

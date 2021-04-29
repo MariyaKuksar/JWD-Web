@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,9 +37,9 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USERS_BY_LOGIN)) {
 			statement.setString(1, login);
 			ResultSet resultSet = statement.executeQuery();
-			List<User> usersList = UserBuilder.getInstance().build(resultSet);
-			if (!usersList.isEmpty()) {
-				User user = usersList.get(0);
+			User user;
+			if (resultSet.next()) {
+				user = UserBuilder.getInstance().build(resultSet);
 				userOptional = Optional.of(user);
 			} else {
 				userOptional = Optional.empty();
@@ -52,12 +53,16 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> findUsersByName(String userName) throws DaoException {
-		List<User> users;
+		List<User> users = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USERS_BY_NAME)) {
 			statement.setString(1, userName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
-			users = UserBuilder.getInstance().build(resultSet);
+			User user;
+			while (resultSet.next()) {
+				user = UserBuilder.getInstance().build(resultSet);
+				users.add(user);
+			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
@@ -66,11 +71,15 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> findAll() throws DaoException {
-		List<User> users;
+		List<User> users = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
 			ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
-			users = UserBuilder.getInstance().build(resultSet);
+			User user;
+			while (resultSet.next()) {
+				user = UserBuilder.getInstance().build(resultSet);
+				users.add(user);
+			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}

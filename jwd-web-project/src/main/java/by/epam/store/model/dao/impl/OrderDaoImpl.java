@@ -21,8 +21,9 @@ import by.epam.store.util.ColumnName;
 public class OrderDaoImpl implements OrderDao {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_ORDER_BASKET_BY_USER_ID = "SELECT ID FROM ORDERS WHERE USER_ID=? AND STATUS='BASKET'";
-	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, ?)";
+	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, 'BASKET')";
 	
+
 	@Override
 	public List<Order> findAll() throws DaoException {
 		// TODO Auto-generated method stub
@@ -34,8 +35,7 @@ public class OrderDaoImpl implements OrderDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT_ORDER,
 						Statement.RETURN_GENERATED_KEYS)) {
-			statement.setLong(1,order.getUserId());
-			statement.setString(2, String.valueOf(order.getOrderStatus()));
+			statement.setLong(1, order.getUserId());
 			statement.executeUpdate();
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {

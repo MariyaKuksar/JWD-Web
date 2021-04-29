@@ -19,6 +19,7 @@
 <fmt:message key="local.search" var="search" />
 <fmt:message key="local.add_to_basket" var="add_to_basket" />
 <fmt:message key="local.add_product_to_catalog" var="add_product_to_catalog" />
+<fmt:message key="local.basket" var="basket" />
 <title>${title}</title>
 </head>
 <body>
@@ -50,6 +51,12 @@
 		<input type="hidden" name="command" value="find_products_by_name" /> 
 		<input type="submit" name="submit" value="${search}">
 	</form>
+	
+	<br />
+	<p></p>
+	<a href="${pageContext.request.contextPath}/controller?command=go_to_basket_page">${basket}</a>
+	<br />
+	<p></p>
 	
 	<c:if test="${errorMessageList != null}">
 		<c:forEach var="errorMessageKey" items="${errorMessageList}">

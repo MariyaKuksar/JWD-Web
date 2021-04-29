@@ -3,8 +3,6 @@ package by.epam.store.model.entity.builder;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import by.epam.store.model.entity.Product;
@@ -35,9 +33,7 @@ public class ProductBuilder implements EntityBuilder<Product> {
 	}
 
 	@Override
-	public List<Product> build(ResultSet resultSet) throws SQLException {
-		List<Product> products = new ArrayList<>();
-		while (resultSet.next()) {
+	public Product build(ResultSet resultSet) throws SQLException {
 			Product product = new Product();
 			product.setProductId(resultSet.getLong(ColumnName.PRODUCTS_ID));
 			Long categoryId = resultSet.getLong(ColumnName.PRODUCTS_CATEGORY_ID);
@@ -47,9 +43,7 @@ public class ProductBuilder implements EntityBuilder<Product> {
 			product.setProductName(resultSet.getString(ColumnName.PRODUCTS_NAME));
 			product.setImageName(resultSet.getString(ColumnName.PRODUCTS_IMAGE_NAME));
 			product.setPrice(resultSet.getBigDecimal(ColumnName.PRODUCTS_PRICE));
-			product.setAmount(resultSet.getInt(ColumnName.PRODUCTS_AMOUNT));
-			products.add(product);
-		}
-		return products;
+			product.setAmount(resultSet.getInt(ColumnName.PRODUCTS_AMOUNT));	
+		return product;
 	}
 }

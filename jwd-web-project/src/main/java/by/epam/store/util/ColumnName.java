@@ -27,6 +27,8 @@ public final class ColumnName {
 	public static final String ORDERS_PAYMENT_METHOD = "payment_method";
 	public static final String ORDERS_PRICE = "price";
 	
+	public static final String ORDER_PRODUCT_CONNECTION_AMOUNT_OF_PRODUCT = "amount_of_product";
+	
 	private ColumnName() {
 	}
 }

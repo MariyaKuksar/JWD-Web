@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
 
 	// нужно доработать, если буду использовать
 	@Override
-	public List<User> findAllUsers() throws ServiceException {
+	public List<User> takeAllUsers() throws ServiceException {
 		List<User> users;
 		try {
 			users = userDao.findAll();
@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
 
 	// нужно доработать, если буду использовать
 	@Override
-	public List<User> findUsersByName(String userName) throws ServiceException {
+	public List<User> takeUsersByName(String userName) throws ServiceException {
 		if (!UserDataValidator.isValidName(userName)) {
 			return Collections.emptyList();
 		}

@@ -28,7 +28,7 @@ public class FindUsersByNameCommand implements Command {
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
 		try {
-			List<User> users = userService.findUsersByName(userName);
+			List<User> users = userService.takeUsersByName(userName);
 			request.setAttribute(ATTRIBUTE_USERS, users);
 			router = new Router(PagePath.USERS, RouteType.FORWARD);
 		} catch (ServiceException e) {
