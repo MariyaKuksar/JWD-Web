@@ -23,8 +23,8 @@ public class FindAllUsersCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
+		UserService userService = ServiceFactory.getInstance().getUserService();
 		try {
 			List<User> users = userService.takeAllUsers();
 			request.setAttribute(ATTRIBUTE_USERS, users);

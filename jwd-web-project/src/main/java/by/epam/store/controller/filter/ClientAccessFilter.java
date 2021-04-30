@@ -1,5 +1,6 @@
 package by.epam.store.controller.filter;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -24,7 +25,6 @@ import by.epam.store.util.ParameterAndAttribute;
 @WebFilter(urlPatterns = { "/jsp/client/*" })
 public class ClientAccessFilter implements Filter {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SLASH = "/";
 
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
@@ -36,7 +36,7 @@ public class ClientAccessFilter implements Filter {
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = httpRequest.getSession(true);
 		if (session.getAttribute(ParameterAndAttribute.ROLE) != UserRole.CLIENT) {
-			httpResponse.sendRedirect(httpRequest.getContextPath() + SLASH + PagePath.LOGIN);
+			httpResponse.sendRedirect(httpRequest.getContextPath() + File.separator + PagePath.GO_TO_MAIN_PAGE);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_ACCESS_MESSAGE);
 			return;
 		}

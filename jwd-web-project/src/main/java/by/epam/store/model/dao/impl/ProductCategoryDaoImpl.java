@@ -24,9 +24,8 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
 			ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_PRODUCT_CATEGORIES);
-			ProductCategory productCategory;
 			while (resultSet.next()) {
-				productCategory = ProductCategoryBuilder.getInstance().build(resultSet);
+				ProductCategory productCategory = ProductCategoryBuilder.getInstance().build(resultSet);
 				productCategories.add(productCategory);
 			}
 		} catch (ConnectionPoolException | SQLException e) {

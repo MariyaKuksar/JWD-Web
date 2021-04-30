@@ -26,19 +26,15 @@ public class AddProductToBasketCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
-		if (!UserControl.isLoggedInUser(request)) {
-			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
-			return router;
-		}
-		if (!UserControl.isValidForRole(request, UserRole.CLIENT)) {
-			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
+		if (!UserControl.isLoggedInUser(request) || !UserControl.isValidForRole(request, UserRole.CLIENT)) {
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			return router;
 		}
 		HttpSession session = request.getSession(true);
+		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		Long userId = (Long) session.getAttribute(ParameterAndAttribute.USER_ID);
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
-		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		try {
 			Optional<Long> orderBasketIdOptional = orderService.addProductToBasket(userId, orderBasketId, productId);
 			if (orderBasketIdOptional.isPresent()) {

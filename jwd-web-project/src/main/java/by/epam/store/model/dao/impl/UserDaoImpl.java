@@ -29,7 +29,9 @@ public class UserDaoImpl implements UserDao {
 	private static final String SQL_INSERT_USER = "INSERT INTO USERS (LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_STATUS = "UPDATE USERS SET STATUS=? WHERE ID=? AND STATUS=?";
 	private static final String SQL_UPDATE_USER = "UPDATE USERS SET LOGIN=?, PASSWORD=?, NAME=?, PHONE=? WHERE ID=?";
-
+	private static final String SQL_UPDATE_PASSWORD = "UPDATE USERS SET PASSWORD=? WHERE LOGIN=?";
+	private static final int ONE_UPDATED_ROW = 1;
+	
 	@Override
 	public Optional<User> findUserByLogin(String login) throws DaoException {
 		Optional<User> userOptional;
@@ -37,9 +39,8 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USERS_BY_LOGIN)) {
 			statement.setString(1, login);
 			ResultSet resultSet = statement.executeQuery();
-			User user;
 			if (resultSet.next()) {
-				user = UserBuilder.getInstance().build(resultSet);
+				User user = UserBuilder.getInstance().build(resultSet);
 				userOptional = Optional.of(user);
 			} else {
 				userOptional = Optional.empty();
@@ -58,9 +59,8 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USERS_BY_NAME)) {
 			statement.setString(1, userName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
-			User user;
 			while (resultSet.next()) {
-				user = UserBuilder.getInstance().build(resultSet);
+				User user = UserBuilder.getInstance().build(resultSet);
 				users.add(user);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -75,9 +75,8 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
 			ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
-			User user;
 			while (resultSet.next()) {
-				user = UserBuilder.getInstance().build(resultSet);
+				User user = UserBuilder.getInstance().build(resultSet);
 				users.add(user);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -101,8 +100,6 @@ public class UserDaoImpl implements UserDao {
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
 				user.setUserId(resultSet.getLong(1));
-			} else {
-				throw new DaoException("database error");
 			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
@@ -123,7 +120,7 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == 1;
+		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
 
 	@Override
@@ -138,6 +135,20 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == 1;
+		return numberUpdatedRows == ONE_UPDATED_ROW;
+	}
+
+	@Override
+	public boolean updatePassword(String login, String password) throws DaoException {
+		int numberUpdatedRows;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PASSWORD)) {
+			statement.setString(1, password);
+			statement.setString(2, login);
+			numberUpdatedRows = statement.executeUpdate();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
 }

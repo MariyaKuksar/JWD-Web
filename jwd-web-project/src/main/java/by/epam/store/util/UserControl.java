@@ -7,8 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.PagePath;
-import by.epam.store.controller.command.Router;
-import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.User;
 import by.epam.store.model.entity.UserRole;
 
@@ -34,29 +32,23 @@ public final class UserControl {
 		return true;
 	}
 
-	public static Router userStatusControl(User user, HttpSession session) {
-		Router router;
+	public static void userStatusControl(User user, HttpSession session) {
 		switch (user.getStatus()) {
 		case ACTIVE:
 			session.setAttribute(ParameterAndAttribute.ROLE, user.getRole());
 			session.setAttribute(ParameterAndAttribute.LOGIN, user.getLogin());
 			session.setAttribute(ParameterAndAttribute.USER_ID, user.getUserId());
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.MAIN);
-			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			break;
 		case INACTIVE:
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_UNVERIFIED_USER_MESSAGE);
-			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
 			break;
 		case BLOCKED:
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_BLOCKED_USER_MESSAGE);
-			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
 			break;
 		default:
 			logger.error("unknown user status");
-			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
-		return router;
 	}
 
 	public static boolean isValidForRole(HttpServletRequest request, UserRole permissibleRole) {

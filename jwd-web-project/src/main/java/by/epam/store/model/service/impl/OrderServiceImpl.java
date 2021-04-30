@@ -20,6 +20,7 @@ import by.epam.store.validator.IdValidator;
 
 public class OrderServiceImpl implements OrderService {
 	private static final Logger logger = LogManager.getLogger();
+	private static final int AMOUNT_OF_PRODUCT = 1;
 	private OrderDao orderDao = new OrderDaoImpl();
 	private OrderProductConnectionDao orderProductConnectionDao = new OrderProductConnectionDaoImpl();
 
@@ -31,11 +32,10 @@ public class OrderServiceImpl implements OrderService {
 		}
 		try {
 			if (orderBasketId == null) {
-				orderBasketId = findOrderBasketId(userId);
+				orderBasketId = takeOrderBasketId(userId);
 			}
-			Long idProduct = Long.parseLong(productId);
 			OrderProductConnection orderProductConnection = new OrderProductConnection(orderBasketId,
-					new Product(idProduct), 1); // нужно в константу выносить?
+					Long.parseLong(productId), AMOUNT_OF_PRODUCT);
 			if (!orderProductConnectionDao.update(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
@@ -50,22 +50,21 @@ public class OrderServiceImpl implements OrderService {
 		if (userId == null) {
 			return Optional.empty();
 		}
-		Optional<Order> orderOptional;
+		Order order;
 		try {
 			if (orderBasketId == null) {
-				orderBasketId = findOrderBasketId(userId);
+				orderBasketId = takeOrderBasketId(userId);
 			}
-			Order order = new Order(orderBasketId, userId);
+			order = new Order(orderBasketId, userId);
 			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
 			order.setProducts(products);
-			orderOptional = Optional.of(order);
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}
-		return orderOptional;
+		return Optional.of(order);
 	}
 
-	private Long findOrderBasketId(Long userId) throws DaoException {
+	private Long takeOrderBasketId(Long userId) throws DaoException {
 		Long orderBasketId;
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);
 		if (orderBasketIdOptional.isPresent()) {

@@ -5,15 +5,15 @@ import java.io.Serializable;
 public class OrderProductConnection implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
-	private Product product;
+	private Long productId;
 	private int amountProducts;
 	
 	public OrderProductConnection() {
 	}
-	
-	public OrderProductConnection(Long orderId, Product product, int amountProducts) {
+
+	public OrderProductConnection(Long orderId, Long productId, int amountProducts) {
 		this.orderId = orderId;
-		this.product = product;
+		this.productId = productId;
 		this.amountProducts = amountProducts;
 	}
 
@@ -25,12 +25,12 @@ public class OrderProductConnection implements Serializable {
 		this.orderId = orderId;
 	}
 
-	public Product getProduct() {
-		return product;
+	public Long getProductId() {
+		return productId;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
+	public void setProductId(Long productId) {
+		this.productId = productId;
 	}
 
 	public int getAmountProducts() {
@@ -47,7 +47,7 @@ public class OrderProductConnection implements Serializable {
 		int result = 1;
 		result = prime * result + amountProducts;
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + ((product == null) ? 0 : product.hashCode());
+		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		return result;
 	}
 
@@ -67,10 +67,10 @@ public class OrderProductConnection implements Serializable {
 				return false;
 		} else if (!orderId.equals(other.orderId))
 			return false;
-		if (product == null) {
-			if (other.product != null)
+		if (productId == null) {
+			if (other.productId != null)
 				return false;
-		} else if (!product.equals(other.product))
+		} else if (!productId.equals(other.productId))
 			return false;
 		return true;
 	}
@@ -80,8 +80,8 @@ public class OrderProductConnection implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("OrderProductConnection [orderId=");
 		builder.append(orderId);
-		builder.append(", product=");
-		builder.append(product);
+		builder.append(", productId=");
+		builder.append(productId);
 		builder.append(", amountProducts=");
 		builder.append(amountProducts);
 		builder.append("]");

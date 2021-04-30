@@ -25,16 +25,16 @@ public class SignUpCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		Map<String, String> userInfo = RequestUtil.getRequestParameters(request);
-		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
+		HttpSession session = request.getSession(true);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		Map<String, String> userInfo = RequestUtil.getRequestParameters(request);		
 		try {
 			List<String> errorMessageList = userService.registration(userInfo);
-			HttpSession session = request.getSession(true);
 			if (errorMessageList.isEmpty()) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
 						MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
-				router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
+				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, errorMessageList);
 				router = new Router(PagePath.REGISTRATION, RouteType.REDIRECT);

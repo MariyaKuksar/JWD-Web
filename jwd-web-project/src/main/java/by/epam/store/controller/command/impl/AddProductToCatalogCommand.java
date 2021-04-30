@@ -30,19 +30,15 @@ public class AddProductToCatalogCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
-		if (!UserControl.isLoggedInUser(request)) {
-			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
+		if (!UserControl.isLoggedInUser(request) || !UserControl.isValidForRole(request, UserRole.CLIENT)) {
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			return router;
 		}
-		if (!UserControl.isValidForRole(request, UserRole.ADMIN)) {
-			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
-			return router;
-		}
+		HttpSession session = request.getSession(true);
+		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		try {
-			Map<String, String> productInfo = RequestUtil.getParametersFromMultipartRequest(request);
-			CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
+			Map<String, String> productInfo = RequestUtil.getParametersFromMultipartRequest(request);	
 			List<String> errorMessageList = catalogService.addProduct(productInfo);
-			HttpSession session = request.getSession(true);
 			if (errorMessageList.isEmpty()) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
 						MessageKey.INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE);

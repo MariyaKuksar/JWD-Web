@@ -4,30 +4,30 @@
 }
 @font-face {
 	font-family: "TTNormsRegular"; 
-	src: url("../../fonts/TTNorms/TTNorms-Regular.ttf"); 
+	src: url("../../fonts/TTNorms/TTNorms-Regular.ttf");
 	src: url("../../fonts/TTNorms/TTNorms-Regular.eot?#iefix") format("embedded-opentype"),
-	url("../../fonts/TTNorms/TTNorms-Regular.woff") format("woff"), 
-	url("../../fonts/TTNorms/TTNorms-Regular.ttf") format("truetype"); 
-	font-style: normal; 
-	font-weight: normal; 
+	url("../../fonts/TTNorms/TTNorms-Regular.woff") format("woff"),
+	url("../../fonts/TTNorms/TTNorms-Regular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
 }
 @font-face {
-	font-family: "TTNormsThin"; 
-	src: url("../../fonts/TTNorms/TTNorms-Thin.ttf"); 
+	font-family: "TTNormsThin";
+	src: url("../../fonts/TTNorms/TTNorms-Thin.ttf");
 	src: url("../../fonts/TTNorms/TTNorms-Thin.eot?#iefix") format("embedded-opentype"),
-	url("../../fonts/TTNorms/TTNorms-Thin.woff") format("woff"), 
-	url("../../fonts/TTNorms/TTNorms-Thin.ttf") format("truetype"); 
-	font-style: normal; 
-	font-weight: normal; 
+	url("../../fonts/TTNorms/TTNorms-Thin.woff") format("woff"),
+	url("../../fonts/TTNorms/TTNorms-Thin.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
 }
 @font-face {
-	font-family: "TTNormsExtraBold"; 
-	src: url("../../fonts/TTNorms/TTNorms-ExtraBold.ttf"); 
+	font-family: "TTNormsExtraBold";
+	src: url("../../fonts/TTNorms/TTNorms-ExtraBold.ttf");
 	src: url("../../fonts/TTNorms/TTNorms-ExtraBold.eot?#iefix") format("embedded-opentype"),
-	url("../../fonts/TTNorms/TTNorms-ExtraBold.woff") format("woff"), 
-	url("../../fonts/TTNorms/TTNorms-ExtraBold.ttf") format("truetype"); 
-	font-style: normal; 
-	font-weight: normal; 
+	url("../../fonts/TTNorms/TTNorms-ExtraBold.woff") format("woff"),
+	url("../../fonts/TTNorms/TTNorms-ExtraBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
 }
 .clearfix {
 	clear:both;
@@ -65,7 +65,7 @@ header>div > div > a {
 
 /*MENU*/
 .menu {
-	background-color: #df5558; 
+	background-color: #df5558;
 	display: inline-block;
 }
 .menu1 {
@@ -95,7 +95,7 @@ ul.menu1 > li > a {
 }
 .menu1 > li> a:hover {
 	color: #008080;
-	background-color: #fff; 
+	background-color: #fff;
 }
 ul.menu1 > li:hover > ul{
 	display: block;
@@ -140,7 +140,7 @@ ul.menu2>li:hover>a{
  /*==LOGIN==*/
 .login{
 	font: normal 15px TTNormsRegular;
-	width:95%;	
+	width:95%;
 	margin:0 auto;
 }
 .login_text{
@@ -165,13 +165,21 @@ ul.menu2>li:hover>a{
 	padding:15px;
 	background-color: #444444;
 }
-.login_input> p {
-	padding-bottom: 5px;
+.login_input> form > p {
+	padding: 5px;
+}
+.login_input a {
+	text-decoration: none;
+	color: #ffffff;
+	font: italic 15px TTNormsRegular;
 	padding-left: 5px;
 }
+.login_input  a:hover{
+	text-decoration: underline;
+}
 .log{
-	width:88%;
-	padding: 6px 10px;
+	width:95%;
+	padding: 6px 8px;
 	background-color: #fff;
     border-top: 1px solid #9a9999;
     border-left: 1px solid #9a9999;
@@ -185,13 +193,34 @@ ul.menu2>li:hover>a{
 	padding:7px 13px;
 	margin-left: 70%;
 	border:0;
-	background-color: #ad2c53; 
+	background-color: #ad2c53;
 }
 .button:hover{
 	background-color: #df5558;
 }
 /*====*/
- 
+
+/*==WELCOM==*/
+.welcom{
+	width:95%;
+	margin:0 auto;
+}
+.welcom div {
+	font: normal 15px TTNormsRegular;
+	color: #ffffff;
+	padding:10px 20px;
+	background-color: #df5558;
+	border-bottom: 1px solid #ffffff;
+}
+.welcom a {
+	text-decoration: none;
+	color: #ffffff;
+	font: italic 15px TTNormsRegular;
+}
+.welcom a:hover{
+	text-decoration: underline;
+}
+/*====*/
 
 /*==CALENDAR==*/
 #calendar2 {
@@ -228,14 +257,13 @@ ul.menu2>li:hover>a{
 /*====*/
 
 /*==CATEGORY==*/
-.products {
-	display: none;
-}
+
 .category {
 	display: inline-block;
 	float:left;
 	margin-left: 15px;
 	margin-bottom: 15px;
+	width: 210px;
 }
 .category .image{
 	border: 1px solid #faebd7;

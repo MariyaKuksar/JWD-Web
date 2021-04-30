@@ -23,12 +23,12 @@ public class GoToMainPageCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		Router router;
+		HttpSession session = request.getSession(true);
+		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		try {
 			List<ProductCategory> productCategories = catalogService.takeAllProductCategories();
 			logger.debug(productCategories.toString());
-			HttpSession session = request.getSession(true);
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.MAIN);
 			session.setAttribute(ParameterAndAttribute.PRODUCT_CATEGORIES, productCategories);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);

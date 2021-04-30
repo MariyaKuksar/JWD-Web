@@ -7,9 +7,12 @@ import by.epam.store.model.entity.User;
 import by.epam.store.model.entity.UserStatus;
 
 public interface UserDao extends BaseDao<User> {
+	
 	boolean changeUserStatus(Long id, UserStatus statusFrom, UserStatus statusTo) throws DaoException;
 	
 	Optional<User> findUserByLogin(String login) throws DaoException;
 
-	List<User> findUsersByName(String userName) throws DaoException;	
+	List<User> findUsersByName(String userName) throws DaoException;
+
+	boolean updatePassword(String login, String password) throws DaoException;	
 }

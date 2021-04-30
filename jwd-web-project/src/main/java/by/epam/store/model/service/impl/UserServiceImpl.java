@@ -102,26 +102,22 @@ public class UserServiceImpl implements UserService {
 			logger.debug("incorrect login");
 			return false;
 		}
+		boolean passwordChanged;
 		try {
-			Optional<User> userOptional = userDao.findUserByLogin(login);
-			if (userOptional.isEmpty()) {
+			if (checkIfLoginFree(login)) {
 				logger.debug("not such user");
 				return false;
 			}
-			User user = userOptional.get();
 			String newPassword = generatePassword();
 			String encryptedPassword = PasswordEncryption.encrypt(newPassword);
-			user.setPassword(encryptedPassword);
-			if (userDao.update(user)) {
-				MailSender.send(user.getLogin(), CHANGE_PASSWORD_MESSAGE_SUBJECT,
-						CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
-			} else {
-				throw new ServiceException("password change error");
+			passwordChanged = userDao.updatePassword(login, encryptedPassword);
+			if (passwordChanged) {
+				MailSender.send(login, CHANGE_PASSWORD_MESSAGE_SUBJECT, CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
 			}
 		} catch (MessagingException | DaoException e) {
 			throw new ServiceException("password change error", e);
 		}
-		return true;
+		return passwordChanged;
 	}
 
 	// нужно доработать, если буду использовать

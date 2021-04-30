@@ -21,18 +21,18 @@ public class ConfirmRegistrationCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
-		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
+		HttpSession session = request.getSession(true);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
 		try {
-			HttpSession session = request.getSession(true);
 			if (userService.activation(userId)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_REGISTRATION_OK_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 						MessageKey.ERROR_USER_TO_ACTIVATE_NOT_FOUND_MESSAGE);
 			}
-			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 		} catch (ServiceException e) {
 			logger.error("user activation error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

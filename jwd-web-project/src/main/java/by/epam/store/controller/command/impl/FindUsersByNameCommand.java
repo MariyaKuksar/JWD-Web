@@ -24,9 +24,9 @@ public class FindUsersByNameCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		String userName = request.getParameter(PARAMETR_USER_NAME);
-		UserService userService = ServiceFactory.getInstance().getUserService();
 		Router router;
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		String userName = request.getParameter(PARAMETR_USER_NAME);
 		try {
 			List<User> users = userService.takeUsersByName(userName);
 			request.setAttribute(ATTRIBUTE_USERS, users);

@@ -54,10 +54,9 @@ public class ProductDaoImpl implements ProductDao {
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_CATEGORY_ID)) {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
-			Product product;
 			while (resultSet.next()) {
-				 product = ProductBuilder.getInstance().build(resultSet);
-				 products.add(product);
+				Product product = ProductBuilder.getInstance().build(resultSet);
+				products.add(product);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
@@ -72,10 +71,9 @@ public class ProductDaoImpl implements ProductDao {
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_NAME)) {
 			statement.setString(1, ZERO_OR_MORE_CHARACTERS + productName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
-			Product product;
 			while (resultSet.next()) {
-				 product = ProductBuilder.getInstance().build(resultSet);
-				 products.add(product);
+			Product	product = ProductBuilder.getInstance().build(resultSet);
+				products.add(product);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);

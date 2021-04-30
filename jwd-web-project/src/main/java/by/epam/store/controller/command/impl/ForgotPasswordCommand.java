@@ -21,14 +21,14 @@ public class ForgotPasswordCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		String login = request.getParameter(ParameterAndAttribute.LOGIN);
-		UserService userService = ServiceFactory.getInstance().getUserService();
-		HttpSession session = request.getSession(true);
 		Router router;
+		HttpSession session = request.getSession(true);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		String login = request.getParameter(ParameterAndAttribute.LOGIN);		
 		try {
 			if (userService.changeForgottenPassword(login)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PASSWORD_SENT_MESSAGE);
-				router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
+				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_NO_SUCH_USER_MESSAGE);
 				router = new Router(PagePath.FORGOT_PASSWORD, RouteType.REDIRECT);

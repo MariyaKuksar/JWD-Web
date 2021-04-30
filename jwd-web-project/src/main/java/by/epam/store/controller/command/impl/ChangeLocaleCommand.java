@@ -14,10 +14,10 @@ public class ChangeLocaleCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
+		Router router;
 		HttpSession session = request.getSession(true);
 		session.setAttribute(ParameterAndAttribute.LOCALE, request.getParameter(ParameterAndAttribute.COMMAND));
-		String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-		Router router;
+		String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);	
 		if (page != null) {
 			router = new Router(page, RouteType.REDIRECT);
 		} else {

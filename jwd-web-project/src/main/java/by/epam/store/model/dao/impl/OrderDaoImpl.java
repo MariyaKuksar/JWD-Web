@@ -22,7 +22,6 @@ public class OrderDaoImpl implements OrderDao {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_ORDER_BASKET_BY_USER_ID = "SELECT ID FROM ORDERS WHERE USER_ID=? AND STATUS='BASKET'";
 	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, 'BASKET')";
-	
 
 	@Override
 	public List<Order> findAll() throws DaoException {
@@ -41,9 +40,7 @@ public class OrderDaoImpl implements OrderDao {
 			if (resultSet.next()) {
 				order.setOrderId(resultSet.getLong(1));
 				logger.debug("create order" + order.toString());
-			} else {
-				throw new DaoException("database error");
-			}
+			} 
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}

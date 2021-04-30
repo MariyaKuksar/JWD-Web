@@ -25,25 +25,25 @@ public class SignInCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		HttpSession session = request.getSession(true);
 		Router router;
+		HttpSession session = request.getSession(true);
 		if (session.getAttribute(ParameterAndAttribute.LOGIN) != null) {
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_REPEATED_LOGIN_MESSAGE);
-			router = new Router(PagePath.LOGIN, RouteType.REDIRECT);
+			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
 			return router;
 		}
+		UserService userService = ServiceFactory.getInstance().getUserService();
 		String login = request.getParameter(ParameterAndAttribute.LOGIN);
 		String password = request.getParameter(ParameterAndAttribute.PASSWORD);
-		UserService userService = ServiceFactory.getInstance().getUserService();
 		try {
 			Optional<User> userOptional = userService.authorization(login, password);
 			if (userOptional.isPresent()) {
 				User user = userOptional.get();
-				router = UserControl.userStatusControl(user, session);
+				UserControl.userStatusControl(user, session);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_LOGIN_MESSAGE);
-				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			}
+			router = new Router(PagePath.MAIN, RouteType.REDIRECT);
 		} catch (ServiceException e) {
 			logger.error("user search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

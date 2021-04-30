@@ -24,18 +24,19 @@ public class FindProductsByNameCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		String productName = request.getParameter(ParameterAndAttribute.PRODUCT_NAME);
-		CatalogService productService = ServiceFactory.getInstance().getCatalogService();
 		Router router;
+		HttpSession session = request.getSession(true);
+		CatalogService productService = ServiceFactory.getInstance().getCatalogService();
+		String productName = request.getParameter(ParameterAndAttribute.PRODUCT_NAME);
 		try {
 			List<Product> products = productService.takeProductsWithName(productName);
-			logger.debug(products.toString());
-			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
-			HttpSession session = request.getSession(true);
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_PRODUCTS_BY_NAME + productName);
-			if (products.isEmpty()) {
+			logger.debug(products.toString());		
+			if (!products.isEmpty()) {
+				request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
+			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_PRODUCTS_BY_NAME + productName);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("products search error", e);
