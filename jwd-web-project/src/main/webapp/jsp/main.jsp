@@ -7,6 +7,11 @@
 <html>
 	<head>
 		<meta charset="utf-8">
+		<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
 	<fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="local"/>
     <fmt:message key="local.locbutton.name.en" var="en_button"/>
@@ -142,7 +147,7 @@
 			<div class="categories">
 				<c:forEach var="category" items="${sessionScope.productCategories}">
 				<figure class="category">
-					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/img/${category.imageName}" alt="${category.categoryName}"></a></div>
+					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${category.imageName}" alt="${category.categoryName}"></a></div>
 					<div class="name"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}" title="${category.categoryName}">${category.categoryName}</a></div>
 				</figure>
 				</c:forEach>
@@ -152,7 +157,7 @@
 			<div class="products">
                 <c:forEach var="product" items="${requestScope.products}">
                     <figure class="product">
-                        <div class="image"><img src="${pageContext.request.contextPath}/img/${product.imageName}" alt="${product.productName}"></div>
+                        <div class="image"><img src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.imageName}" alt="${product.productName}"></div>
                         <div class="name"><p>${product.productName}</p></div>
                         <div class="price"><p>${product.price}$</p></div>
                         <c:if test="${product.amount > 0}">

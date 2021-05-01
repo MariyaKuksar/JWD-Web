@@ -1,6 +1,5 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +12,7 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
+import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.model.service.UserService;
@@ -28,17 +28,16 @@ public class SignUpCommand implements Command {
 		Router router;
 		HttpSession session = request.getSession(true);
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		Map<String, String> userInfo = RequestUtil.getRequestParameters(request);		
+		Map<String, String> userInfo = RequestUtil.getRequestParameters(request);
 		try {
-			List<String> errorMessageList = userService.registration(userInfo);
-			if (errorMessageList.isEmpty()) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
-						MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
-				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
-			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, errorMessageList);
-				router = new Router(PagePath.REGISTRATION, RouteType.REDIRECT);
-			}
+			userService.registration(userInfo);
+			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
+					MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+		} catch (InvalidDataException e) {
+			logger.error("invalid data " + userInfo.toString(), e);
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
+			router = new Router(PagePath.REGISTRATION, RouteType.REDIRECT);
 		} catch (ServiceException e) {
 			logger.error("user creation error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

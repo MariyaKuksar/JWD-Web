@@ -7,7 +7,7 @@ import java.util.Optional;
 import by.epam.store.model.entity.User;
 
 public interface UserService {
-	List<String> registration(Map <String,String> userInfo) throws ServiceException;
+	void registration(Map <String,String> userInfo) throws ServiceException, InvalidDataException;
 	
 	boolean activation(String userId) throws ServiceException;	
 	

@@ -22,6 +22,8 @@ public final class ParameterAndAttribute {
 	public static final String USER_STATUS = "userStatus";
 	public static final String ORDER_BASKET_ID = "orderBasketId";
 	public static final String ORDER = "order";
+	public static final String URL = "url"; 
+	
 	private ParameterAndAttribute() {
 	}	
 }

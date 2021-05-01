@@ -1,9 +1,14 @@
 package by.epam.store.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,30 +21,27 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.CommandProvider;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
-import by.epam.store.model.connection.ConnectionPool;
-import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.util.ParameterAndAttribute;
 
-@WebServlet(name = "controller", urlPatterns = { "/controller" })
-public class Controller extends HttpServlet {
+@WebServlet(name = "upload", urlPatterns = { "/upload" })
+@MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
+public class FileUploadingServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger();
-	
-	public Controller() {
+	private static final String FORMAT_FILE_NAME = "jpg";
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String url = request.getParameter(ParameterAndAttribute.URL);
+		File file = new File(url);
+		BufferedImage bufferedImage = ImageIO.read(file);
+		try (OutputStream outputStream = response.getOutputStream()) {
+			ImageIO.write(bufferedImage, FORMAT_FILE_NAME, outputStream);
+		}
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-		logger.debug("doGet");
-		processRequest(req, resp);
-	}
-
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		logger.debug("doPost");
-		processRequest(req, resp);
-	}
-
-	private void processRequest(HttpServletRequest request, HttpServletResponse response)
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String commandName = request.getParameter(ParameterAndAttribute.COMMAND);
 		logger.debug("command = " + commandName);
@@ -64,18 +66,6 @@ public class Controller extends HttpServlet {
 		} else {
 			logger.error("null command");
 			response.sendRedirect(PagePath.ERROR);
-		}
-	}
-
-	@Override
-	public void destroy() {
-		logger.debug("destroyPool");
-		super.destroy();
-		try {
-			ConnectionPool.getInstance().destroyPool();
-		} catch (ConnectionPoolException e) {
-			logger.error("error closing connection", e);
-			throw new RuntimeException("error closing connection", e);
 		}
 	}
 }

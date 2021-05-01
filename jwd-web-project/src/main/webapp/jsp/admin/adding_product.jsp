@@ -32,7 +32,7 @@
 	
 	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
 	
-	<form action="${pageContext.request.contextPath}/controller" enctype="multipart/form-data" method="post">
+	<form action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="command" value="add_product_to_catalog"/>
 	<br />
 	<select size="1" id="category" name="categoryId" required>

@@ -16,6 +16,7 @@ import by.epam.store.model.entity.Product;
 import by.epam.store.model.entity.ProductCategory;
 import by.epam.store.model.entity.builder.ProductBuilder;
 import by.epam.store.model.service.CatalogService;
+import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.ProductInfoValidator;
@@ -66,10 +67,10 @@ public class CatalogServiceImpl implements CatalogService {
 	}
 
 	@Override
-	public List<String> addProduct(Map<String, String> productInfo) throws ServiceException {
-		List<String> errorMessageList = ProductInfoValidator.getErrorMessageList(productInfo);
+	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
+		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
 		if (!errorMessageList.isEmpty()) {
-			return errorMessageList;
+			throw new InvalidDataException("invalid data", errorMessageList);
 		}
 		Product product = ProductBuilder.getInstance().build(productInfo);
 		try {
@@ -77,6 +78,5 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (DaoException e) {
 			throw new ServiceException("product creation error", e);
 		}
-		return errorMessageList;
 	}
 }

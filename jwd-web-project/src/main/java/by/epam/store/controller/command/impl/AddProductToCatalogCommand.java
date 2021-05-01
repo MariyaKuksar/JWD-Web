@@ -1,7 +1,6 @@
 package by.epam.store.controller.command.impl;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -17,6 +16,7 @@ import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.model.entity.UserRole;
 import by.epam.store.model.service.CatalogService;
+import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
@@ -30,28 +30,24 @@ public class AddProductToCatalogCommand implements Command {
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
-		if (!UserControl.isLoggedInUser(request) || !UserControl.isValidForRole(request, UserRole.CLIENT)) {
+		if (!UserControl.isLoggedInUser(request) || !UserControl.isValidForRole(request, UserRole.ADMIN)) {
 			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			return router;
 		}
 		HttpSession session = request.getSession(true);
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		try {
-			Map<String, String> productInfo = RequestUtil.getParametersFromMultipartRequest(request);	
-			List<String> errorMessageList = catalogService.addProduct(productInfo);
-			if (errorMessageList.isEmpty()) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
-						MessageKey.INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE);
-				String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
-				router = new Router(PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId, RouteType.REDIRECT);
-			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, errorMessageList);
-				router = new Router(PagePath.ADDED_PRODUCT, RouteType.REDIRECT);
-			}
-		} catch (IOException | ServletException e) {
-			logger.error("file save error");
-			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
-		} catch (ServiceException e) {
+			Map<String, String> productInfo = RequestUtil.getParametersFromMultipartRequest(request);
+			catalogService.addProduct(productInfo);
+			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE);
+			String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
+			router = new Router(PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId, RouteType.REDIRECT);
+
+		} catch (InvalidDataException e) {
+			logger.error("invalid data");
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
+			router = new Router(PagePath.ADDED_PRODUCT, RouteType.REDIRECT);
+		} catch (IOException | ServletException | ServiceException e) {
 			logger.error("error adding a product to the catalog");
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}

@@ -18,6 +18,7 @@ import by.epam.store.model.dao.impl.UserDaoImpl;
 import by.epam.store.model.entity.User;
 import by.epam.store.model.entity.UserStatus;
 import by.epam.store.model.entity.builder.UserBuilder;
+import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.UserService;
 import by.epam.store.util.MailSender;
@@ -37,14 +38,14 @@ public class UserServiceImpl implements UserService {
 	private static final int NUMBER_PASSWORD_CHARACTERS = 8;
 
 	@Override
-	public List<String> registration(Map<String, String> userInfo) throws ServiceException {
-		List<String> errorMessageList = UserDataValidator.getErrorMessageList(userInfo);
+	public void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
+		List<String> errorMessageList = UserDataValidator.findInvalidData(userInfo);
 		String login = userInfo.get(ParameterAndAttribute.LOGIN);
 		if (UserDataValidator.isValidLogin(login) && !checkIfLoginFree(login)) {
 			errorMessageList.add(MessageKey.ERROR_LOGIN_IS_BUSY_MESSAGE);
 		}
 		if (!errorMessageList.isEmpty()) {
-			return errorMessageList;
+			throw new InvalidDataException("invalid data", errorMessageList);
 		}
 		try {
 			String encryptedPassword = PasswordEncryption.encrypt(userInfo.get(ParameterAndAttribute.PASSWORD));
@@ -56,7 +57,6 @@ public class UserServiceImpl implements UserService {
 		} catch (MessagingException | DaoException e) {
 			throw new ServiceException("user creation error", e);
 		}
-		return errorMessageList;
 	}
 
 	@Override

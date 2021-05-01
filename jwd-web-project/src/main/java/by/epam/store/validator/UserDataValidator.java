@@ -10,13 +10,13 @@ import by.epam.store.util.ParameterAndAttribute;
 public final class UserDataValidator {
 	private static final String LOGIN_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private static final String PASSWORD_PATTERN = "^[a-zA-Z0-9]{5,15}$";
-	private static final String NAME_PATTERN = "^[a-zA-Zа-яА-Я]+$";
+	private static final String NAME_PATTERN = "^[a-zA-Zа-яА-Я]{1,20}$";
 	private static final String PHONE_PATTERN = "^\\+375[0-9]{9}$";
 
 	private UserDataValidator() {
 	}
 
-	public static List<String> getErrorMessageList(Map<String, String> userInfo) {
+	public static List<String> findInvalidData(Map<String, String> userInfo) {
 		List<String> errorMessageList = new ArrayList<>();
 		if (!isValidName(userInfo.get(ParameterAndAttribute.USER_NAME))) {
 			errorMessageList.add(MessageKey.ERROR_NAME_MESSAGE);
@@ -24,7 +24,6 @@ public final class UserDataValidator {
 		if (!isValidPhone(userInfo.get(ParameterAndAttribute.PHONE))) {
 			errorMessageList.add(MessageKey.ERROR_PHONE_MESSAGE);
 		}
-
 		if (!isValidLogin(userInfo.get(ParameterAndAttribute.LOGIN))) {
 			errorMessageList.add(MessageKey.ERROR_EMAIL_MESSAGE);
 		}
