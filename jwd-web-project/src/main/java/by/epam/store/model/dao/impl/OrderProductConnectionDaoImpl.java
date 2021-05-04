@@ -13,12 +13,11 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
+import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderProductConnectionDao;
 import by.epam.store.model.entity.OrderProductConnection;
 import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.builder.ProductBuilder;
-import by.epam.store.util.ColumnName;
 
 public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao {
 	private static final Logger logger = LogManager.getLogger();
@@ -87,7 +86,7 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 			statement.setLong(1, orderId);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				Product product = ProductBuilder.getInstance().build(resultSet);
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
 				Integer amountProduct = resultSet.getInt(ColumnName.ORDER_PRODUCT_CONNECTION_AMOUNT_OF_PRODUCT);
 				products.put(product, amountProduct);
 			}

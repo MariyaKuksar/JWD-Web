@@ -24,9 +24,6 @@ import by.epam.store.util.ParameterAndAttribute;
 public class Controller extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger();
 	
-	public Controller() {
-	}
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		logger.debug("doGet");
@@ -43,7 +40,6 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 		String commandName = request.getParameter(ParameterAndAttribute.COMMAND);
 		logger.debug("command = " + commandName);
-		if (commandName != null) {
 			Command command = CommandProvider.defineCommand(commandName);
 			Router router = command.execute(request);
 			switch (router.getRouteType()) {
@@ -61,10 +57,6 @@ public class Controller extends HttpServlet {
 				response.sendRedirect(PagePath.ERROR);
 				break;
 			}
-		} else {
-			logger.error("null command");
-			response.sendRedirect(PagePath.ERROR);
-		}
 	}
 
 	@Override
@@ -74,7 +66,7 @@ public class Controller extends HttpServlet {
 		try {
 			ConnectionPool.getInstance().destroyPool();
 		} catch (ConnectionPoolException e) {
-			logger.error("error closing connection", e);
+			logger.fatal("error closing connection", e);
 			throw new RuntimeException("error closing connection", e);
 		}
 	}

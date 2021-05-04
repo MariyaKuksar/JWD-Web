@@ -12,7 +12,6 @@ import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 import by.epam.store.model.entity.ProductCategory;
-import by.epam.store.model.entity.builder.ProductCategoryBuilder;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao {
 	// private static final Logger logger = LogManager.getLogger();
@@ -25,7 +24,7 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao {
 				Statement statement = connection.createStatement()) {
 			ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_PRODUCT_CATEGORIES);
 			while (resultSet.next()) {
-				ProductCategory productCategory = ProductCategoryBuilder.getInstance().build(resultSet);
+				ProductCategory productCategory = DaoEntityBuilder.buildProductCategory(resultSet);
 				productCategories.add(productCategory);
 			}
 		} catch (ConnectionPoolException | SQLException e) {

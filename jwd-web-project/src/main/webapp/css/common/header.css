@@ -1,0 +1,121 @@
+*{
+	padding:0;
+	margin:0;
+}
+@font-face {
+	font-family: "TTNormsRegular"; 
+	src: url("../../fonts/TTNorms/TTNorms-Regular.ttf");
+	src: url("../../fonts/TTNorms/TTNorms-Regular.eot?#iefix") format("embedded-opentype"),
+	url("../../fonts/TTNorms/TTNorms-Regular.woff") format("woff"),
+	url("../../fonts/TTNorms/TTNorms-Regular.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: "TTNormsThin";
+	src: url("../../fonts/TTNorms/TTNorms-Thin.ttf");
+	src: url("../../fonts/TTNorms/TTNorms-Thin.eot?#iefix") format("embedded-opentype"),
+	url("../../fonts/TTNorms/TTNorms-Thin.woff") format("woff"),
+	url("../../fonts/TTNorms/TTNorms-Thin.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+@font-face {
+	font-family: "TTNormsExtraBold";
+	src: url("../../fonts/TTNorms/TTNorms-ExtraBold.ttf");
+	src: url("../../fonts/TTNorms/TTNorms-ExtraBold.eot?#iefix") format("embedded-opentype"),
+	url("../../fonts/TTNorms/TTNorms-ExtraBold.woff") format("woff"),
+	url("../../fonts/TTNorms/TTNorms-ExtraBold.ttf") format("truetype");
+	font-style: normal;
+	font-weight: normal;
+}
+.clearfix {
+	clear:both;
+}
+html {
+	background-color: #fff;
+	font-family: "TTNormsRegular";
+}
+header{
+	width: 100%;
+	float: left;
+}
+header>div > div > a {
+	position: absolute;
+}
+.header_top{
+	width:100%;
+	height: 70px;
+	background-color: #df5558;
+	margin-bottom: 50px;
+}
+.header_top > div{
+	width: 90%;
+	margin: 0 auto;
+}
+.header_top form {
+	display:inline-block;
+	margin:20px 10px 20px
+}
+.slogan{
+	font: normal 18px TTNormsExtraBold;
+	color: #fff;
+	margin-top:20px;
+}
+
+/*MENU*/
+.menu {
+	background-color: #df5558;
+	display: inline-block;
+}
+.menu1 {
+	padding-top: 22px;
+	margin: 6px 3px 5px;
+	font: bold 15px TTNormsRegular;
+}
+ul.menu1 > li{
+	float: right;
+	list-style-type: none;
+	text-align: center;
+	border-left: 1px solid #fff;
+}
+ul.menu1 > li:first-child{
+	border-right: 1px solid #fff;
+}
+.menu2 {
+	position:absolute;
+	margin-left: 1px;
+	margin-top: 26px;
+	display: none;
+}
+ul.menu1 > li > a {
+	padding: 26px 25px 26px 26px;
+	text-decoration: none;
+	color: #ffffff;
+}
+.menu1 > li> a:hover {
+	color: #008080;
+	background-color: #fff;
+}
+ul.menu1 > li:hover > ul{
+	display: block;
+}
+ul.menu2 > li {
+	width: 140px;
+	background-color: #df5558;
+	padding: 10px 8px 10px;
+	list-style-type: none;
+	text-align: left;
+}
+ul.menu2 > li> a {
+	text-decoration: none;
+	color: #ffffff;
+	padding: 8px 0 7px 3px;
+	width: 150px;
+}
+ul.menu2>li:hover{
+	background-color: #ffffff;
+}
+ul.menu2>li:hover>a{
+	color: #008080;
+}

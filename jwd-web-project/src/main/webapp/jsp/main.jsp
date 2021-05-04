@@ -9,17 +9,7 @@
 		<meta charset="utf-8">
 	<fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="local"/>
-    <fmt:message key="local.locbutton.name.en" var="en_button"/>
-    <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
     <fmt:message key="local.title.main" var="title"/>
-    <fmt:message key="local.slogan" var="slogan"/>
-    <fmt:message key="local.look_for" var="look_for"/>
-    <fmt:message key="local.search" var="search"/>
-    <fmt:message key="local.basket" var="basket"/>
-    <fmt:message key="local.catalog" var="catalog"/>
-    <fmt:message key="local.profile" var="profile"/>
-    <fmt:message key="local.personal_data" var="personal_data"/>
-    <fmt:message key="local.orders" var="orders"/>
     <fmt:message key="local.sign_out" var="sign_out"/>
     <fmt:message key="local.sign_in" var="sign_in"/>
     <fmt:message key="local.sign_up" var="sign_up"/>
@@ -31,62 +21,12 @@
     <fmt:message key="local.add_to_basket" var="add_to_basket"/>
     <fmt:message key="local.welcome" var="welcome" />
     <fmt:message key="local.add_product_to_catalog" var="add_product_to_catalog" />
-    <fmt:message key="local.lang" var="lang" />
     <fmt:message key="local.forgot_password" var="forgot_password"/>
     <title>${title}</title>
 		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main/style.css">
 	</head>
 	<body>
-	<header>
-		<div class="header_top">
-			<div >
-				<span class="slogan">
-				${slogan}
-				</span>
-				<form action="${pageContext.request.contextPath}/controller" method="get">
-				    <input type="hidden" name="command" value="find_products_by_name" />
-					<input type="text" required placeholder ="${look_for}" name="productName"/>
-					<input type="submit" value="${search}"/>
-				</form>
-				<nav class="menu">
-						<ul class="menu1" >
-							<li><a href="${pageContext.request.contextPath}/controller?command=go_to_basket_page">${basket}</a></li>
-							<li><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a>
-								<ul class="menu2">
-								<c:forEach var="category" items="${sessionScope.productCategories}">
-									<li><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}">${category.categoryName}</a></li>
-								</c:forEach>
-								</ul>
-							</li>
-							<c:if test="${sessionScope.role == 'CLIENT'}">
-							<li><a href="#nogo">${profile}</a>
-								<ul class="menu2">
-									<li><a href="#nogo">${personal_data}</a></li>
-									<li><a href="#nogo">${orders}</a></li>
-								</ul>
-							</li>
-							</c:if>
-							<li><a href="#nogo">${lang}</a>
-								<ul class="menu2">
-									<li>
-									    <form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-                                            <input type="hidden" name="command" value="en" />
-                                            <input type="submit" value="${en_button}" />
-                                        </form>
-									</li>
-									<li>
-									    <form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-                                            <input type="hidden" name="command" value="ru" />
-                                            <input type="submit" value="${ru_button}" />
-                                        </form>
-									</li>
-								</ul>
-							</li>
-						</ul>
-				</nav>
-			</div>
-		</div>
-	</header>
+	<%@ include file="/WEB-INF/fragment/header.jsp" %>
 
 	<br />
 	<p></p>
@@ -115,7 +55,7 @@
 		<div class="left">
 		    <c:if test="${sessionScope.login == null}">
 			<div class="login">
-				<div class="login_text">${sign_in}<a href="${pageContext.request.contextPath}/jsp/registration.jsp">${sign_up}</a></div>
+				<div class="login_text">${sign_in} - <a href="${pageContext.request.contextPath}/jsp/registration.jsp">${sign_up}</a></div>
 				<div class="login_input">
 				<form action="${pageContext.request.contextPath}/controller" method="post">
 				<input type="hidden" name="command" value="sign_in"/>
@@ -171,7 +111,6 @@
 			</div>
 			</c:if>
 		</div>
-	
 		<hr/>
 	</div>
 

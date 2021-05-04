@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8" %>
-
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="customtag" prefix="mytag"%>
 
 <html>
 <head>
@@ -10,12 +10,9 @@
     <fmt:setLocale value="${sessionScope.locale}"/>
     <fmt:setBundle basename="local"/>
     <fmt:message key="local.title.registration" var="title"/>
-    <fmt:message key="local.locbutton.name.en" var="en_button"/>
-    <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
     <fmt:message key="local.email" var="email"/>
     <fmt:message key="local.password" var="password"/>
     <fmt:message key="local.sign_up" var="sign_up"/>
-    <fmt:message key="local.back" var="back"/>
     <fmt:message key="local.name" var="name"/>
     <fmt:message key="local.phone" var="phone"/>
     <title>${title}</title>
@@ -24,37 +21,15 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
 </head>
 <body>
+<%@ include file="/WEB-INF/fragment/header.jsp" %>
 <div>
 	<div id="registration-form">
 	  <header>
-		<ul class="clearfix">
-		<c:if test="${sessionScope.locale == 'en'}">
-        <li class="active">
-        </c:if>
-        <c:if test="${sessionScope.locale != 'en'}">
-        <li>
-        </c:if>
-			<form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-			  <input type="hidden" name="command" value="en"/>
-			  <input type="submit" value="${en_button}"/>
-			</form>
-		  </li>
-		<c:if test="${sessionScope.locale == 'ru'}">
-        <li class="active">
-        </c:if>
-        <c:if test="${sessionScope.locale != 'ru'}">
-        <li>
-        </c:if>
-			<form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-			  <input type="hidden" name="command" value="ru"/>
-			  <input type="submit" value="${ru_button}"/>
-			</form>
-		  </li>
-		</ul>
 		<h1>${title}</h1>
-		<a href="${pageContext.request.contextPath}/jsp/main.jsp">${back}</a>
 	  </header>
+	  
 <c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
+
 	  <fieldset>
 		<form action="${pageContext.request.contextPath}/controller" method="post">
 		  <input type="hidden" name="command" value="sign_up"/>
@@ -84,6 +59,6 @@
 		<c:remove var="infoMessage"/>
 	</c:if>
 </div>
-
+<mytag:copyright/>
 </body>
 </html>

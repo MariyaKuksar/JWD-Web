@@ -42,6 +42,7 @@ public class AddProductToBasketCommand implements Command {
 						MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
 				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketIdOptional.get());
 				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+				logger.debug(page);
 				router = new Router(page, RouteType.REDIRECT);
 			} else {
 				logger.info("incorrect data");

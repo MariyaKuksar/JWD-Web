@@ -18,7 +18,6 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.UserDao;
 import by.epam.store.model.entity.User;
 import by.epam.store.model.entity.UserStatus;
-import by.epam.store.model.entity.builder.UserBuilder;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
@@ -40,7 +39,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(1, login);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
-				User user = UserBuilder.getInstance().build(resultSet);
+				User user = DaoEntityBuilder.buildUser(resultSet);
 				userOptional = Optional.of(user);
 			} else {
 				userOptional = Optional.empty();
@@ -60,7 +59,7 @@ public class UserDaoImpl implements UserDao {
 			statement.setString(1, userName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				User user = UserBuilder.getInstance().build(resultSet);
+				User user = DaoEntityBuilder.buildUser(resultSet);
 				users.add(user);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -76,7 +75,7 @@ public class UserDaoImpl implements UserDao {
 				Statement statement = connection.createStatement()) {
 			ResultSet resultSet = statement.executeQuery(SQL_SELECT_ALL_USERS);
 			while (resultSet.next()) {
-				User user = UserBuilder.getInstance().build(resultSet);
+				User user = DaoEntityBuilder.buildUser(resultSet);
 				users.add(user);
 			}
 		} catch (ConnectionPoolException | SQLException e) {

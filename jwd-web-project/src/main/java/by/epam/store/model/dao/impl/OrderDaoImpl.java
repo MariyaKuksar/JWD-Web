@@ -13,10 +13,10 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
+import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderDao;
 import by.epam.store.model.entity.Order;
-import by.epam.store.util.ColumnName;
 
 public class OrderDaoImpl implements OrderDao {
 	private static final Logger logger = LogManager.getLogger();

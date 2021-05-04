@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+    <%@ taglib uri="customtag" prefix="mytag"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,8 +10,6 @@
   <fmt:setLocale value="${sessionScope.locale}"/>
   <fmt:setBundle basename="local"/>
   <fmt:message key="local.title.basket" var="title"/>
-  <fmt:message key="local.locbutton.name.en" var="en_button"/>
-  <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
   <fmt:message key="local.save" var="save"/>
   <fmt:message key="local.delete" var="delete"/>
   <fmt:message key="local.checkout" var="checkout"/>
@@ -18,16 +17,7 @@
   <title>${title}</title>
 </head>
 <body>
-    <header>
-        <form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-			<input type="hidden" name="command" value="en" /> 
-			<input type="submit" value="${en_button}" />
-		</form>
-		<form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-			<input type="hidden" name="command" value="ru" /> 
-			<input type="submit" value="${ru_button}" />
-		</form>
-	</header>
+<%@ include file="/WEB-INF/fragment/header.jsp" %>
 	<p></p>
     <c:if test="${errorMessageList != null}">
 		<c:forEach var="errorMessageKey" items="${errorMessageList}">
@@ -75,5 +65,7 @@
         <input type="submit" value="${checkout}"/>
             </form>   
       </c:if>  
+      
+	<mytag:copyright/>
 </body>
 </html>

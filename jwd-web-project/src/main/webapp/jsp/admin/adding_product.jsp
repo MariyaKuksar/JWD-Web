@@ -1,33 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+    <%@ taglib uri="customtag" prefix="mytag"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-    <fmt:setLocale value="${sessionScope.locale}"/>
+  <fmt:setLocale value="${sessionScope.locale}"/>
   <fmt:setBundle basename="local"/>
   <fmt:message key="local.title.adding_product" var="title"/>
-  <fmt:message key="local.locbutton.name.en" var="en_button"/>
-  <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
   <fmt:message key="local.product_name" var="product_name"/>
   <fmt:message key="local.price" var="price"/>
   <fmt:message key="local.add_to_catalog" var="add_to_catalog"/>
-  <title>${title}</title>
-
+  <title>${title}</title> 
 </head>
 <body>
-<header>
-		<form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-			<input type="hidden" name="command" value="en" /> 
-			<input type="submit" value="${en_button}" />
-		</form>
-		<form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
-			<input type="hidden" name="command" value="ru" /> 
-			<input type="submit" value="${ru_button}" />
-		</form>
-	</header>
+<%@ include file="/WEB-INF/fragment/header.jsp" %>
 	<p></p>
 	
 	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
@@ -67,5 +56,6 @@
 		</div>
 		<c:remove var="infoMessage"/>
 	</c:if>
+	<mytag:copyright/>
 </body>
 </html>

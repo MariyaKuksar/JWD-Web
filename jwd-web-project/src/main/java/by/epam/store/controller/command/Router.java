@@ -1,6 +1,11 @@
 package by.epam.store.controller.command;
 
 public final class Router {
+	
+	public enum RouteType {
+		FORWARD, REDIRECT
+	}
+	
 	private final String pagePath;
 	private final RouteType routeType;
 
@@ -15,9 +20,5 @@ public final class Router {
 
 	public RouteType getRouteType() {
 		return routeType;
-	}
-
-	public enum RouteType {
-		FORWARD, REDIRECT
-	}
+	}	
 }

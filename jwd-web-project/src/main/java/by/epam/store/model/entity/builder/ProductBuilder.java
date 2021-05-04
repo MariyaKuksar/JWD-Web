@@ -1,13 +1,10 @@
 package by.epam.store.model.entity.builder;
 
 import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Map;
 
 import by.epam.store.model.entity.Product;
 import by.epam.store.model.entity.ProductCategory;
-import by.epam.store.util.ColumnName;
 import by.epam.store.util.ParameterAndAttribute;
 
 public class ProductBuilder implements EntityBuilder<Product> {
@@ -29,21 +26,6 @@ public class ProductBuilder implements EntityBuilder<Product> {
 		product.setProductName(productInfo.get(ParameterAndAttribute.PRODUCT_NAME));
 		product.setImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME));
 		product.setPrice(new BigDecimal(productInfo.get(ParameterAndAttribute.PRICE)));
-		return product;
-	}
-
-	@Override
-	public Product build(ResultSet resultSet) throws SQLException {
-			Product product = new Product();
-			product.setProductId(resultSet.getLong(ColumnName.PRODUCTS_ID));
-			Long categoryId = resultSet.getLong(ColumnName.PRODUCTS_CATEGORY_ID);
-			String categoryName = resultSet.getString(ColumnName.PRODUCT_CATEGORIES_CATEGORY);
-			ProductCategory category = new ProductCategory(categoryId, categoryName);
-			product.setCategory(category);
-			product.setProductName(resultSet.getString(ColumnName.PRODUCTS_NAME));
-			product.setImageName(resultSet.getString(ColumnName.PRODUCTS_IMAGE_NAME));
-			product.setPrice(resultSet.getBigDecimal(ColumnName.PRODUCTS_PRICE));
-			product.setAmount(resultSet.getInt(ColumnName.PRODUCTS_AMOUNT));	
 		return product;
 	}
 }

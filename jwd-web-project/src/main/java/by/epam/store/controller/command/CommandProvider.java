@@ -53,11 +53,15 @@ public final class CommandProvider {
 	}
 
 	public static Command defineCommand(String commandName) {
+		if (commandName==null) {
+			logger.error("null command");
+			return commands.get(CommandType.DEFAULT);
+		}
 		CommandType commandType;
 		try {
 			commandType = CommandType.valueOf(commandName.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			logger.error("no such command name");
+			logger.error("no such command name " + commandName);
 			commandType = CommandType.DEFAULT;
 		}
 		return commands.get(commandType);

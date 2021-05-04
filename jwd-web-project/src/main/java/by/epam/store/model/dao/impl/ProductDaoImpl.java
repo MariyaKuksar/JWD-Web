@@ -12,7 +12,6 @@ import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductDao;
 import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.builder.ProductBuilder;
 
 public class ProductDaoImpl implements ProductDao {
 	// private static final Logger logger = LogManager.getLogger();
@@ -55,7 +54,7 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setLong(1, id);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-				Product product = ProductBuilder.getInstance().build(resultSet);
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
 				products.add(product);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -72,7 +71,7 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setString(1, ZERO_OR_MORE_CHARACTERS + productName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-			Product	product = ProductBuilder.getInstance().build(resultSet);
+			Product	product = DaoEntityBuilder.buildProduct(resultSet);
 				products.add(product);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
