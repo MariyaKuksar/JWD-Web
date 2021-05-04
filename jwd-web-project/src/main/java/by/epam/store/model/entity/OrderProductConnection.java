@@ -17,6 +17,11 @@ public class OrderProductConnection implements Serializable {
 		this.amountProducts = amountProducts;
 	}
 
+	public OrderProductConnection(Long orderId, Long productId) {
+		this.orderId = orderId;
+		this.productId = productId;
+	}
+
 	public Long getOrderId() {
 		return orderId;
 	}

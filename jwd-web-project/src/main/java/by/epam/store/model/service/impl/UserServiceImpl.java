@@ -26,7 +26,7 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PasswordEncryption;
 import by.epam.store.validator.IdValidator;
-import by.epam.store.validator.UserDataValidator;
+import by.epam.store.validator.UserInfoValidator;
 
 public class UserServiceImpl implements UserService {
 	private static final Logger logger = LogManager.getLogger();
@@ -39,9 +39,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
-		List<String> errorMessageList = UserDataValidator.findInvalidData(userInfo);
+		List<String> errorMessageList = UserInfoValidator.findInvalidData(userInfo);
 		String login = userInfo.get(ParameterAndAttribute.LOGIN);
-		if (UserDataValidator.isValidLogin(login) && !checkIfLoginFree(login)) {
+		if (UserInfoValidator.isValidLogin(login) && !checkIfLoginFree(login)) {
 			errorMessageList.add(MessageKey.ERROR_LOGIN_IS_BUSY_MESSAGE);
 		}
 		if (!errorMessageList.isEmpty()) {
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
-		if (!UserDataValidator.isValidLogin(login) || !UserDataValidator.isValidPassword(password)) {
+		if (!UserInfoValidator.isValidLogin(login) || !UserInfoValidator.isValidPassword(password)) {
 			logger.debug("is not Valid Login or Password");
 			return Optional.empty();
 		}
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean changeForgottenPassword(String login) throws ServiceException {
-		if (!UserDataValidator.isValidLogin(login)) {
+		if (!UserInfoValidator.isValidLogin(login)) {
 			logger.debug("incorrect login");
 			return false;
 		}
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 	// нужно доработать, если буду использовать
 	@Override
 	public List<User> takeUsersByName(String userName) throws ServiceException {
-		if (!UserDataValidator.isValidName(userName)) {
+		if (!UserInfoValidator.isValidName(userName)) {
 			return Collections.emptyList();
 		}
 		List<User> users;

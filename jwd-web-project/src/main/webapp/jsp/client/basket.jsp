@@ -11,6 +11,10 @@
   <fmt:message key="local.title.basket" var="title"/>
   <fmt:message key="local.locbutton.name.en" var="en_button"/>
   <fmt:message key="local.locbutton.name.ru" var="ru_button"/>
+  <fmt:message key="local.save" var="save"/>
+  <fmt:message key="local.delete" var="delete"/>
+  <fmt:message key="local.checkout" var="checkout"/>
+  <fmt:message key="local.in_total" var="in_total"/>
   <title>${title}</title>
 </head>
 <body>
@@ -43,15 +47,33 @@
 		<c:remove var="infoMessage"/>
 	</c:if>
 	
+	 <c:if test = "${not empty requestScope.order.products}">  
 		<c:forEach var="product" items="${requestScope.order.products}">
-		<img id="product_img" src="${pageContext.request.contextPath}/img/${product.key.imageName}" />
+		<img id="product_img" src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.key.imageName}" />
 			<tr>
 				<td><c:out value="${product.key.productName}" /></td>
 				<td><c:out value="${product.key.price}$" /></td>
-				<td><c:out value="${product.value}" /></td>
 			</tr>
-		</form>
-	</c:forEach>
-	
+			<form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="command" value="change_amount_of_product_in_basket"/>
+        <input type="hidden" name="productId" value="${product.key.productId}"/>
+        <input type="text" name="amountProduct" required placeholder="${product.value}" />
+        <input type="submit" value="${save}"/>
+            </form>
+            <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="command" value="remove_product_from_basket"/>
+        <input type="hidden" name="productId" value="${product.key.productId}"/>
+        <input type="submit" value="${delete}"/>
+            </form>
+        </c:forEach>
+      
+     <p>${in_total}: ${requestScope.order.cost}$</p>
+     
+      <form action="${pageContext.request.contextPath}/controller" method="post">
+        <input type="hidden" name="command" value="checkout"/>
+        <input type="hidden" name="price" value="${requestScope.order.cost}"/>
+        <input type="submit" value="${checkout}"/>
+            </form>   
+      </c:if>  
 </body>
 </html>

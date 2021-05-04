@@ -25,7 +25,7 @@ public final class ColumnName {
 	public static final String ORDERS_DATA_TIME = "data_time";
 	public static final String ORDERS_STATUS = "orders_status";
 	public static final String ORDERS_PAYMENT_METHOD = "payment_method";
-	public static final String ORDERS_PRICE = "price";
+	public static final String ORDERS_COST = "cost";
 	
 	public static final String ORDER_PRODUCT_CONNECTION_AMOUNT_OF_PRODUCT = "amount_of_product";
 	

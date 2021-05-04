@@ -37,7 +37,7 @@ public class FindProductsByNameCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_PRODUCTS_BY_NAME + productName);
-			router = new Router(PagePath.MAIN, RouteType.FORWARD);
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("products search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

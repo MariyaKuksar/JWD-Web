@@ -1,5 +1,6 @@
 package by.epam.store.model.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,7 +17,9 @@ import by.epam.store.model.entity.OrderProductConnection;
 import by.epam.store.model.entity.Product;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.util.PriceCalculator;
 import by.epam.store.validator.IdValidator;
+import by.epam.store.validator.ProductInfoValidator;
 
 public class OrderServiceImpl implements OrderService {
 	private static final Logger logger = LogManager.getLogger();
@@ -36,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 			OrderProductConnection orderProductConnection = new OrderProductConnection(orderBasketId,
 					Long.parseLong(productId), AMOUNT_OF_PRODUCT);
-			if (!orderProductConnectionDao.update(orderProductConnection)) {
+			if (!orderProductConnectionDao.increaseAmountOfProduct(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
 		} catch (DaoException e) {
@@ -58,12 +61,47 @@ public class OrderServiceImpl implements OrderService {
 			order = new Order(orderBasketId, userId);
 			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
 			order.setProducts(products);
+			BigDecimal orderCost = PriceCalculator.calculateTotalCost(products);
+			order.setCost(orderCost);
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}
 		return Optional.of(order);
 	}
 
+	@Override
+	public boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct)
+			throws ServiceException {
+		if (orderId == null || !IdValidator.isValidId(productId)
+				|| !ProductInfoValidator.isValidAmount(amountProduct)) {
+			return false;
+		}
+		boolean amountOfProductChanged;
+		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId),
+				Integer.parseInt(amountProduct));
+		try {
+			amountOfProductChanged = orderProductConnectionDao.update(orderProductConnection);
+		} catch (DaoException e) {
+			throw new ServiceException("error changing amount of product in order", e);
+		}
+		return amountOfProductChanged;
+	}
+
+	@Override
+	public boolean removeProductFromOrder(Long orderId, String productId) throws ServiceException {
+		if (orderId==null || !IdValidator.isValidId(productId)) {
+			return false;
+		}
+		boolean productRemoved;
+		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId));
+		try {
+			productRemoved = orderProductConnectionDao.delete(orderProductConnection);
+		} catch (DaoException e) {
+			throw new ServiceException("error removing a product from the order", e);
+		}
+		return productRemoved;
+	}
+	
 	private Long takeOrderBasketId(Long userId) throws DaoException {
 		Long orderBasketId;
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);

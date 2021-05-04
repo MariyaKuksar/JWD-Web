@@ -3,7 +3,6 @@ package by.epam.store.model.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Map;
 
 public class Order implements Serializable {
@@ -14,7 +13,7 @@ public class Order implements Serializable {
 	private LocalDateTime dataTime;
 	private OrderStatus orderStatus;
 	private PaymentMethod paymentMethod;
-	private BigDecimal price;
+	private BigDecimal cost;
 
 	public Order() {
 	}
@@ -45,7 +44,7 @@ public class Order implements Serializable {
 	}
 
 	public Map<Product, Integer> getProducts() {
-		return Collections.unmodifiableMap(products);
+		return products;
 	}
 
 	public void setProducts(Map<Product, Integer> products) {
@@ -76,23 +75,23 @@ public class Order implements Serializable {
 		this.paymentMethod = paymentMethod;
 	}
 
-	public BigDecimal getPrice() {
-		return price;
+	public BigDecimal getCost() {
+		return cost;
 	}
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setCost(BigDecimal cost) {
+		this.cost = cost;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((cost == null) ? 0 : cost.hashCode());
 		result = prime * result + ((dataTime == null) ? 0 : dataTime.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
 		result = prime * result + ((paymentMethod == null) ? 0 : paymentMethod.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((products == null) ? 0 : products.hashCode());
 		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
 		return result;
@@ -107,6 +106,11 @@ public class Order implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
+		if (cost == null) {
+			if (other.cost != null)
+				return false;
+		} else if (!cost.equals(other.cost))
+			return false;
 		if (dataTime == null) {
 			if (other.dataTime != null)
 				return false;
@@ -120,11 +124,6 @@ public class Order implements Serializable {
 		if (orderStatus != other.orderStatus)
 			return false;
 		if (paymentMethod != other.paymentMethod)
-			return false;
-		if (price == null) {
-			if (other.price != null)
-				return false;
-		} else if (!price.equals(other.price))
 			return false;
 		if (products == null) {
 			if (other.products != null)
@@ -154,8 +153,8 @@ public class Order implements Serializable {
 		builder.append(orderStatus);
 		builder.append(", paymentMethod=");
 		builder.append(paymentMethod);
-		builder.append(", price=");
-		builder.append(price);
+		builder.append(", cost=");
+		builder.append(cost);
 		builder.append("]");
 		return builder.toString();
 	}

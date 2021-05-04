@@ -8,9 +8,11 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
+import by.epam.store.controller.command.impl.ChangeAmountOfProductInBasketCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
+import by.epam.store.controller.command.impl.RemoveProductFromBasketCommand;
 import by.epam.store.controller.command.impl.FindUsersByNameCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
 import by.epam.store.controller.command.impl.GoToBasketPageCommand;
@@ -43,6 +45,8 @@ public final class CommandProvider {
 		commands.put(CommandType.ADD_PRODUCT_TO_BASKET, new AddProductToBasketCommand());
 		commands.put(CommandType.ADD_PRODUCT_TO_CATALOG, new AddProductToCatalogCommand());
 		commands.put(CommandType.GO_TO_BASKET_PAGE, new GoToBasketPageCommand());
+		commands.put(CommandType.CHANGE_AMOUNT_OF_PRODUCT_IN_BASKET, new ChangeAmountOfProductInBasketCommand());
+		commands.put(CommandType.REMOVE_PRODUCT_FROM_BASKET, new RemoveProductFromBasketCommand());
 	}
 
 	private CommandProvider() {

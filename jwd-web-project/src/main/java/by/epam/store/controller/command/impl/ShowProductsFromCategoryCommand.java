@@ -32,7 +32,7 @@ public class ShowProductsFromCategoryCommand implements Command {
 			logger.debug(products.toString());
 			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId);
-			router = new Router(PagePath.MAIN, RouteType.FORWARD);
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("products from category search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

@@ -23,6 +23,7 @@ public final class ParameterAndAttribute {
 	public static final String ORDER_BASKET_ID = "orderBasketId";
 	public static final String ORDER = "order";
 	public static final String URL = "url"; 
+	public static final String AMOUNT_PRODUCT = "amountProduct"; 
 	
 	private ParameterAndAttribute() {
 	}	

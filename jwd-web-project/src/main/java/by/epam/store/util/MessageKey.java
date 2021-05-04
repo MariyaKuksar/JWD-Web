@@ -20,6 +20,7 @@ public final class MessageKey {
 	public static final String ERROR_INCORRECT_PRODUCT_NAME_MESSAGE = "local.error.incorrect_product_name";
 	public static final String ERROR_INCORRECT_PRICE_MESSAGE = "local.error.incorrect_price";
 	public static final String ERROR_INCORRECT_IMAGE_NAME_MESSAGE = "local.error.incorrect_image_name";
+	public static final String ERROR_SAVE_MESSAGE = "local.error.save";
 
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";

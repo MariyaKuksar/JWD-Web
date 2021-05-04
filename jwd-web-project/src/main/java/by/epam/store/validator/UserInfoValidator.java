@@ -7,13 +7,13 @@ import java.util.Map;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 
-public final class UserDataValidator {
+public final class UserInfoValidator {
 	private static final String LOGIN_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	private static final String PASSWORD_PATTERN = "^[a-zA-Z0-9]{5,15}$";
 	private static final String NAME_PATTERN = "^[a-zA-Zа-яА-Я]{1,20}$";
 	private static final String PHONE_PATTERN = "^\\+375[0-9]{9}$";
 
-	private UserDataValidator() {
+	private UserInfoValidator() {
 	}
 
 	public static List<String> findInvalidData(Map<String, String> userInfo) {

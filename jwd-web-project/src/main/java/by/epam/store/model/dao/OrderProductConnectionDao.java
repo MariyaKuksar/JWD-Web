@@ -6,6 +6,10 @@ import by.epam.store.model.entity.OrderProductConnection;
 import by.epam.store.model.entity.Product;
 
 public interface OrderProductConnectionDao extends BaseDao<OrderProductConnection> {
-	
+
+	boolean increaseAmountOfProduct(OrderProductConnection orderProductConnection) throws DaoException;
+
 	Map<Product, Integer> findByOrderId(Long orderId) throws DaoException;
+
+	boolean delete(OrderProductConnection orderProductConnection) throws DaoException;
 }

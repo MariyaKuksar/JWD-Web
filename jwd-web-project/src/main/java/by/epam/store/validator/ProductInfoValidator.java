@@ -12,6 +12,7 @@ public final class ProductInfoValidator {
 	private static final String PRICE_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
 	private static final String IMAGE_NAME_PATTERN = "^.{1,40}\\.\\p{Lower}+$";
 	private static final String NAME_PATTERN = "^.{1,45}$";
+	private static final String AMOUNT_PATTERN = "^\\d{1,2}$";
 
 	private ProductInfoValidator() {
 	}
@@ -47,5 +48,9 @@ public final class ProductInfoValidator {
 
 	public static boolean isValidName(String name) {
 		return (name != null) ? name.matches(NAME_PATTERN) : false;
+	}
+	
+	public static boolean isValidAmount(String amount) {
+		return (amount != null) ? amount.matches(AMOUNT_PATTERN) : false;
 	}
 }
