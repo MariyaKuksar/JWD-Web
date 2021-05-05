@@ -46,7 +46,7 @@
                             </ul>
                         </li>
                         </c:if>
-                        <li><a href="#nogo">${lang}</a>
+                        <li><a>${lang}</a>
                             <ul class="menu2">
                                 <li>
                                     <form action="${pageContext.request.contextPath}/controller" method="post" class="locale">
