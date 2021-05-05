@@ -17,7 +17,7 @@ public final class PasswordEncryption {
 	}
 
 	public static String encrypt(String password) {
-		//нужно проверять password на null?
+		//TODO нужно проверять password на null?
 		String encryptedPassword;
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance(MESSAGE_DIGEST_ALGORITHM);

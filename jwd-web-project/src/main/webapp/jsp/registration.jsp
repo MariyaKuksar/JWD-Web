@@ -16,17 +16,19 @@
     <fmt:message key="local.name" var="name"/>
     <fmt:message key="local.phone" var="phone"/>
     <title>${title}</title>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/registration/style.css" type="text/css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css" />
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+    
 </head>
 <body>
-<%@ include file="/WEB-INF/fragment/header.jsp" %>
+<%@ include file="/jsp/fragment/header.jsp" %>
 <div>
-	<div id="registration-form">
-	  <header>
+	<div id="submit-form">
+	  <div>
 		<h1>${title}</h1>
-	  </header>
+	  </div>
 	  
 <c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
 
@@ -41,23 +43,9 @@
 		</form>
 	  </fieldset>
 	</div>
-	<c:if test="${errorMessageList != null}">
-		<c:forEach var="errorMessageKey" items="${errorMessageList}">
-		<fmt:message key="${errorMessageKey}" var="error"/>
-			<div class="error">
-				<h4>${error}</h4>
-			</div>
-		</c:forEach>
-		<c:remove var="errorMessageList"/>
-	</c:if>
-
-	<c:if test="${infoMessage != null}">
-	<fmt:message key="${infoMessage}" var="message"/>
-		<div class="message">
-			<h4>${message}</h4>
-		</div>
-		<c:remove var="infoMessage"/>
-	</c:if>
+	
+	<%@ include file="/jsp/fragment/error_info.jsp" %>
+	
 </div>
 <mytag:copyright/>
 </body>

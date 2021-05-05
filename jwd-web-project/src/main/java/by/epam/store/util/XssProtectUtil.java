@@ -11,7 +11,7 @@ public final class XssProtectUtil {
 	}
 
 	public static String correctText(String text) {
-		// нужно проверять на null
+		//TODO нужно проверять на null
 		return text.replaceAll(START_TAG, LESS_THAN_CHARACTER).replaceAll(END_TAG, GREATER_THAN_CHARACTER);
 	}
 }

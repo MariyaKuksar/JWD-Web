@@ -15,27 +15,14 @@
   <fmt:message key="local.checkout" var="checkout"/>
   <fmt:message key="local.in_total" var="in_total"/>
   <title>${title}</title>
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
 </head>
 <body>
-<%@ include file="/WEB-INF/fragment/header.jsp" %>
+<%@ include file="/jsp/fragment/header.jsp" %>
 	<p></p>
-    <c:if test="${errorMessageList != null}">
-		<c:forEach var="errorMessageKey" items="${errorMessageList}">
-		<fmt:message key="${errorMessageKey}" var="error"/>
-			<div class="error">
-				<h4>${error}</h4>
-			</div>
-		</c:forEach>
-		<c:remove var="errorMessageList"/>
-	</c:if>
-
-	<c:if test="${infoMessage != null}">
-	<fmt:message key="${infoMessage}" var="message"/>
-		<div class="message">
-			<h4>${message}</h4>
-		</div>
-		<c:remove var="infoMessage"/>
-	</c:if>
+	
+   <%@ include file="/jsp/fragment/error_info.jsp" %>
 	
 	 <c:if test = "${not empty requestScope.order.products}">  
 		<c:forEach var="product" items="${requestScope.order.products}">

@@ -10,7 +10,7 @@ import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.util.ParameterAndAttribute;
 
 public class ChangeLocaleCommand implements Command {
-	// private static final Logger logger = LogManager.getLogger();
+	//TODO private static final Logger logger = LogManager.getLogger();
 
 	@Override
 	public Router execute(HttpServletRequest request) {

@@ -14,7 +14,7 @@ import by.epam.store.model.dao.ProductDao;
 import by.epam.store.model.entity.Product;
 
 public class ProductDaoImpl implements ProductDao {
-	// private static final Logger logger = LogManager.getLogger();
+	//TODO private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";

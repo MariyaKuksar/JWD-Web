@@ -51,7 +51,7 @@ final class DaoEntityBuilder {
 		return product;
 	}
 
-	// пока не использую, доработать
+	//TODO пока не использую, доработать
 	static Order buildOrder(ResultSet resultSet) throws SQLException {
 		Order order = new Order();
 		order.setOrderId(resultSet.getLong(ColumnName.ORDERS_ID));

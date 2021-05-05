@@ -23,33 +23,19 @@
     <fmt:message key="local.add_product_to_catalog" var="add_product_to_catalog" />
     <fmt:message key="local.forgot_password" var="forgot_password"/>
     <title>${title}</title>
-		<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/main/style.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
 	</head>
 	<body>
-	<%@ include file="/WEB-INF/fragment/header.jsp" %>
+	<%@ include file="/jsp/fragment/header.jsp" %>
 
 	<br />
 	<p></p>
 	<a href="${pageContext.request.contextPath}/jsp/admin/adding_product.jsp">${add_product_to_catalog}</a>
 	<p></p>
 	
-	<c:if test="${errorMessageList != null}">
-		<c:forEach var="errorMessageKey" items="${errorMessageList}">
-		<fmt:message key="${errorMessageKey}" var="error"/>
-			<div class="error">
-				<h4>${error}</h4>
-			</div>
-		</c:forEach>
-		<c:remove var="errorMessageList"/>
-	</c:if>
-
-	<c:if test="${infoMessage != null}">
-	<fmt:message key="${infoMessage}" var="message"/>
-		<div class="message">
-			<h4>${message}</h4>
-		</div>
-		<c:remove var="infoMessage"/>
-	</c:if>
+	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
 	<div class="contant clearfix">
 		<div class="left">

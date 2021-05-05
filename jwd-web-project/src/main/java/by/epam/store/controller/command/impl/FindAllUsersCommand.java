@@ -16,7 +16,7 @@ import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.model.service.UserService;
 
-//еще корявая реализация, надо доделывать
+//TODO еще корявая реализация, надо доделывать
 public class FindAllUsersCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String ATTRIBUTE_USERS = "users";

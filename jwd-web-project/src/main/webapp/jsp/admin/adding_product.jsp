@@ -14,9 +14,11 @@
   <fmt:message key="local.price" var="price"/>
   <fmt:message key="local.add_to_catalog" var="add_to_catalog"/>
   <title>${title}</title> 
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
 </head>
 <body>
-<%@ include file="/WEB-INF/fragment/header.jsp" %>
+<%@ include file="/jsp/fragment/header.jsp" %>
 	<p></p>
 	
 	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
@@ -39,23 +41,7 @@
     <input type="submit" value="${add_to_catalog}">
 </form>
 
-    <c:if test="${errorMessageList != null}">
-		<c:forEach var="errorMessageKey" items="${errorMessageList}">
-		<fmt:message key="${errorMessageKey}" var="error"/>
-			<div class="error">
-				<h4>${error}</h4>
-			</div>
-		</c:forEach>
-		<c:remove var="errorMessageList"/>
-	</c:if>
-
-	<c:if test="${infoMessage != null}">
-	<fmt:message key="${infoMessage}" var="message"/>
-		<div class="message">
-			<h4>${message}</h4>
-		</div>
-		<c:remove var="infoMessage"/>
-	</c:if>
+   <%@ include file="/jsp/fragment/error_info.jsp" %>
 	<mytag:copyright/>
 </body>
 </html>

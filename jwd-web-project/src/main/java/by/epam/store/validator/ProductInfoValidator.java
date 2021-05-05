@@ -19,7 +19,7 @@ public final class ProductInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> productInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		// вызываю валидатор из валидатора, норм?
+		//TODO вызываю валидатор из валидатора, норм?
 		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
 		}

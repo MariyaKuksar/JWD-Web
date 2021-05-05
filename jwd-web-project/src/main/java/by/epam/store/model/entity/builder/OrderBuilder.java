@@ -4,7 +4,6 @@ import java.util.Map;
 
 import by.epam.store.model.entity.Order;
 
-
 public class OrderBuilder implements EntityBuilder<Order> {
 	private static final OrderBuilder instance = new OrderBuilder();
 
