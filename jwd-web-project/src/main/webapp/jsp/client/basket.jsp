@@ -14,6 +14,14 @@
   <fmt:message key="local.delete" var="delete"/>
   <fmt:message key="local.checkout" var="checkout"/>
   <fmt:message key="local.in_total" var="in_total"/>
+  <fmt:message key="local.payment_method" var="payment_method"/>
+  <fmt:message key="local.delivery_method" var="delivery_method"/>
+  <fmt:message key="local.address" var="address"/>
+  <fmt:message key="local.city" var="city"/>
+  <fmt:message key="local.street" var="street"/>
+  <fmt:message key="local.house" var="house"/>
+  <fmt:message key="local.apartment" var="apartment"/>
+  
   <title>${title}</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
@@ -24,8 +32,8 @@
 	
    <%@ include file="/jsp/fragment/error_info.jsp" %>
 	
-	 <c:if test = "${not empty requestScope.order.products}">  
-		<c:forEach var="product" items="${requestScope.order.products}">
+	 <c:if test = "${not empty requestScope.basket.products}">  
+		<c:forEach var="product" items="${requestScope.basket.products}">
 		<img id="product_img" src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.key.imageName}" />
 			<tr>
 				<td><c:out value="${product.key.productName}" /></td>
@@ -43,16 +51,42 @@
         <input type="submit" value="${delete}"/>
             </form>
         </c:forEach>
-      
-     <p>${in_total}: ${requestScope.order.cost}$</p>
+      <br /> 
+     <p>${in_total}: ${requestScope.basket.cost}$</p>
      
       <form action="${pageContext.request.contextPath}/controller" method="post">
         <input type="hidden" name="command" value="checkout"/>
-        <input type="hidden" name="price" value="${requestScope.order.cost}"/>
+        <input type="hidden" name="cost" value="${requestScope.basket.cost}"/>
+	    <br />
+	    <label>${payment_method}:</label>
+	    <br />
+	    <select size="1" id="paymentMethod" name="paymentMethod" required>
+                        <c:forEach var="paymentMethod" items="${requestScope.basket.paymentMethodList}">
+                            <option value="${paymentMethod}"><fmt:message key="local.payment_method.${paymentMethod}"/></option>
+                        </c:forEach>
+        </select>
+        <br />
+         <label>${delivery_method}:</label>
+	    <br />
+	    <select size="1" id="deliveryMethod" name="deliveryMethod" required>
+                        <c:forEach var="deliveryMethod" items="${requestScope.basket.deliveryMethodList}">
+                            <option value="${deliveryMethod}"><fmt:message key="local.delivery_method.${deliveryMethod}"/></option>
+                        </c:forEach>
+        </select>
+        <br />
+        <label>${address}:</label>
+	    <br />
+	    <input type="text" name="city" required placeholder="${city}"/>
+	    <br />
+		<input type="text" name="street" required placeholder="${street}"/>
+		<br />
+		<input type="text" name="house" required placeholder="${house}"/>
+		<br />
+		<input type="text" name="apartment" required placeholder="${apartment}"/>
+		<br /> 
         <input type="submit" value="${checkout}"/>
             </form>   
-      </c:if>  
-      
+      </c:if> 
 	<mytag:copyright/>
 </body>
 </html>

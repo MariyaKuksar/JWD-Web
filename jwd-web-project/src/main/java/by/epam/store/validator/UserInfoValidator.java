@@ -10,7 +10,7 @@ import by.epam.store.util.ParameterAndAttribute;
 public final class UserInfoValidator {
 	private static final String LOGIN_PATTERN = "^[\\w-\\+]+(\\.[\\w-]+)*@[\\p{Alpha}\\d-]+(\\.[\\p{Alpha}\\d]+)*(\\.[\\p{Alpha}]{2,})$";
 	private static final String PASSWORD_PATTERN = "^[\\p{Alpha}\\d]{5,15}$";
-	private static final String NAME_PATTERN = "^[a-zA-Zа-яА-Я]{1,20}$";
+	private static final String NAME_PATTERN = "^[a-zA-Zа-яА-Я-\s]{1,45}$";
 	private static final String PHONE_PATTERN = "^\\+375[\\d]{9}$";
 
 	private UserInfoValidator() {

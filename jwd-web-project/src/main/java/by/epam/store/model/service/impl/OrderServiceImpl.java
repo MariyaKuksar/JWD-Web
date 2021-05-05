@@ -1,8 +1,12 @@
 package by.epam.store.model.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import javax.mail.MessagingException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,14 +16,26 @@ import by.epam.store.model.dao.OrderDao;
 import by.epam.store.model.dao.OrderProductConnectionDao;
 import by.epam.store.model.dao.impl.OrderDaoImpl;
 import by.epam.store.model.dao.impl.OrderProductConnectionDaoImpl;
+import by.epam.store.model.entity.Basket;
+import by.epam.store.model.entity.DeliveryMethod;
 import by.epam.store.model.entity.Order;
 import by.epam.store.model.entity.OrderProductConnection;
+import by.epam.store.model.entity.PaymentMethod;
 import by.epam.store.model.entity.Product;
+import by.epam.store.model.entity.User;
+import by.epam.store.model.entity.builder.UserBuilder;
+import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.util.MailSender;
+import by.epam.store.util.MessageKey;
+import by.epam.store.util.ParameterAndAttribute;
+import by.epam.store.util.PasswordEncryption;
 import by.epam.store.util.PriceCalculator;
 import by.epam.store.validator.IdValidator;
+import by.epam.store.validator.OrderInfoValidator;
 import by.epam.store.validator.ProductInfoValidator;
+import by.epam.store.validator.UserInfoValidator;
 
 public class OrderServiceImpl implements OrderService {
 	private static final Logger logger = LogManager.getLogger();
@@ -49,24 +65,26 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Optional<Order> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
+	public Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
 		if (userId == null) {
 			return Optional.empty();
 		}
-		Order order;
+		Basket basket;
 		try {
 			if (orderBasketId == null) {
 				orderBasketId = takeOrderBasketId(userId);
 			}
-			order = new Order(orderBasketId, userId);
+			basket = new Basket(orderBasketId, userId);
 			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
-			order.setProducts(products);
+			basket.setProducts(products);
 			BigDecimal orderCost = PriceCalculator.calculateTotalCost(products);
-			order.setCost(orderCost);
+			basket.setCost(orderCost);
+			basket.setDeliveryMethodList(Arrays.asList(DeliveryMethod.values()));
+			basket.setPaymentMethodList(Arrays.asList(PaymentMethod.values()));
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}
-		return Optional.of(order);
+		return Optional.of(basket);
 	}
 
 	@Override
@@ -102,6 +120,20 @@ public class OrderServiceImpl implements OrderService {
 		return productRemoved;
 	}
 	
+	@Override
+	public void checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException{
+		List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
+		if (!errorMessageList.isEmpty()) {
+			throw new InvalidDataException("invalid data", errorMessageList);
+		}
+		//try {
+		//	Order order = OrderBuilder.getInstance().build(orderInfo);
+		//	orderDao.update(order);
+		//} catch (DaoException e) {
+		//	throw new ServiceException("order updating error", e);
+		//}
+	}
+	
 	private Long takeOrderBasketId(Long userId) throws DaoException {
 		Long orderBasketId;
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);
@@ -114,5 +146,5 @@ public class OrderServiceImpl implements OrderService {
 			orderBasketId = order.getOrderId();
 		}
 		return orderBasketId;
-	}
+	}	
 }

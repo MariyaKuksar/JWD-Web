@@ -21,6 +21,11 @@ public final class MessageKey {
 	public static final String ERROR_INCORRECT_PRICE_MESSAGE = "local.error.incorrect_price";
 	public static final String ERROR_INCORRECT_IMAGE_NAME_MESSAGE = "local.error.incorrect_image_name";
 	public static final String ERROR_SAVE_MESSAGE = "local.error.save";
+	public static final String ERROR_CHECKOUT_MESSAGE = "local.error.checkout";
+	public static final String ERROR_INCORRECT_CITY_MESSAGE = "local.error.incorrect_city";
+	public static final String ERROR_INCORRECT_STREET_MESSAGE = "local.error.incorrect_street";
+	public static final String ERROR_INCORRECT_HOUSE_MESSAGE = "local.error.incorrect_house";
+	public static final String ERROR_INCORRECT_APARTMENT_MESSAGE = "local.error.incorrect_apartment";
 
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";
@@ -29,6 +34,7 @@ public final class MessageKey {
 	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";
 	public static final String INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE = "local.message.product_added_to_catalog";
 	public static final String INFO_BASKET_IS_EMPTY_MESSAGE = "local.message.basket_is_empty";
+	public static final String INFO_ORDER_IS_PROCESSED_MESSAGE = "local.message.order_is_processed";
 	
 	private MessageKey() {
 	}

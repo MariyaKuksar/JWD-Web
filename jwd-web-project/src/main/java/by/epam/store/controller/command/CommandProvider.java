@@ -10,6 +10,7 @@ import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
 import by.epam.store.controller.command.impl.ChangeAmountOfProductInBasketCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
+import by.epam.store.controller.command.impl.CheckoutCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
 import by.epam.store.controller.command.impl.RemoveProductFromBasketCommand;
@@ -47,6 +48,7 @@ public final class CommandProvider {
 		commands.put(CommandType.GO_TO_BASKET_PAGE, new GoToBasketPageCommand());
 		commands.put(CommandType.CHANGE_AMOUNT_OF_PRODUCT_IN_BASKET, new ChangeAmountOfProductInBasketCommand());
 		commands.put(CommandType.REMOVE_PRODUCT_FROM_BASKET, new RemoveProductFromBasketCommand());
+		commands.put(CommandType.CHECKOUT, new CheckoutCommand());
 	}
 
 	private CommandProvider() {

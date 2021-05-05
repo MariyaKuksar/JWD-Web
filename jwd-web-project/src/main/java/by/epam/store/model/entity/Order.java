@@ -9,21 +9,17 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
 	private Long userId;
-	private Map<Product, Integer> products;
-	private LocalDateTime dataTime;
 	private OrderStatus orderStatus;
-	private PaymentMethod paymentMethod;
+	private Map<Product, Integer> products;
 	private BigDecimal cost;
+	private LocalDateTime dataTime;
+	private PaymentMethod paymentMethod;
+	private DeliveryMethod deliveryMethod;
 
 	public Order() {
 	}
 
 	public Order(Long userId) {
-		this.userId = userId;
-	}
-
-	public Order(Long orderId, Long userId) {
-		this.orderId = orderId;
 		this.userId = userId;
 	}
 
@@ -43,22 +39,6 @@ public class Order implements Serializable {
 		this.userId = userId;
 	}
 
-	public Map<Product, Integer> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Map<Product, Integer> products) {
-		this.products = products;
-	}
-
-	public LocalDateTime getDataTime() {
-		return dataTime;
-	}
-
-	public void setDataTime(LocalDateTime dataTime) {
-		this.dataTime = dataTime;
-	}
-
 	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
@@ -67,12 +47,12 @@ public class Order implements Serializable {
 		this.orderStatus = orderStatus;
 	}
 
-	public PaymentMethod getPaymentMethod() {
-		return paymentMethod;
+	public Map<Product, Integer> getProducts() {
+		return products;
 	}
 
-	public void setPaymentMethod(PaymentMethod paymentMethod) {
-		this.paymentMethod = paymentMethod;
+	public void setProducts(Map<Product, Integer> products) {
+		this.products = products;
 	}
 
 	public BigDecimal getCost() {
@@ -83,12 +63,37 @@ public class Order implements Serializable {
 		this.cost = cost;
 	}
 
+	public LocalDateTime getDataTime() {
+		return dataTime;
+	}
+
+	public void setDataTime(LocalDateTime dataTime) {
+		this.dataTime = dataTime;
+	}
+
+	public PaymentMethod getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(PaymentMethod paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+
+	public DeliveryMethod getDeliveryMethod() {
+		return deliveryMethod;
+	}
+
+	public void setDeliveryMethod(DeliveryMethod deliveryMethod) {
+		this.deliveryMethod = deliveryMethod;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cost == null) ? 0 : cost.hashCode());
 		result = prime * result + ((dataTime == null) ? 0 : dataTime.hashCode());
+		result = prime * result + ((deliveryMethod == null) ? 0 : deliveryMethod.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
 		result = prime * result + ((paymentMethod == null) ? 0 : paymentMethod.hashCode());
@@ -115,6 +120,8 @@ public class Order implements Serializable {
 			if (other.dataTime != null)
 				return false;
 		} else if (!dataTime.equals(other.dataTime))
+			return false;
+		if (deliveryMethod != other.deliveryMethod)
 			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
@@ -145,16 +152,18 @@ public class Order implements Serializable {
 		builder.append(orderId);
 		builder.append(", userId=");
 		builder.append(userId);
-		builder.append(", products=");
-		builder.append(products);
-		builder.append(", dataTime=");
-		builder.append(dataTime);
 		builder.append(", orderStatus=");
 		builder.append(orderStatus);
-		builder.append(", paymentMethod=");
-		builder.append(paymentMethod);
+		builder.append(", products=");
+		builder.append(products);
 		builder.append(", cost=");
 		builder.append(cost);
+		builder.append(", dataTime=");
+		builder.append(dataTime);
+		builder.append(", paymentMethod=");
+		builder.append(paymentMethod);
+		builder.append(", deliveryMethod=");
+		builder.append(deliveryMethod);
 		builder.append("]");
 		return builder.toString();
 	}
