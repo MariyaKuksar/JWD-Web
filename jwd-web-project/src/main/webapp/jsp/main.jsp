@@ -24,6 +24,8 @@
     <fmt:message key="local.catalog" var="catalog"/>
     <fmt:message key="local.edit" var="edit"/>
     <fmt:message key="local.save" var="save"/>
+    <fmt:message key="local.name" var="name"/>
+    <fmt:message key="local.price" var="price"/>
     <title>${title}</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
@@ -103,8 +105,8 @@
 						<form class="form_edit" id="form_edit_${product.productId}" action="${pageContext.request.contextPath}/controller" method="post" >
                             <input type="hidden" name="command" value="change_product_data"/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
-                            <label>Name:<input type="text" name="productName" value="${product.productName}"/></label>
-                            <label>Price:<input type="text" name="productPrice" value="${product.price}"/></label>
+                            <label>${name}:<input type="text" name="productName" value="${product.productName}"/></label>
+                            <label>${price}:<input type="text" name="productPrice" value="${product.price}"/></label>
                             <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="${save}"/>
                         </form>
 						</c:if>
