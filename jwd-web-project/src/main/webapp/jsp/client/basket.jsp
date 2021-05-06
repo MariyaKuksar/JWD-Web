@@ -76,13 +76,13 @@
         <br />
         <label>${address}:</label>
 	    <br />
-	    <input type="text" name="city" required placeholder="${city}"/>
+	    <input type="text" name="city" placeholder="${city}"/>
 	    <br />
-		<input type="text" name="street" required placeholder="${street}"/>
+		<input type="text" name="street" placeholder="${street}"/>
 		<br />
-		<input type="text" name="house" required placeholder="${house}"/>
+		<input type="text" name="house" placeholder="${house}"/>
 		<br />
-		<input type="text" name="apartment" required placeholder="${apartment}"/>
+		<input type="text" name="apartment" placeholder="${apartment}"/>
 		<br /> 
         <input type="submit" value="${checkout}"/>
             </form>   

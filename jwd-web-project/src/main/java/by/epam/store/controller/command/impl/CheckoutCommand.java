@@ -39,6 +39,7 @@ public class CheckoutCommand implements Command {
 		orderInfo.put(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketId);
 		try {
 			orderService.checkout(orderInfo);
+			session.removeAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
 					MessageKey.INFO_ORDER_IS_PROCESSED_MESSAGE);
 			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);

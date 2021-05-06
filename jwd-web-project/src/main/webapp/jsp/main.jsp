@@ -20,8 +20,8 @@
     <fmt:message key="local.on_order" var="on_order"/>
     <fmt:message key="local.add_to_basket" var="add_to_basket"/>
     <fmt:message key="local.welcome" var="welcome" />
-    <fmt:message key="local.add_product_to_catalog" var="add_product_to_catalog" />
     <fmt:message key="local.forgot_password" var="forgot_password"/>
+    <fmt:message key="local.catalog" var="catalog"/>
     <title>${title}</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
@@ -29,12 +29,6 @@
 	</head>
 	<body>
 	<%@ include file="/jsp/fragment/header.jsp" %>
-
-	<br />
-	<p></p>
-	<a href="${pageContext.request.contextPath}/jsp/admin/adding_product.jsp">${add_product_to_catalog}</a>
-	<p></p>
-	
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
 	<div class="contant clearfix">
@@ -67,14 +61,22 @@
 			<c:if test="${sessionScope.productCategories != null}">
 			<div class="categories">
 				<c:forEach var="category" items="${sessionScope.productCategories}">
+				<c:if test="${requestScope.products[0].category.categoryId == category.categoryId}">
+				<figure class="category selected">
+				</c:if>
+				<c:if test="${requestScope.products[0].category.categoryId != category.categoryId}">
 				<figure class="category">
+				</c:if>
 					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${category.imageName}" alt="${category.categoryName}"></a></div>
-					<div class="name"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}" title="${category.categoryName}">${category.categoryName}</a></div>
+					<div class="name"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}" title="${category.categoryName}"> <fmt:message key="local.category.${category.categoryName}"/></a></div>
 				</figure>
 				</c:forEach>
 			</div>
 			</c:if>
 			<c:if test="${requestScope.products != null}">
+			<div class="menu3">
+				<p><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a> > <fmt:message key="local.category.${requestScope.products[0].category.categoryName}"/> </p>
+			</div>
 			<div class="products">
                 <c:forEach var="product" items="${requestScope.products}">
                     <figure class="product">
@@ -87,11 +89,23 @@
                         <c:if test="${product.amount < 1}">
                         <div class="status"><p>${on_order}</p></div>
                         </c:if>
+						<c:if test="${sessionScope.role != 'ADMIN'}">
                         <form action="${pageContext.request.contextPath}/controller" method="post" >
                             <input type="hidden" name="command" value="add_product_to_basket"/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
                             <input type="submit" value="${add_to_basket}"/>
                         </form>
+						</c:if>
+						<c:if test="${sessionScope.role == 'ADMIN'}">
+						<button id="button_edit_${product.productId}" onclick="openEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')">Редактировать</button>
+						<form class="form_edit" id="form_edit_${product.productId}" action="${pageContext.request.contextPath}/controller" method="post" >
+                            <input type="hidden" name="command" value=""/>
+                            <input type="hidden" name="productId" value="${product.productId}"/>
+                            <label>Name:<input type="text" name="productName" value="${product.productName}"/></label>
+                            <label>Price:<input type="text" name="productPrice" value="${product.price}"/></label>
+                            <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="Cохранить"/>
+                        </form>
+						</c:if>
                     </figure>
                 </c:forEach>
 			</div>
@@ -101,5 +115,22 @@
 	</div>
 
 	<mytag:copyright/>
+
+	<script>
+		function openEditForm(editFormId, editButtonId) {
+		  var editForm = document.getElementById(editFormId);
+		  editForm.style.display = "block";
+		  var editButton = document.getElementById(editButtonId);
+		  editButton.style.display = "none";
+
+		}
+
+		function closeEditForm(editFormId, editButtonId) {
+		  var editForm = document.getElementById(editFormId);
+		  editForm.style.display = "none";
+		  var editButton = document.getElementById(editButtonId);
+		  editButton.style.display = "block";
+		}
+	</script>
 </body>
 </html>

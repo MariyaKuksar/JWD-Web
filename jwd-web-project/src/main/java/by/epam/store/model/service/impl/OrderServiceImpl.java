@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import javax.mail.MessagingException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,20 +20,14 @@ import by.epam.store.model.entity.Order;
 import by.epam.store.model.entity.OrderProductConnection;
 import by.epam.store.model.entity.PaymentMethod;
 import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.builder.UserBuilder;
+import by.epam.store.model.entity.builder.OrderBuilder;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
-import by.epam.store.util.MailSender;
-import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
-import by.epam.store.util.PasswordEncryption;
 import by.epam.store.util.PriceCalculator;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.OrderInfoValidator;
 import by.epam.store.validator.ProductInfoValidator;
-import by.epam.store.validator.UserInfoValidator;
 
 public class OrderServiceImpl implements OrderService {
 	private static final Logger logger = LogManager.getLogger();
@@ -107,7 +99,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean removeProductFromOrder(Long orderId, String productId) throws ServiceException {
-		if (orderId==null || !IdValidator.isValidId(productId)) {
+		if (orderId == null || !IdValidator.isValidId(productId)) {
 			return false;
 		}
 		boolean productRemoved;
@@ -119,21 +111,22 @@ public class OrderServiceImpl implements OrderService {
 		}
 		return productRemoved;
 	}
-	
+
 	@Override
-	public void checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException{
+	public void checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
 		if (!errorMessageList.isEmpty()) {
 			throw new InvalidDataException("invalid data", errorMessageList);
 		}
-		//try {
-		//	Order order = OrderBuilder.getInstance().build(orderInfo);
-		//	orderDao.update(order);
-		//} catch (DaoException e) {
-		//	throw new ServiceException("order updating error", e);
-		//}
+		Order order = OrderBuilder.getInstance().build(orderInfo);
+		logger.debug(order.toString());
+		try {
+			orderDao.update(order);
+		} catch (DaoException e) {
+			throw new ServiceException("order updating error", e);
+		}
 	}
-	
+
 	private Long takeOrderBasketId(Long userId) throws DaoException {
 		Long orderBasketId;
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);
@@ -146,5 +139,5 @@ public class OrderServiceImpl implements OrderService {
 			orderBasketId = order.getOrderId();
 		}
 		return orderBasketId;
-	}	
+	}
 }

@@ -16,7 +16,12 @@
 <fmt:message key="local.personal_data" var="personal_data"/>
 <fmt:message key="local.orders" var="orders"/>
 <fmt:message key="local.lang" var="lang" />
-
+<fmt:message key="local.add_product" var="add_product" />
+<fmt:message key="local.report" var="report" />
+<fmt:message key="local.supplies" var="supplies" />
+<fmt:message key="local.issue" var="issue" />
+<fmt:message key="local.clients" var="clients" />
+<fmt:message key="local.my_orders" var="my_orders"/>
 <header>
     <div class="header_top">
         <div >
@@ -30,21 +35,39 @@
             </form>
             <nav class="menu">
                     <ul class="menu1" >
+                        <c:if test="${sessionScope.role != 'ADMIN'}">
                         <li><a href="${pageContext.request.contextPath}/controller?command=go_to_basket_page">${basket}</a></li>
+                        </c:if>
                         <li><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a>
                             <ul class="menu2">
                             <c:forEach var="category" items="${sessionScope.productCategories}">
-                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}">${category.categoryName}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"><fmt:message key="local.category.${category.categoryName}"/></a></li>
                             </c:forEach>
+                            <c:if test="${sessionScope.role == 'ADMIN'}">
+                                <li><a href="${pageContext.request.contextPath}/jsp/admin/adding_product.jsp">${add_product}</a></li>
+                                <li><a href="#nogo">${report}</a></li>
+                            </c:if>
                             </ul>
                         </li>
+                        <c:if test="${sessionScope.role == 'ADMIN'}">
+                        <li><a href="#nogo">${orders}</a></li>
+                        <li><a href="#nogo">${supplies}</a>
+                            <ul class="menu2">
+                                <li><a href="#nogo">${issue}</a></li>
+                                <li><a href="#nogo">${report}</a></li>
+                            </ul>
+                        </li>
+                        </c:if>
                         <c:if test="${sessionScope.role == 'CLIENT'}">
                         <li><a href="#nogo">${profile}</a>
                             <ul class="menu2">
                                 <li><a href="#nogo">${personal_data}</a></li>
-                                <li><a href="#nogo">${orders}</a></li>
+                                <li><a href="#nogo">${my_orders}</a></li>
                             </ul>
                         </li>
+                        </c:if>
+                        <c:if test="${sessionScope.role == 'ADMIN'}">
+                        <li><a href="#nogo">${clients}</a></li>
                         </c:if>
                         <li><a>${lang}</a>
                             <ul class="menu2">

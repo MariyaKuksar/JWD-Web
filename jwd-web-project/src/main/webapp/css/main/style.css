@@ -3,7 +3,7 @@
 	margin:0;
 }
 @font-face {
-	font-family: "TTNormsRegular"; 
+	font-family: "TTNormsRegular";
 	src: url("../../fonts/TTNorms/TTNorms-Regular.ttf");
 	src: url("../../fonts/TTNorms/TTNorms-Regular.eot?#iefix") format("embedded-opentype"),
 	url("../../fonts/TTNorms/TTNorms-Regular.woff") format("woff"),
@@ -40,7 +40,7 @@ html {
 /*=====*/
 
 .contant {
-	width: 90%;
+	width: 95%;
 	margin: 50px auto 100px;
 }
 .contant>div{
@@ -174,7 +174,9 @@ html {
 /*====*/
 
 /*==CATEGORY==*/
-
+.categories {
+	height: 250px;
+}
 .category {
 	display: inline-block;
 	float:left;
@@ -202,7 +204,6 @@ html {
 	width: 100%;
     float: left;
     height: 45px;
-    border-top: none;
 }
 .category .name a {
 	background-color: #eeeeee;
@@ -224,6 +225,13 @@ html {
 .center figure:hover div.name a{
 	background-color: #df5558;
 }
+.selected div.name{
+    border: 1px solid #df5558;
+    background-color: #df5558;
+}
+.selected div.name a{
+	background-color: #df5558;
+}
 /*====*/
 /*==PRODUCT==*/
 .product{
@@ -237,13 +245,17 @@ html {
 	margin-left: 15px;
 }
 .product > div.image {
-    width: 220px;
+    width: 100%;
     margin: 20px auto;
     text-align: center;
+    overflow: hidden;
 }
 .product > div.image > img{
-	width: 220px;
-    height: auto;
+	height: 200px;
+}
+
+.form_edit {
+	display: none;
 }
 /*====*/
 /*==FOOTER==*/
@@ -260,15 +272,4 @@ footer {
 .menu3 {
 	margin-left: 15px;
 	margin-bottom: 15px;
-}
-/*=====*/
-.error {
-	width: 90%;
-	margin: 5px auto;
-	color: #FF0000;
-}
-.info {
-	width: 90%;
-	margin: 5px auto;
-	color: #00FF00;
 }

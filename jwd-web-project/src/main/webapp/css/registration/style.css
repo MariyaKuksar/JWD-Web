@@ -53,7 +53,7 @@ body > div:first-child{
 #submit-form input[type="password"] {
 	border: 1px solid #dcdcdc;
 	padding: 12px 10px;
-	width: 260px;
+	width: 93%;
 }
 
 #submit-form input[type="text"] {

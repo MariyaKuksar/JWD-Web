@@ -50,10 +50,10 @@ header>div > div > a {
 	margin-bottom: 50px;
 }
 .header_top > div{
-	width: 90%;
+	width: 95%;
 	margin: 0 auto;
 }
-.header_top form {
+.header_top > div > form {
 	display:inline-block;
 	margin:20px 10px 20px
 }
@@ -89,7 +89,7 @@ ul.menu1 > li:first-child{
 	display: none;
 }
 ul.menu1 > li > a {
-	padding: 26px 25px 26px 26px;
+	padding: 26px 15px 26px 16px;
 	text-decoration: none;
 	color: #ffffff;
 }
@@ -118,4 +118,20 @@ ul.menu2>li:hover{
 }
 ul.menu2>li:hover>a{
 	color: #008080;
+}
+
+ul.menu2 > li > form>input[type="submit"] {
+	color: #fff;
+    background-color: #df5558;
+    border: 0;
+	font: bold 15px TTNormsRegular;
+}
+ul.menu2 > li:hover > form>input[type="submit"] {
+	color: #008080;
+    background-color: transparent;
+}
+ul.menu2 > li > form>input[type="submit"]:hover {
+	color: #008080;
+    background-color: transparent;
+    border: 0;
 }

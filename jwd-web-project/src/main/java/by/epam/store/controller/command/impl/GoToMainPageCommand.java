@@ -28,7 +28,6 @@ public class GoToMainPageCommand implements Command {
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		try {
 			List<ProductCategory> productCategories = catalogService.takeAllProductCategories();
-			logger.debug(productCategories.toString());
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.MAIN);
 			session.setAttribute(ParameterAndAttribute.PRODUCT_CATEGORIES, productCategories);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);

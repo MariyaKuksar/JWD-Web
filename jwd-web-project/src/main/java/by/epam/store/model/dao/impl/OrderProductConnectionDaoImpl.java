@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.ColumnName;
@@ -20,7 +17,6 @@ import by.epam.store.model.entity.OrderProductConnection;
 import by.epam.store.model.entity.Product;
 
 public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao {
-	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_UPDATE_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET AMOUNT_OF_PRODUCT=? WHERE ORDER_ID=? AND PRODUCT_ID=?";
 	private static final String SQL_UPDATE_INCREASE_AMOUNT_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET AMOUNT_OF_PRODUCT=AMOUNT_OF_PRODUCT+? WHERE ORDER_ID=? AND PRODUCT_ID=?";
 	private static final String SQL_INSERT_ORDER_PRODUCT_CONNECTION = "INSERT INTO ORDER_PRODUCT_CONNECTION (ORDER_ID, PRODUCT_ID, AMOUNT_OF_PRODUCT) VALUES (?, ?, ?)";
@@ -93,7 +89,6 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		logger.debug(products.toString());
 		return products;
 	}
 

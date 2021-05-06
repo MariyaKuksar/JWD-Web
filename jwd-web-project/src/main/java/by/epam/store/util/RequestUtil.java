@@ -45,6 +45,7 @@ public final class RequestUtil {
 		for (String name : Collections.list(parameterNames)) {
 			parameters.put(name, request.getParameter(name));
 		}
+		logger.debug(parameters);
 		return parameters;
 	}
 }

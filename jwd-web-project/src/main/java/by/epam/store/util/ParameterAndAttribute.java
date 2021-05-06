@@ -25,7 +25,7 @@ public final class ParameterAndAttribute {
 	public static final String URL = "url"; 
 	public static final String AMOUNT_PRODUCT = "amountProduct"; 
 	public static final String BASKET = "basket";
-	public static final String COST = "basket";
+	public static final String COST = "cost";
 	public static final String PAYMENT_METHOD = "paymentMethod";
 	public static final String DELIVERY_METHOD = "deliveryMethod";
 	public static final String CITY = "city";

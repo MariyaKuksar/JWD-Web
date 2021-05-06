@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +23,9 @@ public class OrderDaoImpl implements OrderDao {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_ORDER_BASKET_BY_USER_ID = "SELECT ID FROM ORDERS WHERE USER_ID=? AND STATUS='BASKET'";
 	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, 'BASKET')";
-
+	private static final String SQL_UPDATE_ORDER = "UPDATE ORDERS SET DATE_TIME=?, STATUS=?, PAYMENT_METHOD=?, COST=?, DELIVERY_METHOD=?, CITY=?, STREET=?, HOUSE=?, APARTMENT=? WHERE ID=?";
+	private static final int ONE_UPDATED_ROW = 1;
+	
 	@Override
 	public List<Order> findAll() throws DaoException {
 		// TODO Auto-generated method stub
@@ -47,9 +50,25 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public boolean update(Order entity) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Order order) throws DaoException {
+		int numberUpdatedRows;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ORDER)) {
+			statement.setTimestamp(1, Timestamp.valueOf(order.getDataTime()));
+			statement.setString(2, String.valueOf(order.getOrderStatus()));
+			statement.setString(3, String.valueOf(order.getPaymentMethod()));
+			statement.setBigDecimal (4, order.getCost());
+			statement.setString (5, String.valueOf(order.getDeliveryMethod()));
+			statement.setString(6, order.getAddress().getCity());
+			statement.setString(7, order.getAddress().getStreet());
+			statement.setString(8, order.getAddress().getHouse());
+			statement.setString(9, order.getAddress().getApartment());
+			statement.setLong(10, order.getOrderId());
+			numberUpdatedRows = statement.executeUpdate();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
 
 	@Override

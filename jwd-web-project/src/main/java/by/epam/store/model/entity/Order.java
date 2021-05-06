@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
-
+//TODO сделала внутренний класс, пересмотреть
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
@@ -15,6 +15,7 @@ public class Order implements Serializable {
 	private LocalDateTime dataTime;
 	private PaymentMethod paymentMethod;
 	private DeliveryMethod deliveryMethod;
+	private Address address = new Address();
 
 	public Order() {
 	}
@@ -87,10 +88,19 @@ public class Order implements Serializable {
 		this.deliveryMethod = deliveryMethod;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((cost == null) ? 0 : cost.hashCode());
 		result = prime * result + ((dataTime == null) ? 0 : dataTime.hashCode());
 		result = prime * result + ((deliveryMethod == null) ? 0 : deliveryMethod.hashCode());
@@ -111,6 +121,11 @@ public class Order implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Order other = (Order) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
 		if (cost == null) {
 			if (other.cost != null)
 				return false;
@@ -164,7 +179,116 @@ public class Order implements Serializable {
 		builder.append(paymentMethod);
 		builder.append(", deliveryMethod=");
 		builder.append(deliveryMethod);
+		builder.append(", address=");
+		builder.append(address);
 		builder.append("]");
 		return builder.toString();
+	}
+
+	public class Address {
+		private String city;
+		private String street;
+		private String house;
+		private String apartment;
+
+		public Address() {
+		}
+
+		public String getCity() {
+			return city;
+		}
+
+		public void setCity(String city) {
+			this.city = city;
+		}
+
+		public String getStreet() {
+			return street;
+		}
+
+		public void setStreet(String street) {
+			this.street = street;
+		}
+
+		public String getHouse() {
+			return house;
+		}
+
+		public void setHouse(String house) {
+			this.house = house;
+		}
+
+		public String getApartment() {
+			return apartment;
+		}
+
+		public void setApartment(String apartment) {
+			this.apartment = apartment;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + getEnclosingInstance().hashCode();
+			result = prime * result + ((apartment == null) ? 0 : apartment.hashCode());
+			result = prime * result + ((city == null) ? 0 : city.hashCode());
+			result = prime * result + ((house == null) ? 0 : house.hashCode());
+			result = prime * result + ((street == null) ? 0 : street.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			Address other = (Address) obj;
+			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+				return false;
+			if (apartment == null) {
+				if (other.apartment != null)
+					return false;
+			} else if (!apartment.equals(other.apartment))
+				return false;
+			if (city == null) {
+				if (other.city != null)
+					return false;
+			} else if (!city.equals(other.city))
+				return false;
+			if (house == null) {
+				if (other.house != null)
+					return false;
+			} else if (!house.equals(other.house))
+				return false;
+			if (street == null) {
+				if (other.street != null)
+					return false;
+			} else if (!street.equals(other.street))
+				return false;
+			return true;
+		}
+
+		private Order getEnclosingInstance() {
+			return Order.this;
+		}
+
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("Address [city=");
+			builder.append(city);
+			builder.append(", street=");
+			builder.append(street);
+			builder.append(", house=");
+			builder.append(house);
+			builder.append(", apartment=");
+			builder.append(apartment);
+			builder.append("]");
+			return builder.toString();
+		}
 	}
 }

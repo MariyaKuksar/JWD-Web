@@ -29,7 +29,6 @@ public class ShowProductsFromCategoryCommand implements Command {
 		String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
 		try {
 			List<Product> products = productService.takeProductsFromCategory(categoryId);
-			logger.debug(products.toString());
 			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);

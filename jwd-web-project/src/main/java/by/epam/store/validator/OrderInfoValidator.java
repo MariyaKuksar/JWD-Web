@@ -4,17 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.store.model.entity.DeliveryMethod;
 import by.epam.store.model.entity.PaymentMethod;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 
 public final class OrderInfoValidator {
+	private static final Logger logger = LogManager.getLogger();
 	private static final String COST_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
 	private static final String CITY_PATTERN = "^[a-zA-Zа-яА-Я-\s\\.]{1,20}$";
 	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\s\\.]{1,20}$";
-	private static final String HOUSE_PATTERN = "([1-9]\\d*(\\s*[-/]\\s*[1-9]\\d*)?(\\s?[a-zA-Z])?){1,5}";
-	private static final String APARTMENT_PATTERN = "\\d{1,3}";
+	private static final String HOUSE_PATTERN = "^\\d{1,3}[\\s-/]?[абвгд\\d]?$";
+	private static final String APARTMENT_PATTERN = "[\\d-]{0,3}";
 	
 	private OrderInfoValidator() {
 	}
@@ -43,6 +47,7 @@ public final class OrderInfoValidator {
 				errorMessageList.add(MessageKey.ERROR_INCORRECT_APARTMENT_MESSAGE);
 			}
 		}
+		logger.debug(errorMessageList.toString());
 		return errorMessageList;
 	}
 
@@ -87,6 +92,6 @@ public final class OrderInfoValidator {
 	}
 	
 	public static boolean isValidApartment(String apartment) {
-		return (apartment != null) ? apartment.matches(APARTMENT_PATTERN) : false;
+		return (apartment != null) ? apartment.matches(APARTMENT_PATTERN) : true;
 	}
 }
