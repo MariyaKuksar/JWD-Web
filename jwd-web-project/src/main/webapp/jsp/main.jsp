@@ -22,6 +22,8 @@
     <fmt:message key="local.welcome" var="welcome" />
     <fmt:message key="local.forgot_password" var="forgot_password"/>
     <fmt:message key="local.catalog" var="catalog"/>
+    <fmt:message key="local.edit" var="edit"/>
+    <fmt:message key="local.save" var="save"/>
     <title>${title}</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
@@ -97,13 +99,13 @@
                         </form>
 						</c:if>
 						<c:if test="${sessionScope.role == 'ADMIN'}">
-						<button id="button_edit_${product.productId}" onclick="openEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')">Редактировать</button>
+						<button id="button_edit_${product.productId}" onclick="openEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')">${edit}</button>
 						<form class="form_edit" id="form_edit_${product.productId}" action="${pageContext.request.contextPath}/controller" method="post" >
-                            <input type="hidden" name="command" value=""/>
+                            <input type="hidden" name="command" value="change_product_data"/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
                             <label>Name:<input type="text" name="productName" value="${product.productName}"/></label>
                             <label>Price:<input type="text" name="productPrice" value="${product.price}"/></label>
-                            <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="Cохранить"/>
+                            <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="${save}"/>
                         </form>
 						</c:if>
                     </figure>
