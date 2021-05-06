@@ -106,7 +106,7 @@
                             <input type="hidden" name="command" value="change_product_data"/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
                             <label>${name}:<input type="text" name="productName" value="${product.productName}"/></label>
-                            <label>${price}:<input type="text" name="productPrice" value="${product.price}"/></label>
+                            <label>${price}:<input type="text" name="price" value="${product.price}"/></label>
                             <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="${save}"/>
                         </form>
 						</c:if>

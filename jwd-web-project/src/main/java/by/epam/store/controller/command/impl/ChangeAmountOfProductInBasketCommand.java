@@ -34,7 +34,9 @@ public class ChangeAmountOfProductInBasketCommand implements Command {
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		String amountProduct = request.getParameter(ParameterAndAttribute.AMOUNT_PRODUCT);
 		try {
-			if(!orderService.changeAmountOfProductInOrder(orderBasketId, productId, amountProduct)) {
+			if(orderService.changeAmountOfProductInOrder(orderBasketId, productId, amountProduct)) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
+			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_SAVE_MESSAGE);
 			}
 			router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);

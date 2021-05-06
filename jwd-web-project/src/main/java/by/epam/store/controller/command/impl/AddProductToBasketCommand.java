@@ -1,7 +1,4 @@
 package by.epam.store.controller.command.impl;
-
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -36,18 +33,13 @@ public class AddProductToBasketCommand implements Command {
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		try {
-			Optional<Long> orderBasketIdOptional = orderService.addProductToBasket(userId, orderBasketId, productId);
-			if (orderBasketIdOptional.isPresent()) {
+			orderBasketId = orderService.addProductToBasket(userId, orderBasketId, productId);
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
 						MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
-				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketIdOptional.get());
+				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketId);
 				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 				logger.debug(page);
 				router = new Router(page, RouteType.REDIRECT);
-			} else {
-				logger.info("incorrect data");
-				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
-			}
 		} catch (ServiceException e) {
 			logger.error("error adding product to basket", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

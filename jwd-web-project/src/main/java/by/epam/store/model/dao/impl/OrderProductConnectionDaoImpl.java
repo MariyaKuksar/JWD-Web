@@ -93,16 +93,14 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 	}
 
 	@Override
-	public boolean delete(OrderProductConnection orderProductConnection) throws DaoException {
-		int numberUpdatedRows;
+	public void delete(OrderProductConnection orderProductConnection) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_DELETE_ORDER_PRODUCT_CONNECTION)) {
 			statement.setLong(1, orderProductConnection.getOrderId());
 			statement.setLong(2, orderProductConnection.getProductId());
-			numberUpdatedRows = statement.executeUpdate();
+			statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
 }

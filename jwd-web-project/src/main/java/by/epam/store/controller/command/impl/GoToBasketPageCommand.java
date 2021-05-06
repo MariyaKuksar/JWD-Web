@@ -1,7 +1,5 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -36,21 +34,15 @@ public class GoToBasketPageCommand implements Command {
 		Long userId = (Long) session.getAttribute(ParameterAndAttribute.USER_ID);
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		try {
-			Optional<Basket> basketOptional = orderService.takeOrderBasket(userId, orderBasketId);
-			if (basketOptional.isPresent()) {
-				Basket basket = basketOptional.get();
-				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, basket.getOrderBasketId());
-				if (!basket.getProducts().isEmpty()) {
-					request.setAttribute(ParameterAndAttribute.BASKET, basket); 
-				} else {
-					session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_BASKET_IS_EMPTY_MESSAGE);
-				}
-				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);
-				router = new Router(PagePath.BASKET, RouteType.FORWARD);
+			Basket basket = orderService.takeOrderBasket(userId, orderBasketId);
+			session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, basket.getOrderBasketId());
+			if (!basket.getProducts().isEmpty()) {
+				request.setAttribute(ParameterAndAttribute.BASKET, basket);
 			} else {
-				logger.info("incorrect data");
-				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_BASKET_IS_EMPTY_MESSAGE);
 			}
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);
+			router = new Router(PagePath.BASKET, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("basket search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

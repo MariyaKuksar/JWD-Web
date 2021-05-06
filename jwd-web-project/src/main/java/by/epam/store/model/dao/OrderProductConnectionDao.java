@@ -11,5 +11,5 @@ public interface OrderProductConnectionDao extends BaseDao<OrderProductConnectio
 
 	Map<Product, Integer> findByOrderId(Long orderId) throws DaoException;
 
-	boolean delete(OrderProductConnection orderProductConnection) throws DaoException;
+	void delete(OrderProductConnection orderProductConnection) throws DaoException;
 }

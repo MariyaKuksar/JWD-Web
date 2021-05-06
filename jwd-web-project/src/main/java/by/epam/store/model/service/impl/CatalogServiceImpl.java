@@ -3,10 +3,6 @@ package by.epam.store.model.service.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 import by.epam.store.model.dao.ProductDao;
@@ -18,11 +14,11 @@ import by.epam.store.model.entity.builder.ProductBuilder;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.ProductInfoValidator;
 
 public class CatalogServiceImpl implements CatalogService {
-	private static final Logger logger = LogManager.getLogger();
 	private ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
 
@@ -39,13 +35,11 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<Product> takeProductsFromCategory(String categoryId) throws ServiceException {
-		if (!IdValidator.isValidId(categoryId)) {
-			return Collections.emptyList();
-		}
 		List<Product> products;
 		try {
-			products = productDao.findProductByCategoryId(Long.parseLong(categoryId));
-		} catch (DaoException e) {
+			Long id = Long.parseLong(categoryId);
+			products = productDao.findProductByCategoryId(id);
+		} catch (NumberFormatException | DaoException e) {
 			throw new ServiceException("products from category search error", e);
 		}
 		return products;
@@ -53,8 +47,7 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<Product> takeProductsWithName(String productName) throws ServiceException {
-		if (productName == null) {
-			logger.debug("product name is null");
+		if (!ProductInfoValidator.isValidName(productName)) {
 			return Collections.emptyList();
 		}
 		List<Product> products;
@@ -68,6 +61,9 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
+			throw new ServiceException("incorrect categoryId");
+		}
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
 		if (!errorMessageList.isEmpty()) {
 			throw new InvalidDataException("invalid data", errorMessageList);
@@ -78,5 +74,22 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (DaoException e) {
 			throw new ServiceException("product creation error", e);
 		}
+	}
+
+	@Override
+	public void changeProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
+			throw new ServiceException("incorrect productId");
+		}
+		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
+		if (!errorMessageList.isEmpty()) {
+			throw new InvalidDataException("invalid data", errorMessageList);
+		}
+		Product product = ProductBuilder.getInstance().build(productInfo);
+		try {
+			productDao.update(product);
+		} catch (DaoException e) {
+			throw new ServiceException("product changing error", e);
+		}		
 	}
 }

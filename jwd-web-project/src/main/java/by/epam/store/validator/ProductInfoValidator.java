@@ -19,10 +19,6 @@ public final class ProductInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> productInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		//TODO вызываю валидатор из валидатора, норм?
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
-		}
 		if (!isValidPrice(productInfo.get(ParameterAndAttribute.PRICE))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRICE_MESSAGE);
 		}
@@ -43,7 +39,7 @@ public final class ProductInfoValidator {
 	}
 
 	public static boolean isValidImageName(String imageName) {
-		return (imageName != null) ? imageName.matches(IMAGE_NAME_PATTERN) : false;
+		return (imageName != null) ? imageName.matches(IMAGE_NAME_PATTERN) : true;
 	}
 
 	public static boolean isValidName(String name) {

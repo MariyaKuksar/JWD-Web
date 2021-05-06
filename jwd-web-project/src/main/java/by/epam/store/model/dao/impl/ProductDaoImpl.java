@@ -14,11 +14,13 @@ import by.epam.store.model.dao.ProductDao;
 import by.epam.store.model.entity.Product;
 
 public class ProductDaoImpl implements ProductDao {
-	//TODO private static final Logger logger = LogManager.getLogger();
+	// TODO private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
+	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
+	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
 	public List<Product> findAll() throws DaoException {
@@ -41,9 +43,18 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public boolean update(Product entity) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean update(Product product) throws DaoException {
+		int numberUpdatedRows;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PRODUCT)) {
+			statement.setString(1, product.getProductName());
+			statement.setBigDecimal(2, product.getPrice());
+			statement.setLong(3, product.getProductId());
+			numberUpdatedRows = statement.executeUpdate();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
 
 	@Override
@@ -71,7 +82,7 @@ public class ProductDaoImpl implements ProductDao {
 			statement.setString(1, ZERO_OR_MORE_CHARACTERS + productName + ZERO_OR_MORE_CHARACTERS);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
-			Product	product = DaoEntityBuilder.buildProduct(resultSet);
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
 				products.add(product);
 			}
 		} catch (ConnectionPoolException | SQLException e) {

@@ -16,12 +16,10 @@ public final class MessageKey {
 	public static final String ERROR_SESSION_TIMED_OUT_MESSAGE = "local.error.session_timed_out";
 	public static final String ERROR_NEED_TO_LOGIN_MESSAGE = "local.error.need_to_login";
 	public static final String ERROR_IMPOSSIBLE_OPERATION_MESSAGE = "local.error.impossible_operation";
-	public static final String ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE = "local.error.incorrect_product_category";
 	public static final String ERROR_INCORRECT_PRODUCT_NAME_MESSAGE = "local.error.incorrect_product_name";
 	public static final String ERROR_INCORRECT_PRICE_MESSAGE = "local.error.incorrect_price";
 	public static final String ERROR_INCORRECT_IMAGE_NAME_MESSAGE = "local.error.incorrect_image_name";
 	public static final String ERROR_SAVE_MESSAGE = "local.error.save";
-	public static final String ERROR_CHECKOUT_MESSAGE = "local.error.checkout";
 	public static final String ERROR_INCORRECT_CITY_MESSAGE = "local.error.incorrect_city";
 	public static final String ERROR_INCORRECT_STREET_MESSAGE = "local.error.incorrect_street";
 	public static final String ERROR_INCORRECT_HOUSE_MESSAGE = "local.error.incorrect_house";
@@ -35,6 +33,7 @@ public final class MessageKey {
 	public static final String INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE = "local.message.product_added_to_catalog";
 	public static final String INFO_BASKET_IS_EMPTY_MESSAGE = "local.message.basket_is_empty";
 	public static final String INFO_ORDER_IS_PROCESSED_MESSAGE = "local.message.order_is_processed";
+	public static final String INFO_SAVED_SUCCESSFULLY_MESSAGE = "local.message.saved_successfully";
 	
 	private MessageKey() {
 	}

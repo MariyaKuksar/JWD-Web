@@ -44,11 +44,11 @@ public class AddProductToCatalogCommand implements Command {
 			router = new Router(PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId, RouteType.REDIRECT);
 
 		} catch (InvalidDataException e) {
-			logger.error("invalid data");
+			logger.error("invalid data", e);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
 			router = new Router(PagePath.ADDED_PRODUCT, RouteType.REDIRECT);
 		} catch (IOException | ServletException | ServiceException e) {
-			logger.error("error adding a product to the catalog");
+			logger.error("error adding a product to the catalog", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

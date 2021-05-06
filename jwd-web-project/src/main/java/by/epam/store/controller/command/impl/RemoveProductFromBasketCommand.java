@@ -19,7 +19,7 @@ import by.epam.store.util.UserControl;
 
 public class RemoveProductFromBasketCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -32,12 +32,8 @@ public class RemoveProductFromBasketCommand implements Command {
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		try {
-			if(orderService.removeProductFromOrder(orderBasketId, productId)) {
+			orderService.removeProductFromOrder(orderBasketId, productId);
 			router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
-			} else {
-				logger.info("incorrect data");
-				router = new Router(PagePath.ERROR, RouteType.REDIRECT);
-			}	
 		} catch (ServiceException e) {
 			logger.error("error removing a product from the basket", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

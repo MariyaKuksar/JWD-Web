@@ -24,6 +24,7 @@ import by.epam.store.model.entity.builder.OrderBuilder;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PriceCalculator;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.OrderInfoValidator;
@@ -36,10 +37,9 @@ public class OrderServiceImpl implements OrderService {
 	private OrderProductConnectionDao orderProductConnectionDao = new OrderProductConnectionDaoImpl();
 
 	@Override
-	public Optional<Long> addProductToBasket(Long userId, Long orderBasketId, String productId)
-			throws ServiceException {
-		if (!IdValidator.isValidId(productId) || userId == null) {
-			return Optional.empty();
+	public Long addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException {
+		if (userId == null || !IdValidator.isValidId(productId)) {
+			throw new ServiceException("incorrect userId or productId");
 		}
 		try {
 			if (orderBasketId == null) {
@@ -53,13 +53,13 @@ public class OrderServiceImpl implements OrderService {
 		} catch (DaoException e) {
 			throw new ServiceException("product adding error", e);
 		}
-		return Optional.of(orderBasketId);
+		return orderBasketId;
 	}
 
 	@Override
-	public Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
+	public Basket takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
 		if (userId == null) {
-			return Optional.empty();
+			throw new ServiceException("userId is null");
 		}
 		Basket basket;
 		try {
@@ -76,14 +76,16 @@ public class OrderServiceImpl implements OrderService {
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}
-		return Optional.of(basket);
+		return basket;
 	}
 
 	@Override
 	public boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct)
 			throws ServiceException {
-		if (orderId == null || !IdValidator.isValidId(productId)
-				|| !ProductInfoValidator.isValidAmount(amountProduct)) {
+		if (orderId == null || !IdValidator.isValidId(productId)) {
+			throw new ServiceException("incorrect orderId or productId");
+		}
+		if (!ProductInfoValidator.isValidAmount(amountProduct)) {
 			return false;
 		}
 		boolean amountOfProductChanged;
@@ -98,25 +100,32 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public boolean removeProductFromOrder(Long orderId, String productId) throws ServiceException {
+	public void removeProductFromOrder(Long orderId, String productId) throws ServiceException {
 		if (orderId == null || !IdValidator.isValidId(productId)) {
-			return false;
+			throw new ServiceException("incorrect orderId or productId");
 		}
-		boolean productRemoved;
 		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId));
 		try {
-			productRemoved = orderProductConnectionDao.delete(orderProductConnection);
+			orderProductConnectionDao.delete(orderProductConnection);
 		} catch (DaoException e) {
 			throw new ServiceException("error removing a product from the order", e);
 		}
-		return productRemoved;
 	}
 
 	@Override
 	public void checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException {
-		List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
-		if (!errorMessageList.isEmpty()) {
-			throw new InvalidDataException("invalid data", errorMessageList);
+		if (!IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))
+				|| !OrderInfoValidator.isValidCost(orderInfo.get(ParameterAndAttribute.COST))
+				|| !OrderInfoValidator.isValidPaymentMethod(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD))
+				|| !OrderInfoValidator.isValidDeliveryMethod(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD))) {
+			throw new ServiceException("incorrect data");
+		}
+		String deliveryMethod = orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD);
+		if (DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
+			List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
+			if (!errorMessageList.isEmpty()) {
+				throw new InvalidDataException("invalid data", errorMessageList);
+			}
 		}
 		Order order = OrderBuilder.getInstance().build(orderInfo);
 		logger.debug(order.toString());

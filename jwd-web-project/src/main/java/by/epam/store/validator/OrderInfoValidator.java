@@ -19,33 +19,23 @@ public final class OrderInfoValidator {
 	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\s\\.]{1,20}$";
 	private static final String HOUSE_PATTERN = "^\\d{1,3}[\\s-/]?[абвгд\\d]?$";
 	private static final String APARTMENT_PATTERN = "[\\d-]{0,3}";
-	
+
 	private OrderInfoValidator() {
 	}
 
 	public static List<String> findInvalidData(Map<String, String> orderInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		// TODO вызываю валидатор из валидатора, норм?
-		if (!IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))
-				|| !isValidCost(orderInfo.get(ParameterAndAttribute.COST))
-				|| !isValidPaymentMethod(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD))
-				|| !isValidDeliveryMethod(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD))) {
-			errorMessageList.add(MessageKey.ERROR_CHECKOUT_MESSAGE);
+		if (!isValidCity(orderInfo.get(ParameterAndAttribute.CITY))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_CITY_MESSAGE);
 		}
-		String deliveryMethod = orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD);
-		if (deliveryMethod != null && DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
-			if (!isValidCity(orderInfo.get(ParameterAndAttribute.CITY))) {
-				errorMessageList.add(MessageKey.ERROR_INCORRECT_CITY_MESSAGE);
-			}
-			if (!isValidStreet(orderInfo.get(ParameterAndAttribute.STREET))) {
-				errorMessageList.add(MessageKey.ERROR_INCORRECT_STREET_MESSAGE);
-			}
-			if (!isValidHouse(orderInfo.get(ParameterAndAttribute.HOUSE))) {
-				errorMessageList.add(MessageKey.ERROR_INCORRECT_HOUSE_MESSAGE);
-			}
-			if (!isValidApartment(orderInfo.get(ParameterAndAttribute.APARTMENT))) {
-				errorMessageList.add(MessageKey.ERROR_INCORRECT_APARTMENT_MESSAGE);
-			}
+		if (!isValidStreet(orderInfo.get(ParameterAndAttribute.STREET))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_STREET_MESSAGE);
+		}
+		if (!isValidHouse(orderInfo.get(ParameterAndAttribute.HOUSE))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_HOUSE_MESSAGE);
+		}
+		if (!isValidApartment(orderInfo.get(ParameterAndAttribute.APARTMENT))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_APARTMENT_MESSAGE);
 		}
 		logger.debug(errorMessageList.toString());
 		return errorMessageList;
@@ -78,19 +68,19 @@ public final class OrderInfoValidator {
 		}
 		return true;
 	}
-	
+
 	public static boolean isValidCity(String city) {
 		return (city != null) ? city.matches(CITY_PATTERN) : false;
 	}
-	
+
 	public static boolean isValidStreet(String street) {
 		return (street != null) ? street.matches(STREET_PATTERN) : false;
 	}
-	
+
 	public static boolean isValidHouse(String house) {
 		return (house != null) ? house.matches(HOUSE_PATTERN) : false;
 	}
-	
+
 	public static boolean isValidApartment(String apartment) {
 		return (apartment != null) ? apartment.matches(APARTMENT_PATTERN) : true;
 	}

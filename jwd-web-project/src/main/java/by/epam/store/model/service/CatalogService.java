@@ -15,4 +15,6 @@ public interface CatalogService {
 	List<Product> takeProductsWithName(String productName) throws ServiceException;
 	
 	void addProduct (Map<String, String> productInfo) throws ServiceException, InvalidDataException;
+
+	void changeProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
 }

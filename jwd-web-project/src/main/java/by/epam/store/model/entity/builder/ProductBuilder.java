@@ -20,9 +20,15 @@ public class ProductBuilder implements EntityBuilder<Product> {
 	@Override
 	public Product build(Map<String, String> productInfo) {
 		Product product = new Product();
-		ProductCategory category = new ProductCategory(
-				Long.parseLong(productInfo.get(ParameterAndAttribute.CATEGORY_ID)));
-		product.setCategory(category);
+		String productId = productInfo.get(ParameterAndAttribute.PRODUCT_ID);
+		if (productId != null) {
+			product.setProductId(Long.parseLong(productId));
+		}
+		String categoryId = productInfo.get(ParameterAndAttribute.CATEGORY_ID);
+		if (categoryId != null) {
+			ProductCategory category = new ProductCategory(Long.parseLong(categoryId));
+			product.setCategory(category);
+		}
 		product.setProductName(productInfo.get(ParameterAndAttribute.PRODUCT_NAME));
 		product.setImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME));
 		product.setPrice(new BigDecimal(productInfo.get(ParameterAndAttribute.PRICE)));
