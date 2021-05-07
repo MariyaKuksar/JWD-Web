@@ -7,11 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import by.epam.store.entity.ProductCategory;
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
-import by.epam.store.model.entity.ProductCategory;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao {
 	//TODO private static final Logger logger = LogManager.getLogger();

@@ -10,7 +10,7 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
-import by.epam.store.model.entity.UserRole;
+import by.epam.store.entity.UserRole;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;

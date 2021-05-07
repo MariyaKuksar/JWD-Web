@@ -12,7 +12,7 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
-import by.epam.store.model.entity.ProductCategory;
+import by.epam.store.entity.ProductCategory;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;

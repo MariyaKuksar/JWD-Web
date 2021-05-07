@@ -3,14 +3,14 @@ package by.epam.store.model.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import by.epam.store.entity.Order;
+import by.epam.store.entity.OrderStatus;
+import by.epam.store.entity.Product;
+import by.epam.store.entity.ProductCategory;
+import by.epam.store.entity.User;
+import by.epam.store.entity.UserRole;
+import by.epam.store.entity.UserStatus;
 import by.epam.store.model.dao.ColumnName;
-import by.epam.store.model.entity.Order;
-import by.epam.store.model.entity.OrderStatus;
-import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.ProductCategory;
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserRole;
-import by.epam.store.model.entity.UserStatus;
 
 final class DaoEntityBuilder {
 

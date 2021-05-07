@@ -1,4 +1,4 @@
-package by.epam.store.model.entity;
+package by.epam.store.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

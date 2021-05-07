@@ -3,8 +3,8 @@ package by.epam.store.model.dao;
 import java.util.List;
 import java.util.Optional;
 
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserStatus;
+import by.epam.store.entity.User;
+import by.epam.store.entity.UserStatus;
 
 public interface UserDao extends BaseDao<User> {
 	

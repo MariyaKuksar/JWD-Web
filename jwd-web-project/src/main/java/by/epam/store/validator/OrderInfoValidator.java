@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.store.model.entity.DeliveryMethod;
-import by.epam.store.model.entity.PaymentMethod;
+import by.epam.store.entity.DeliveryMethod;
+import by.epam.store.entity.PaymentMethod;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 

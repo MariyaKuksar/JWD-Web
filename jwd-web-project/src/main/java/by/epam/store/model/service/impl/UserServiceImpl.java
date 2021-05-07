@@ -12,12 +12,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.entity.User;
+import by.epam.store.entity.UserStatus;
+import by.epam.store.entity.builder.UserBuilder;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.UserDao;
 import by.epam.store.model.dao.impl.UserDaoImpl;
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserStatus;
-import by.epam.store.model.entity.builder.UserBuilder;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.UserService;

@@ -2,7 +2,7 @@ package by.epam.store.model.dao;
 
 import java.util.Optional;
 
-import by.epam.store.model.entity.Order;
+import by.epam.store.entity.Order;
 
 public interface OrderDao extends BaseDao<Order> {
 

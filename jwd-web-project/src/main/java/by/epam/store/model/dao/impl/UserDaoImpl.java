@@ -12,12 +12,12 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.entity.User;
+import by.epam.store.entity.UserStatus;
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.UserDao;
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserStatus;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();

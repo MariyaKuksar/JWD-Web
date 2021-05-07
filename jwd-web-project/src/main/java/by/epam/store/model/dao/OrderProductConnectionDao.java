@@ -2,8 +2,8 @@ package by.epam.store.model.dao;
 
 import java.util.Map;
 
-import by.epam.store.model.entity.OrderProductConnection;
-import by.epam.store.model.entity.Product;
+import by.epam.store.entity.OrderProductConnection;
+import by.epam.store.entity.Product;
 
 public interface OrderProductConnectionDao extends BaseDao<OrderProductConnection> {
 

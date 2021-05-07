@@ -3,8 +3,8 @@ package by.epam.store.model.service;
 import java.util.List;
 import java.util.Map;
 
-import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.ProductCategory;
+import by.epam.store.entity.Product;
+import by.epam.store.entity.ProductCategory;
 
 public interface CatalogService {
 

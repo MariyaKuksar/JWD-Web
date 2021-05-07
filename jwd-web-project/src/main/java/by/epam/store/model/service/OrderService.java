@@ -2,7 +2,7 @@ package by.epam.store.model.service;
 
 import java.util.Map;
 
-import by.epam.store.model.entity.Basket;
+import by.epam.store.entity.Basket;
 
 public interface OrderService {
 

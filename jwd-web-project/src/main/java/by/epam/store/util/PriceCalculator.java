@@ -3,8 +3,7 @@ package by.epam.store.util;
 import java.math.BigDecimal;
 import java.util.Map;
 
-
-import by.epam.store.model.entity.Product;
+import by.epam.store.entity.Product;
 
 public final class PriceCalculator {
 	

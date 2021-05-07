@@ -1,4 +1,4 @@
-package by.epam.store.model.entity;
+package by.epam.store.entity;
 
 public enum UserRole {
 	ADMIN, 

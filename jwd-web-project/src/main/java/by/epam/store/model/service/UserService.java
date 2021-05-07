@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import by.epam.store.model.entity.User;
+import by.epam.store.entity.User;
 
 public interface UserService {
 	

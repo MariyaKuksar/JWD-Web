@@ -8,13 +8,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import by.epam.store.entity.OrderProductConnection;
+import by.epam.store.entity.Product;
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderProductConnectionDao;
-import by.epam.store.model.entity.OrderProductConnection;
-import by.epam.store.model.entity.Product;
 
 public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao {
 	private static final String SQL_UPDATE_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET AMOUNT_OF_PRODUCT=? WHERE ORDER_ID=? AND PRODUCT_ID=?";

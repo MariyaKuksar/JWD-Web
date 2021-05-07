@@ -1,13 +1,13 @@
-package by.epam.store.model.entity.builder;
+package by.epam.store.entity.builder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
-import by.epam.store.model.entity.DeliveryMethod;
-import by.epam.store.model.entity.Order;
-import by.epam.store.model.entity.OrderStatus;
-import by.epam.store.model.entity.PaymentMethod;
+import by.epam.store.entity.DeliveryMethod;
+import by.epam.store.entity.Order;
+import by.epam.store.entity.OrderStatus;
+import by.epam.store.entity.PaymentMethod;
 import by.epam.store.util.ParameterAndAttribute;
 
 public class OrderBuilder implements EntityBuilder<Order> {

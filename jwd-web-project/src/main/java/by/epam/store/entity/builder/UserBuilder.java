@@ -1,10 +1,10 @@
-package by.epam.store.model.entity.builder;
+package by.epam.store.entity.builder;
 
 import java.util.Map;
 
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserRole;
-import by.epam.store.model.entity.UserStatus;
+import by.epam.store.entity.User;
+import by.epam.store.entity.UserRole;
+import by.epam.store.entity.UserStatus;
 import by.epam.store.util.ParameterAndAttribute;
 
 public class UserBuilder implements EntityBuilder<User> {

@@ -7,8 +7,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.PagePath;
-import by.epam.store.model.entity.User;
-import by.epam.store.model.entity.UserRole;
+import by.epam.store.entity.User;
+import by.epam.store.entity.UserRole;
 
 public final class UserControl {
 	private static final Logger logger = LogManager.getLogger();

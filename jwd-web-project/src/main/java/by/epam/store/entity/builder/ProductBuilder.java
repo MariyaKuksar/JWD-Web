@@ -1,10 +1,10 @@
-package by.epam.store.model.entity.builder;
+package by.epam.store.entity.builder;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
-import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.ProductCategory;
+import by.epam.store.entity.Product;
+import by.epam.store.entity.ProductCategory;
 import by.epam.store.util.ParameterAndAttribute;
 
 public class ProductBuilder implements EntityBuilder<Product> {

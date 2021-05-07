@@ -1,4 +1,4 @@
-package by.epam.store.model.entity.builder;
+package by.epam.store.entity.builder;
 
 import java.util.Map;
 

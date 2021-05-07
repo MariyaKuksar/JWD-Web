@@ -3,14 +3,15 @@ package by.epam.store.model.service.impl;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import by.epam.store.entity.Product;
+import by.epam.store.entity.ProductCategory;
+import by.epam.store.entity.builder.ProductBuilder;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 import by.epam.store.model.dao.ProductDao;
 import by.epam.store.model.dao.impl.ProductCategoryDaoImpl;
 import by.epam.store.model.dao.impl.ProductDaoImpl;
-import by.epam.store.model.entity.Product;
-import by.epam.store.model.entity.ProductCategory;
-import by.epam.store.model.entity.builder.ProductBuilder;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
