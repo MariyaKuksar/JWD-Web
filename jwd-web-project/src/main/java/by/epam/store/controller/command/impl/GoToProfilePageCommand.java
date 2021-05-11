@@ -1,5 +1,7 @@
 package by.epam.store.controller.command.impl;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,15 +12,16 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
+import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
-import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
+import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
-public class RemoveProductFromBasketCommand implements Command {
+public class GoToProfilePageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
@@ -29,22 +32,24 @@ public class RemoveProductFromBasketCommand implements Command {
 			return router;
 		}
 		HttpSession session = request.getSession(true);
-		OrderService orderService = ServiceFactory.getInstance().getOrderService();
-		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
-		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		String login = (String) session.getAttribute(ParameterAndAttribute.LOGIN);
 		try {
-			if (orderService.removeProductFromOrder(orderBasketId, productId)) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
-				router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
+			Optional<User> userOptional = userService.takeUserByLogin(login);
+			if (userOptional.isPresent()) {
+				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_PROFILE_PAGE);
+			request.setAttribute(ParameterAndAttribute.USER, userOptional.get());
+			router = new Router(PagePath.PROFILE, RouteType.FORWARD);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
-						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {
-			logger.error("error removing a product from the basket", e);
+			logger.error("user search error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;
+
 	}
+
 }

@@ -25,17 +25,29 @@ public final class OrderInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> orderInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		if (!isValidCity(orderInfo.get(ParameterAndAttribute.CITY))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_CITY_MESSAGE);
+		if (!OrderInfoValidator.isValidCost(orderInfo.get(ParameterAndAttribute.COST))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRICE_MESSAGE);
 		}
-		if (!isValidStreet(orderInfo.get(ParameterAndAttribute.STREET))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_STREET_MESSAGE);
+		if (!OrderInfoValidator.isValidPaymentMethod(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_PAYMENT_METHOD_MESSAGE);
 		}
-		if (!isValidHouse(orderInfo.get(ParameterAndAttribute.HOUSE))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_HOUSE_MESSAGE);
+		if (!OrderInfoValidator.isValidDeliveryMethod(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_DELVERY_METHOD_MESSAGE);
 		}
-		if (!isValidApartment(orderInfo.get(ParameterAndAttribute.APARTMENT))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_APARTMENT_MESSAGE);
+		String deliveryMethod = orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD);
+		if (deliveryMethod!=null || DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
+			if (!isValidCity(orderInfo.get(ParameterAndAttribute.CITY))) {
+				errorMessageList.add(MessageKey.ERROR_INCORRECT_CITY_MESSAGE);
+			}
+			if (!isValidStreet(orderInfo.get(ParameterAndAttribute.STREET))) {
+				errorMessageList.add(MessageKey.ERROR_INCORRECT_STREET_MESSAGE);
+			}
+			if (!isValidHouse(orderInfo.get(ParameterAndAttribute.HOUSE))) {
+				errorMessageList.add(MessageKey.ERROR_INCORRECT_HOUSE_MESSAGE);
+			}
+			if (!isValidApartment(orderInfo.get(ParameterAndAttribute.APARTMENT))) {
+				errorMessageList.add(MessageKey.ERROR_INCORRECT_APARTMENT_MESSAGE);
+			}
 		}
 		logger.debug(errorMessageList.toString());
 		return errorMessageList;

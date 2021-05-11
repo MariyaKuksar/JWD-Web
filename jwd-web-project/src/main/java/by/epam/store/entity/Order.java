@@ -12,7 +12,7 @@ public class Order implements Serializable {
 	private OrderStatus orderStatus;
 	private Map<Product, Integer> products;
 	private BigDecimal cost;
-	private LocalDateTime dataTime;
+	private LocalDateTime dateTime;
 	private PaymentMethod paymentMethod;
 	private DeliveryMethod deliveryMethod;
 	private Address address = new Address();
@@ -64,12 +64,12 @@ public class Order implements Serializable {
 		this.cost = cost;
 	}
 
-	public LocalDateTime getDataTime() {
-		return dataTime;
+	public LocalDateTime getDateTime() {
+		return dateTime;
 	}
 
-	public void setDataTime(LocalDateTime dataTime) {
-		this.dataTime = dataTime;
+	public void setDateTime(LocalDateTime dateTime) {
+		this.dateTime = dateTime;
 	}
 
 	public PaymentMethod getPaymentMethod() {
@@ -97,12 +97,19 @@ public class Order implements Serializable {
 	}
 
 	@Override
+	public String toString() {
+		return "Order [orderId=" + orderId + ", userId=" + userId + ", orderStatus=" + orderStatus + ", products="
+				+ products + ", cost=" + cost + ", dateTime=" + dateTime + ", paymentMethod=" + paymentMethod
+				+ ", deliveryMethod=" + deliveryMethod + ", address=" + address + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());
 		result = prime * result + ((cost == null) ? 0 : cost.hashCode());
-		result = prime * result + ((dataTime == null) ? 0 : dataTime.hashCode());
+		result = prime * result + ((dateTime == null) ? 0 : dateTime.hashCode());
 		result = prime * result + ((deliveryMethod == null) ? 0 : deliveryMethod.hashCode());
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((orderStatus == null) ? 0 : orderStatus.hashCode());
@@ -131,10 +138,10 @@ public class Order implements Serializable {
 				return false;
 		} else if (!cost.equals(other.cost))
 			return false;
-		if (dataTime == null) {
-			if (other.dataTime != null)
+		if (dateTime == null) {
+			if (other.dateTime != null)
 				return false;
-		} else if (!dataTime.equals(other.dataTime))
+		} else if (!dateTime.equals(other.dateTime))
 			return false;
 		if (deliveryMethod != other.deliveryMethod)
 			return false;
@@ -158,31 +165,6 @@ public class Order implements Serializable {
 		} else if (!userId.equals(other.userId))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Order [orderId=");
-		builder.append(orderId);
-		builder.append(", userId=");
-		builder.append(userId);
-		builder.append(", orderStatus=");
-		builder.append(orderStatus);
-		builder.append(", products=");
-		builder.append(products);
-		builder.append(", cost=");
-		builder.append(cost);
-		builder.append(", dataTime=");
-		builder.append(dataTime);
-		builder.append(", paymentMethod=");
-		builder.append(paymentMethod);
-		builder.append(", deliveryMethod=");
-		builder.append(deliveryMethod);
-		builder.append(", address=");
-		builder.append(address);
-		builder.append("]");
-		return builder.toString();
 	}
 
 	public class Address {

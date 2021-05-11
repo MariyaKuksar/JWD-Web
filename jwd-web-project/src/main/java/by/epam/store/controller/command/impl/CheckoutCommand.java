@@ -24,7 +24,7 @@ import by.epam.store.util.UserControl;
 
 public class CheckoutCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -38,11 +38,14 @@ public class CheckoutCommand implements Command {
 		String orderBasketId = String.valueOf(session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID));
 		orderInfo.put(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketId);
 		try {
-			orderService.checkout(orderInfo);
-			session.removeAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
-			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
-					MessageKey.INFO_ORDER_IS_PROCESSED_MESSAGE);
-			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+			if (orderService.checkout(orderInfo)) {
+				session.removeAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_ORDER_IS_PLACED_MESSAGE);
+				router = new Router(PagePath.GO_TO_ORDERS_PAGE, RouteType.REDIRECT);
+			} else {
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+				router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
+			}
 		} catch (InvalidDataException e) {
 			logger.error("invalid data " + orderInfo.toString(), e);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
@@ -53,5 +56,4 @@ public class CheckoutCommand implements Command {
 		}
 		return router;
 	}
-
 }

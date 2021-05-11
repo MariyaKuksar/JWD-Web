@@ -59,10 +59,10 @@
                         </li>
                         </c:if>
                         <c:if test="${sessionScope.role == 'CLIENT'}">
-                        <li><a href="#nogo">${profile}</a>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page">${profile}</a>
                             <ul class="menu2">
-                                <li><a href="#nogo">${personal_data}</a></li>
-                                <li><a href="#nogo">${my_orders}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page">${personal_data}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=go_to_orders_page">${my_orders}</a></li>
                             </ul>
                         </li>
                         </c:if>

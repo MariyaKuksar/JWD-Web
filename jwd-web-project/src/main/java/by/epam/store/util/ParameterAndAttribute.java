@@ -21,7 +21,7 @@ public final class ParameterAndAttribute {
 	public static final String IMAGE_NAME = "imageName";
 	public static final String USER_STATUS = "userStatus";
 	public static final String ORDER_BASKET_ID = "orderBasketId";
-	public static final String ORDER = "order";
+	public static final String ORDERS = "orders";
 	public static final String URL = "url"; 
 	public static final String AMOUNT_PRODUCT = "amountProduct"; 
 	public static final String BASKET = "basket";
@@ -32,6 +32,10 @@ public final class ParameterAndAttribute {
 	public static final String STREET = "street";
 	public static final String HOUSE = "house";
 	public static final String APARTMENT = "apartment";
+	public static final String ORDER_ID = "orderId";
+	public static final String USER = "user";
+	public static final String CURRENT_LOGIN = "currentLogin";
+	public static final String NEW_PASSWORD = "newPassword";
 	
 	private ParameterAndAttribute() {
 	}	

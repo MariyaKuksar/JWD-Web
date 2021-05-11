@@ -1,18 +1,26 @@
 package by.epam.store.model.service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import by.epam.store.entity.Basket;
+import by.epam.store.entity.Order;
 
 public interface OrderService {
 
-	Long addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException;
+	Long addProductToBasket(Long userId, Long orderBasketId, String productId)
+			throws ServiceException, InvalidDataException;
 
-	Basket takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException;
+	Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException;
 
 	boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct) throws ServiceException;
 
-	void removeProductFromOrder(Long orderId, String productId) throws ServiceException;
+	boolean removeProductFromOrder(Long orderId, String productId) throws ServiceException;
 
-	void checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException;
+	boolean checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException;
+
+	List<Order> takeOrdersByUserId(Long userId) throws ServiceException;
+
+	boolean cancelOrder(String orderId) throws ServiceException;
 }

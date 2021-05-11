@@ -15,6 +15,7 @@ import by.epam.store.model.dao.impl.ProductDaoImpl;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.ProductInfoValidator;
@@ -36,11 +37,13 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<Product> takeProductsFromCategory(String categoryId) throws ServiceException {
+		if(!IdValidator.isValidId(categoryId)) {
+			return Collections.emptyList();
+		}
 		List<Product> products;
 		try {
-			Long id = Long.parseLong(categoryId);
-			products = productDao.findProductByCategoryId(id);
-		} catch (NumberFormatException | DaoException e) {
+			products = productDao.findProductsByCategoryId(categoryId);
+		} catch (DaoException e) {
 			throw new ServiceException("products from category search error", e);
 		}
 		return products;
@@ -62,10 +65,10 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
-			throw new ServiceException("incorrect categoryId");
-		}
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
+		}
 		if (!errorMessageList.isEmpty()) {
 			throw new InvalidDataException("invalid data", errorMessageList);
 		}
@@ -78,19 +81,21 @@ public class CatalogServiceImpl implements CatalogService {
 	}
 
 	@Override
-	public void changeProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
-			throw new ServiceException("incorrect productId");
-		}
+	public boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_ID_MESSAGE);
+		}
 		if (!errorMessageList.isEmpty()) {
 			throw new InvalidDataException("invalid data", errorMessageList);
 		}
 		Product product = ProductBuilder.getInstance().build(productInfo);
+		boolean productChanged;
 		try {
-			productDao.update(product);
+			productChanged = productDao.update(product);
 		} catch (DaoException e) {
 			throw new ServiceException("product changing error", e);
-		}		
+		}	
+		return productChanged;	
 	}
 }

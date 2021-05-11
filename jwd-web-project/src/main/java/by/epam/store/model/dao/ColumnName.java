@@ -22,10 +22,15 @@ public final class ColumnName {
 	
 	public static final String ORDERS_ID = "id";
 	public static final String ORDERS_USER_ID = "user_id";
-	public static final String ORDERS_DATA_TIME = "data_time";
-	public static final String ORDERS_STATUS = "orders_status";
+	public static final String ORDERS_DATE_TIME = "date_time";
+	public static final String ORDERS_STATUS = "status";
 	public static final String ORDERS_PAYMENT_METHOD = "payment_method";
 	public static final String ORDERS_COST = "cost";
+	public static final String ORDERS_DELIVERY_METHOD = "delivery_method";
+	public static final String ORDERS_CITY = "city";
+	public static final String ORDERS_STREET = "street";
+	public static final String ORDERS_HOUSE = "house";
+	public static final String ORDERS_APARTMENT = "apartment";
 	
 	public static final String ORDER_PRODUCT_CONNECTION_AMOUNT_OF_PRODUCT = "amount_of_product";
 	

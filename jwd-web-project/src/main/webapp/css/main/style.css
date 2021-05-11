@@ -248,14 +248,28 @@ html {
     width: 100%;
     margin: 20px auto;
     text-align: center;
-    overflow: hidden;
 }
 .product > div.image > img{
 	height: 200px;
 }
 
+.product button {
+	font:normal 16px TTNormsRegular;
+}
+
+/*     EDIT PRODUCT FORM */
 .form_edit {
 	display: none;
+	margin-top: 5px;
+}
+.form_edit span {
+	font-weight: bold;
+}
+.form_edit div {
+	margin: 5px 0;
+}
+.form_edit input {
+	font:normal 16px TTNormsRegular;
 }
 /*====*/
 /*==FOOTER==*/

@@ -14,5 +14,7 @@ public interface UserDao extends BaseDao<User> {
 
 	List<User> findUsersByName(String userName) throws DaoException;
 
-	boolean updatePassword(String login, String password) throws DaoException;	
+	boolean updatePassword(String login, String password) throws DaoException;
+
+	boolean updatePassword(String login, String newPassword, String currentPassword)throws DaoException;	
 }

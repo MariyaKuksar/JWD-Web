@@ -7,16 +7,22 @@ import java.util.Optional;
 import by.epam.store.entity.User;
 
 public interface UserService {
-	
-	void registration(Map <String,String> userInfo) throws ServiceException, InvalidDataException;
-	
-	boolean activation(String userId) throws ServiceException;	
-	
+
+	void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException;
+
+	boolean activation(String userId) throws ServiceException;
+
 	Optional<User> authorization(String login, String password) throws ServiceException;
-	
-	boolean changeForgottenPassword(String login) throws ServiceException;	
-	
+
+	boolean changeForgottenPassword(String login) throws ServiceException;
+
 	List<User> takeAllUsers() throws ServiceException;
 
 	List<User> takeUsersByName(String userName) throws ServiceException;
+
+	Optional<User> takeUserByLogin(String login) throws ServiceException;
+
+	boolean changeUserData(Map<String, String> userInfo) throws ServiceException, InvalidDataException;
+
+	boolean changePassword(String login, String password, String newPassword) throws ServiceException, InvalidDataException;
 }

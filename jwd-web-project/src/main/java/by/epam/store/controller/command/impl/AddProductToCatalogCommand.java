@@ -42,7 +42,6 @@ public class AddProductToCatalogCommand implements Command {
 			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE);
 			String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
 			router = new Router(PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId, RouteType.REDIRECT);
-
 		} catch (InvalidDataException e) {
 			logger.error("invalid data", e);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());

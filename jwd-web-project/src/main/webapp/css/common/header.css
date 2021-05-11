@@ -38,7 +38,6 @@ html {
 }
 header{
 	width: 100%;
-	float: left;
 }
 header>div > div > a {
 	position: absolute;

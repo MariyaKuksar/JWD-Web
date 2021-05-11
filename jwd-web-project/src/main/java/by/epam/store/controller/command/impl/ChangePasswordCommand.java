@@ -11,14 +11,15 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.entity.UserRole;
-import by.epam.store.model.service.OrderService;
+import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
+import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
-public class RemoveProductFromBasketCommand implements Command {
+public class ChangePasswordCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
@@ -29,20 +30,23 @@ public class RemoveProductFromBasketCommand implements Command {
 			return router;
 		}
 		HttpSession session = request.getSession(true);
-		OrderService orderService = ServiceFactory.getInstance().getOrderService();
-		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
-		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
+		UserService userService = ServiceFactory.getInstance().getUserService();
+		String login = (String) session.getAttribute(ParameterAndAttribute.LOGIN);
+		String currentPassword = request.getParameter(ParameterAndAttribute.PASSWORD);
+		String newPassword = request.getParameter(ParameterAndAttribute.NEW_PASSWORD);
 		try {
-			if (orderService.removeProductFromOrder(orderBasketId, productId)) {
+			if (userService.changePassword(login, currentPassword, newPassword)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
-				router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
-						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
-				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_INCORRECT_PASSWORD_MESSAGE);
 			}
+			router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouteType.REDIRECT);
+		} catch (InvalidDataException e) {
+			logger.error("invalid data", e);
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
+			router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("error removing a product from the basket", e);
+			logger.error("change password error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

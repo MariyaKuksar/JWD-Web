@@ -2,16 +2,18 @@
 .error {
 	padding: 10px 20px;
 	margin: 5px auto;
-	width: 70%;
-	font-size: 14px;
-	color: #FF5733;
+	width: 80%;
+	border-radius: 5px;
+	border: solid 3px #FF5733;
+	font-size: 16px;
 }
 
 /* MESSAGE */
 .message {
 	padding: 10px 20px;
 	margin: 5px auto;
-	width: 70%;
-	font-size: 14px;
-	color: #07D032;
+	width: 80%;
+	border-radius: 5px;
+	border: solid 3px #07D032;
+	font-size: 16px;
 }

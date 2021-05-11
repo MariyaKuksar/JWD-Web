@@ -14,6 +14,14 @@
   <fmt:message key="local.delete" var="delete"/>
   <fmt:message key="local.checkout" var="checkout"/>
   <fmt:message key="local.in_total" var="in_total"/>
+  <fmt:message key="local.products" var="products"/>
+  <fmt:message key="local.price" var="price"/>
+  <fmt:message key="local.amount" var="amount"/>
+  <fmt:message key="local.availability" var="availability"/>
+  <fmt:message key="local.cost" var="cost"/>
+  <fmt:message key="local.delete" var="delete"/>
+  <fmt:message key="local.in_stock" var="in_stock"/>
+  <fmt:message key="local.on_order" var="on_order"/>
   <fmt:message key="local.payment_method" var="payment_method"/>
   <fmt:message key="local.delivery_method" var="delivery_method"/>
   <fmt:message key="local.address" var="address"/>
@@ -21,42 +29,70 @@
   <fmt:message key="local.street" var="street"/>
   <fmt:message key="local.house" var="house"/>
   <fmt:message key="local.apartment" var="apartment"/>
-  
   <title>${title}</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/style.css" type="text/css" />
 </head>
 <body>
-<%@ include file="/jsp/fragment/header.jsp" %>
-	<p></p>
+	<%@ include file="/jsp/fragment/header.jsp" %>
+	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
-   <%@ include file="/jsp/fragment/error_info.jsp" %>
-	
-	 <c:if test = "${not empty requestScope.basket.products}">  
+	 <c:if test = "${not empty requestScope.basket.products}"> 
+		<table>
+			<thead bgcolor="#c9c9c9" align="center">
+				<tr>
+					<th colspan="2">${products}</th>
+					<th>${price}</th>
+					<th>${amount}</th>
+					<th>${availability}</th>
+					<th>${cost}</th>
+					<th>${delete}</th>
+				</tr>
+			</thead>
 		<c:forEach var="product" items="${requestScope.basket.products}">
-		<img id="product_img" src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.key.imageName}" />
-			<tr>
-				<td><c:out value="${product.key.productName}" /></td>
-				<td><c:out value="${product.key.price}$" /></td>
+			<tr align="center" valign="center">
+				<td>
+					<img id="product_img" src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.key.imageName}" />
+				</td>
+			
+				<td>${product.key.productName}</td>
+				
+				<td>${product.key.price}$</td>
+				
+				<td>			
+					<form action="${pageContext.request.contextPath}/controller" method="post">
+						<input type="hidden" name="command" value="change_amount_of_product_in_basket"/>
+						<input type="hidden" name="productId" value="${product.key.productId}"/>
+						<input type="text" name="amountProduct" required placeholder="${product.value}" />
+						<input type="submit" value="${save}"/>
+					</form>
+				</td>
+				
+				<td>
+					<c:if test="${product.key.amount-product.value >= 0}">${in_stock}</c:if>
+					<c:if test="${product.key.amount-product.value < 0}">${on_order}</c:if>
+				</td>
+				
+				<td><c:out value="${product.key.price * product.value}" />$</td>
+				
+				<td>
+					<form action="${pageContext.request.contextPath}/controller" method="post">
+						<input type="hidden" name="command" value="remove_product_from_basket"/>
+						<input type="hidden" name="productId" value="${product.key.productId}"/>
+						<input type="submit" value="${delete}"/>
+					</form>
+				</td>
 			</tr>
-			<form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="change_amount_of_product_in_basket"/>
-        <input type="hidden" name="productId" value="${product.key.productId}"/>
-        <input type="text" name="amountProduct" required placeholder="${product.value}" />
-        <input type="submit" value="${save}"/>
-            </form>
-            <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="remove_product_from_basket"/>
-        <input type="hidden" name="productId" value="${product.key.productId}"/>
-        <input type="submit" value="${delete}"/>
-            </form>
         </c:forEach>
-      <br /> 
-     <p>${in_total}: ${requestScope.basket.cost}$</p>
-     
-      <form action="${pageContext.request.contextPath}/controller" method="post">
-        <input type="hidden" name="command" value="checkout"/>
-        <input type="hidden" name="cost" value="${requestScope.basket.cost}"/>
+		</table> 
+		<div class="order">
+			<div class="final_price">${in_total}: ${requestScope.basket.cost}$</div>
+			<div>
+				<form action="${pageContext.request.contextPath}/controller" method="post">
+					<input type="hidden" name="command" value="checkout"/>
+					  <input type="hidden" name="cost" value="${requestScope.basket.cost}"/>
 	    <br />
 	    <label>${payment_method}:</label>
 	    <br />
@@ -85,8 +121,11 @@
 		<input type="text" name="apartment" placeholder="${apartment}"/>
 		<br /> 
         <input type="submit" value="${checkout}"/>
-            </form>   
-      </c:if> 
+				</form>
+			</div>
+		</div>
+      </c:if>  
+      
 	<mytag:copyright/>
 </body>
 </html>

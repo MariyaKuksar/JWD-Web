@@ -25,10 +25,10 @@ public class ShowProductsFromCategoryCommand implements Command {
 	public Router execute(HttpServletRequest request) {
 		Router router;
 		HttpSession session = request.getSession(true);
-		CatalogService productService = ServiceFactory.getInstance().getCatalogService();
+		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
 		try {
-			List<Product> products = productService.takeProductsFromCategory(categoryId);
+			List<Product> products = catalogService.takeProductsFromCategory(categoryId);
 			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);

@@ -1,5 +1,6 @@
 package by.epam.store.model.service.impl;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +10,8 @@ import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.epam.store.entity.User;
+import by.epam.store.entity.UserRole;
 import by.epam.store.entity.UserStatus;
 import by.epam.store.entity.builder.UserBuilder;
 import by.epam.store.model.dao.DaoException;
@@ -25,10 +24,10 @@ import by.epam.store.util.MailSender;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PasswordEncryption;
+import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.UserInfoValidator;
 
 public class UserServiceImpl implements UserService {
-	private static final Logger logger = LogManager.getLogger();
 	private UserDao userDao = new UserDaoImpl();
 	private static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
 	private static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link http://localhost:8080/jwd-web-project/controller?command=confirm_registration&userId=";
@@ -50,6 +49,8 @@ public class UserServiceImpl implements UserService {
 			String encryptedPassword = PasswordEncryption.encrypt(userInfo.get(ParameterAndAttribute.PASSWORD));
 			userInfo.put(ParameterAndAttribute.PASSWORD, encryptedPassword);
 			User user = UserBuilder.getInstance().build(userInfo);
+			user.setRole(UserRole.CLIENT);
+			user.setStatus(UserStatus.INACTIVE);
 			userDao.create(user);
 			MailSender.send(user.getLogin(), REGISTRATION_MESSAGE_SUBJECT,
 					REGISTRATION_MESSAGE_TEXT + user.getUserId());
@@ -60,11 +61,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean activation(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return false;
+		}
 		boolean userActivated;
 		try {
-			Long id = Long.parseLong(userId);
-			userActivated = userDao.changeUserStatus(id, UserStatus.INACTIVE, UserStatus.ACTIVE);
-		} catch (NumberFormatException | DaoException e ) {
+			userActivated = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.INACTIVE, UserStatus.ACTIVE);
+		} catch (DaoException e) {
 			throw new ServiceException("user activation error", e);
 		}
 		return userActivated;
@@ -73,7 +76,6 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login) || !UserInfoValidator.isValidPassword(password)) {
-			logger.debug("is not Valid Login or Password");
 			return Optional.empty();
 		}
 		Optional<User> userOptional;
@@ -83,7 +85,6 @@ public class UserServiceImpl implements UserService {
 				User user = userOptional.get();
 				String encryptedPassword = PasswordEncryption.encrypt(password);
 				if (!StringUtils.equals(encryptedPassword, user.getPassword())) {
-					logger.debug("incorrect Password");
 					userOptional = Optional.empty();
 				}
 			}
@@ -96,13 +97,11 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean changeForgottenPassword(String login) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login)) {
-			logger.debug("incorrect login");
 			return false;
 		}
 		boolean passwordChanged;
 		try {
 			if (checkIfLoginFree(login)) {
-				logger.debug("not such user");
 				return false;
 			}
 			String newPassword = generatePassword();
@@ -144,6 +143,68 @@ public class UserServiceImpl implements UserService {
 		return users;
 	}
 
+	@Override
+	public Optional<User> takeUserByLogin(String login) throws ServiceException {
+		if (!UserInfoValidator.isValidLogin(login)) {
+			return Optional.empty();
+		}
+		Optional<User> userOptional;
+		try {
+			userOptional = userDao.findUserByLogin(login);
+		} catch (DaoException e) {
+			throw new ServiceException("user search error", e);
+		}
+		return userOptional;
+	}
+	
+	@Override
+	public boolean changeUserData(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
+		String userId = userInfo.get(ParameterAndAttribute.USER_ID);
+		String currentLogin = userInfo.get(ParameterAndAttribute.CURRENT_LOGIN);
+		if (!IdValidator.isValidId(userId) || !UserInfoValidator.isValidLogin(currentLogin)) {
+			throw new InvalidDataException("impossible operation", Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
+		}
+		List<String> errorMessageList = UserInfoValidator.findInvalidData(userInfo);
+		String login = userInfo.get(ParameterAndAttribute.LOGIN);
+		if (UserInfoValidator.isValidLogin(login) && !StringUtils.equals(login, currentLogin)  && !checkIfLoginFree(login)) {
+			errorMessageList.add(MessageKey.ERROR_LOGIN_IS_BUSY_MESSAGE);
+		}
+		if (!errorMessageList.isEmpty()) {
+			throw new InvalidDataException("invalid data", errorMessageList);
+		}
+		boolean userChanged;
+		try {
+			String encryptedPassword = PasswordEncryption.encrypt(userInfo.get(ParameterAndAttribute.PASSWORD));
+			userInfo.put(ParameterAndAttribute.PASSWORD, encryptedPassword);
+			User user = UserBuilder.getInstance().build(userInfo);
+			user.setUserId(Long.parseLong(userId));
+			userChanged = userDao.update(user);
+		} catch (DaoException e) {
+			throw new ServiceException("user chanding error", e);
+		}
+		return userChanged;
+	}
+	
+	@Override
+	public boolean changePassword(String login, String currentPassword, String newPassword)
+			throws ServiceException, InvalidDataException {
+		if(!UserInfoValidator.isValidLogin(login)) {
+			throw new InvalidDataException("incorrect login", Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
+		}
+		if(!UserInfoValidator.isValidPassword(newPassword) || !UserInfoValidator.isValidPassword(currentPassword)) {
+			throw new InvalidDataException("incorrect password", Arrays.asList(MessageKey.ERROR_PASSWORD_MESSAGE));
+		}
+		boolean passwordChanged;
+		try {
+			String encryptedPassword = PasswordEncryption.encrypt(currentPassword);
+			String encryptedNewPassword = PasswordEncryption.encrypt(newPassword);
+			passwordChanged = userDao.updatePassword(login, encryptedNewPassword, encryptedPassword);
+		} catch (DaoException e) {
+			throw new ServiceException("password change error", e);
+		}
+		return passwordChanged;
+	}
+	
 	private boolean checkIfLoginFree(String login) throws ServiceException {
 		Optional<User> userOptional;
 		try {
@@ -156,5 +217,5 @@ public class UserServiceImpl implements UserService {
 
 	private String generatePassword() {
 		return RandomStringUtils.randomAlphanumeric(NUMBER_PASSWORD_CHARACTERS);
-	}
+	}	
 }

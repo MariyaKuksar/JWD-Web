@@ -3,8 +3,10 @@ package by.epam.store.model.dao.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderStatus;
+import by.epam.store.entity.PaymentMethod;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.User;
@@ -51,13 +53,19 @@ final class DaoEntityBuilder {
 		return product;
 	}
 
-	//TODO пока не использую, доработать
 	static Order buildOrder(ResultSet resultSet) throws SQLException {
 		Order order = new Order();
 		order.setOrderId(resultSet.getLong(ColumnName.ORDERS_ID));
 		order.setUserId(resultSet.getLong(ColumnName.ORDERS_USER_ID));
-		order.setDataTime(resultSet.getTimestamp(ColumnName.ORDERS_DATA_TIME).toLocalDateTime());
+		order.setDateTime(resultSet.getTimestamp(ColumnName.ORDERS_DATE_TIME).toLocalDateTime());
 		order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));
+		order.setPaymentMethod(PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD)));
+		order.setCost(resultSet.getBigDecimal(ColumnName.ORDERS_COST));
+		order.setDeliveryMethod(DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD)));
+		order.getAddress().setCity(resultSet.getString(ColumnName.ORDERS_CITY));
+		order.getAddress().setStreet(resultSet.getString(ColumnName.ORDERS_STREET));
+		order.getAddress().setHouse(resultSet.getString(ColumnName.ORDERS_HOUSE));
+		order.getAddress().setApartment(resultSet.getString(ColumnName.ORDERS_APARTMENT));
 		return order;
 	}
 }

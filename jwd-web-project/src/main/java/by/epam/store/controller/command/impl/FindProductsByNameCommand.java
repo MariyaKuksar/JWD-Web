@@ -26,11 +26,10 @@ public class FindProductsByNameCommand implements Command {
 	public Router execute(HttpServletRequest request) {
 		Router router;
 		HttpSession session = request.getSession(true);
-		CatalogService productService = ServiceFactory.getInstance().getCatalogService();
+		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		String productName = request.getParameter(ParameterAndAttribute.PRODUCT_NAME);
 		try {
-			List<Product> products = productService.takeProductsWithName(productName);
-			logger.debug(products.toString());		
+			List<Product> products = catalogService.takeProductsWithName(productName);	
 			if (!products.isEmpty()) {
 				request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
 			} else {

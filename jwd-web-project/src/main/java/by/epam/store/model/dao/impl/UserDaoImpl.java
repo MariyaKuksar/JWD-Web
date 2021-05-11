@@ -27,8 +27,9 @@ public class UserDaoImpl implements UserDao {
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_USER = "INSERT INTO USERS (LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_STATUS = "UPDATE USERS SET STATUS=? WHERE ID=? AND STATUS=?";
-	private static final String SQL_UPDATE_USER = "UPDATE USERS SET LOGIN=?, PASSWORD=?, NAME=?, PHONE=? WHERE ID=?";
+	private static final String SQL_UPDATE_USER = "UPDATE USERS SET LOGIN=?, NAME=?, PHONE=? WHERE ID=? AND PASSWORD=?";
 	private static final String SQL_UPDATE_PASSWORD = "UPDATE USERS SET PASSWORD=? WHERE LOGIN=?";
+	private static final String SQL_UPDATE_PASSWORD_WITH_CHECKING_CURRENT = "UPDATE USERS SET PASSWORD=? WHERE LOGIN=? AND PASSWORD=?";
 	private static final int ONE_UPDATED_ROW = 1;
 	
 	@Override
@@ -111,10 +112,10 @@ public class UserDaoImpl implements UserDao {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_USER)) {
 			statement.setString(1, user.getLogin());
-			statement.setString(2, user.getPassword());
-			statement.setString(3, user.getName());
-			statement.setString(4, user.getPassword());
-			statement.setLong(5, user.getUserId());
+			statement.setString(2, user.getName());
+			statement.setString(3, user.getPhone());
+			statement.setLong(4, user.getUserId());
+			statement.setString(5, user.getPassword());
 			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
@@ -144,6 +145,21 @@ public class UserDaoImpl implements UserDao {
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PASSWORD)) {
 			statement.setString(1, password);
 			statement.setString(2, login);
+			numberUpdatedRows = statement.executeUpdate();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return numberUpdatedRows == ONE_UPDATED_ROW;
+	}
+
+	@Override
+	public boolean updatePassword(String login, String newPassword, String currentPassword) throws DaoException {
+		int numberUpdatedRows;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PASSWORD_WITH_CHECKING_CURRENT)) {
+			statement.setString(1, newPassword);
+			statement.setString(2, login);
+			statement.setString(3, currentPassword);
 			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);

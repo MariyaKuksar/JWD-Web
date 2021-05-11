@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import by.epam.store.entity.Product;
 import by.epam.store.model.connection.ConnectionPool;
@@ -20,6 +21,7 @@ public class ProductDaoImpl implements ProductDao {
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
+	private static final String SQL_UPDATE_REDUCE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT-? WHERE ID=?";
 	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
@@ -58,11 +60,11 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findProductByCategoryId(Long id) throws DaoException {
+	public List<Product> findProductsByCategoryId(String categoryId) throws DaoException {
 		List<Product> products = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_CATEGORY_ID)) {
-			statement.setLong(1, id);
+			statement.setString(1, categoryId);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Product product = DaoEntityBuilder.buildProduct(resultSet);
@@ -89,5 +91,20 @@ public class ProductDaoImpl implements ProductDao {
 			throw new DaoException("database error", e);
 		}
 		return products;
+	}
+
+	@Override
+	public void reduceAmount(Map<Product, Integer> products) throws DaoException {
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_REDUCE_AMOUNT_PRODUCT)) {
+			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
+				statement.setInt(1, productAndAmount.getValue());
+				statement.setLong(2, productAndAmount.getKey().getProductId());
+				statement.addBatch();
+			}
+			statement.executeBatch();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
 	}
 }

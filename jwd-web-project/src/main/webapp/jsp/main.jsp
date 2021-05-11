@@ -29,6 +29,7 @@
     <title>${title}</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
 	</head>
 	<body>
@@ -72,7 +73,7 @@
 				<figure class="category">
 				</c:if>
 					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${category.imageName}" alt="${category.categoryName}"></a></div>
-					<div class="name"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}" title="${category.categoryName}"> <fmt:message key="local.category.${category.categoryName}"/></a></div>
+					<div class="name"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}" title="${category.categoryName}"><fmt:message key="local.category.${category.categoryName}"/></a></div>
 				</figure>
 				</c:forEach>
 			</div>
@@ -93,7 +94,7 @@
                         <c:if test="${product.amount < 1}">
                         <div class="status"><p>${on_order}</p></div>
                         </c:if>
-						<c:if test="${sessionScope.role != 'ADMIN'}">
+						<c:if test="${sessionScope.role == 'CLIENT'}">
                         <form action="${pageContext.request.contextPath}/controller" method="post" >
                             <input type="hidden" name="command" value="add_product_to_basket"/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
@@ -103,10 +104,11 @@
 						<c:if test="${sessionScope.role == 'ADMIN'}">
 						<button id="button_edit_${product.productId}" onclick="openEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')">${edit}</button>
 						<form class="form_edit" id="form_edit_${product.productId}" action="${pageContext.request.contextPath}/controller" method="post" >
-                            <input type="hidden" name="command" value="change_product_data"/>
+                            <span>${edit}</span>
+							<input type="hidden" name="command" value=""/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
-                            <label>${name}:<input type="text" name="productName" value="${product.productName}"/></label>
-                            <label>${price}:<input type="text" name="price" value="${product.price}"/></label>
+                            <div><label>${name}:<input type="text" name="productName" value="${product.productName}"/></label></div>
+                            <div><label>${price}:<input type="text" name="productPrice" value="${product.price}"/>$</label></div>
                             <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="${save}"/>
                         </form>
 						</c:if>

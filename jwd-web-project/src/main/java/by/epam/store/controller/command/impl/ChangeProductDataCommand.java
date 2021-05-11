@@ -24,6 +24,7 @@ import by.epam.store.util.UserControl;
 
 public class ChangeProductDataCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
+	
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -36,8 +37,11 @@ public class ChangeProductDataCommand implements Command {
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		Map<String, String> productInfo = RequestUtil.getRequestParameters(request);
 		try {
-			catalogService.changeProduct(productInfo);
-			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
+			if(catalogService.changeProductData(productInfo)) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
+			} else {
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,MessageKey.ERROR_SAVE_MESSAGE);
+			}
 			router = new Router(page, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
 			logger.error("invalid data", e);

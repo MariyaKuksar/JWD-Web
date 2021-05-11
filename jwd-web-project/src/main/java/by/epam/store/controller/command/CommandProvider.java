@@ -8,9 +8,12 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
+import by.epam.store.controller.command.impl.CancelOrderCommand;
 import by.epam.store.controller.command.impl.ChangeAmountOfProductInBasketCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
+import by.epam.store.controller.command.impl.ChangePasswordCommand;
 import by.epam.store.controller.command.impl.ChangeProductDataCommand;
+import by.epam.store.controller.command.impl.ChangeUserDataCommand;
 import by.epam.store.controller.command.impl.CheckoutCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
@@ -19,6 +22,8 @@ import by.epam.store.controller.command.impl.FindUsersByNameCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
 import by.epam.store.controller.command.impl.GoToBasketPageCommand;
 import by.epam.store.controller.command.impl.GoToMainPageCommand;
+import by.epam.store.controller.command.impl.GoToOrdersPageCommand;
+import by.epam.store.controller.command.impl.GoToProfilePageCommand;
 import by.epam.store.controller.command.impl.ShowProductsFromCategoryCommand;
 import by.epam.store.controller.command.impl.SignInCommand;
 import by.epam.store.controller.command.impl.SignOutCommand;
@@ -51,6 +56,11 @@ public final class CommandProvider {
 		commands.put(CommandType.REMOVE_PRODUCT_FROM_BASKET, new RemoveProductFromBasketCommand());
 		commands.put(CommandType.CHECKOUT, new CheckoutCommand());
 		commands.put(CommandType.CHANGE_PRODUCT_DATA, new ChangeProductDataCommand());
+		commands.put(CommandType.GO_TO_ORDERS_PAGE, new GoToOrdersPageCommand());
+		commands.put(CommandType.CANCEL_ORDER, new CancelOrderCommand());
+		commands.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
+		commands.put(CommandType.CHANGE_USER_DATA, new ChangeUserDataCommand());
+		commands.put(CommandType.CHANGE_PASSWORD, new ChangePasswordCommand());
 	}
 
 	private CommandProvider() {

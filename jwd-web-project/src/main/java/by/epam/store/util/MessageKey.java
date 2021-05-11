@@ -24,7 +24,13 @@ public final class MessageKey {
 	public static final String ERROR_INCORRECT_STREET_MESSAGE = "local.error.incorrect_street";
 	public static final String ERROR_INCORRECT_HOUSE_MESSAGE = "local.error.incorrect_house";
 	public static final String ERROR_INCORRECT_APARTMENT_MESSAGE = "local.error.incorrect_apartment";
-
+	public static final String ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE = "local.error.incorrect_product_category";
+	public static final String ERROR_INCORRECT_PRODUCT_ID_MESSAGE = "local.error.incorrect_product_id";
+	public static final String ERROR_INCORRECT_PAYMENT_METHOD_MESSAGE = "local.error.incorrect_payment_method";
+	public static final String ERROR_INCORRECT_DELVERY_METHOD_MESSAGE = "local.error.incorrect_delivery_method";
+	public static final String ERROR_CONFIRMATION_MESSAGE = "local.error.confirmation";
+	public static final String ERROR_INCORRECT_PASSWORD_MESSAGE = "local.error.incorrect_password";
+	
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";
 	public static final String INFO_PASSWORD_SENT_MESSAGE = "local.message.password_sent";
@@ -32,8 +38,10 @@ public final class MessageKey {
 	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";
 	public static final String INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE = "local.message.product_added_to_catalog";
 	public static final String INFO_BASKET_IS_EMPTY_MESSAGE = "local.message.basket_is_empty";
-	public static final String INFO_ORDER_IS_PROCESSED_MESSAGE = "local.message.order_is_processed";
+	public static final String INFO_ORDER_IS_PLACED_MESSAGE = "local.message.order_is_placed";
 	public static final String INFO_SAVED_SUCCESSFULLY_MESSAGE = "local.message.saved_successfully";
+	public static final String INFO_NO_ORDERS_MESSAGE = "local.message.no_orders";
+	public static final String INFO_ORDER_CANCELED_MESSAGE = "local.message.order_canceled";
 	
 	private MessageKey() {
 	}

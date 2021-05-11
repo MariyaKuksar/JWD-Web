@@ -2,10 +2,10 @@ package by.epam.store.model.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,14 +13,17 @@ import by.epam.store.entity.Basket;
 import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderProductConnection;
+import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.PaymentMethod;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.builder.OrderBuilder;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderDao;
 import by.epam.store.model.dao.OrderProductConnectionDao;
+import by.epam.store.model.dao.ProductDao;
 import by.epam.store.model.dao.impl.OrderDaoImpl;
 import by.epam.store.model.dao.impl.OrderProductConnectionDaoImpl;
+import by.epam.store.model.dao.impl.ProductDaoImpl;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
@@ -35,11 +38,13 @@ public class OrderServiceImpl implements OrderService {
 	private static final int AMOUNT_OF_PRODUCT = 1;
 	private OrderDao orderDao = new OrderDaoImpl();
 	private OrderProductConnectionDao orderProductConnectionDao = new OrderProductConnectionDaoImpl();
+	private ProductDao productDao = new ProductDaoImpl();
 
 	@Override
-	public Long addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException {
+	public Long addProductToBasket(Long userId, Long orderBasketId, String productId)
+			throws ServiceException, InvalidDataException {
 		if (userId == null || !IdValidator.isValidId(productId)) {
-			throw new ServiceException("incorrect userId or productId");
+			throw new InvalidDataException("invalid userId or productId");
 		}
 		try {
 			if (orderBasketId == null) {
@@ -57,9 +62,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Basket takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
+	public Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
 		if (userId == null) {
-			throw new ServiceException("userId is null");
+			return Optional.empty();
 		}
 		Basket basket;
 		try {
@@ -76,16 +81,14 @@ public class OrderServiceImpl implements OrderService {
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}
-		return basket;
+		return Optional.of(basket);
 	}
 
 	@Override
 	public boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct)
 			throws ServiceException {
-		if (orderId == null || !IdValidator.isValidId(productId)) {
-			throw new ServiceException("incorrect orderId or productId");
-		}
-		if (!ProductInfoValidator.isValidAmount(amountProduct)) {
+		if (orderId == null || !IdValidator.isValidId(productId)
+				|| !ProductInfoValidator.isValidAmount(amountProduct)) {
 			return false;
 		}
 		boolean amountOfProductChanged;
@@ -100,9 +103,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void removeProductFromOrder(Long orderId, String productId) throws ServiceException {
+	public boolean removeProductFromOrder(Long orderId, String productId) throws ServiceException {
 		if (orderId == null || !IdValidator.isValidId(productId)) {
-			throw new ServiceException("incorrect orderId or productId");
+			return false;
 		}
 		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId));
 		try {
@@ -110,30 +113,65 @@ public class OrderServiceImpl implements OrderService {
 		} catch (DaoException e) {
 			throw new ServiceException("error removing a product from the order", e);
 		}
+		return true;
 	}
 
 	@Override
-	public void checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException {
-		if (!IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))
-				|| !OrderInfoValidator.isValidCost(orderInfo.get(ParameterAndAttribute.COST))
-				|| !OrderInfoValidator.isValidPaymentMethod(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD))
-				|| !OrderInfoValidator.isValidDeliveryMethod(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD))) {
-			throw new ServiceException("incorrect data");
+	public boolean checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException {
+		if (!IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))) {
+			return false;
 		}
-		String deliveryMethod = orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD);
-		if (DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
-			List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
-			if (!errorMessageList.isEmpty()) {
-				throw new InvalidDataException("invalid data", errorMessageList);
-			}
+		List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
+		if (!errorMessageList.isEmpty()) {
+			throw new InvalidDataException("invalid data", errorMessageList);
 		}
 		Order order = OrderBuilder.getInstance().build(orderInfo);
-		logger.debug(order.toString());
+		boolean orderPlaced;
 		try {
-			orderDao.update(order);
+			orderPlaced = orderDao.update(order);
+			if (orderPlaced) {
+				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
+				productDao.reduceAmount(products);
+			}
 		} catch (DaoException e) {
 			throw new ServiceException("order updating error", e);
 		}
+		return orderPlaced;
+	}
+
+	@Override
+	public List<Order> takeOrdersByUserId(Long userId) throws ServiceException {
+		if (userId == null) {
+			return Collections.emptyList();
+		}
+		List<Order> orders;
+		try {
+			orders = orderDao.findOrdersByUserId(userId);
+			if (!orders.isEmpty()) {
+				Collections.reverse(orders);
+				for (Order order : orders) {
+					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
+					order.setProducts(products);
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("orders search error", e);
+		}
+		return orders;
+	}
+
+	@Override
+	public boolean cancelOrder(String orderId) throws ServiceException {
+		if (!IdValidator.isValidId(orderId)) {
+			return false;
+		}
+		boolean orderCanceled;
+		try {
+			orderCanceled = orderDao.updateStatus(orderId, OrderStatus.CANCELED);
+		} catch (DaoException e) {
+			throw new ServiceException("orders changing status error", e);
+		}
+		return orderCanceled;
 	}
 
 	private Long takeOrderBasketId(Long userId) throws DaoException {
