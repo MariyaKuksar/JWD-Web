@@ -11,7 +11,7 @@ public class DefaultCommand implements Command {
 
 	@Override
 	public Router execute(HttpServletRequest request) {
-		Router router = new Router(PagePath.INDEX, RouteType.REDIRECT);
+		Router router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 		return router;
 	}
 }

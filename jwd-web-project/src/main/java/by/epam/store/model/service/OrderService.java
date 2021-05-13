@@ -9,8 +9,7 @@ import by.epam.store.entity.Order;
 
 public interface OrderService {
 
-	Long addProductToBasket(Long userId, Long orderBasketId, String productId)
-			throws ServiceException, InvalidDataException;
+	Optional<Basket> addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException;
 
 	Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException;
 

@@ -19,8 +19,8 @@
 </head>
 <body>
 <%@ include file="/jsp/fragment/header.jsp" %>
+<%@ include file="/jsp/fragment/error_info.jsp" %>
 	<p></p>
-	
 	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
 	
 	<form action="${pageContext.request.contextPath}/upload" enctype="multipart/form-data" method="post">
@@ -40,8 +40,6 @@
     <br />
     <input type="submit" value="${add_to_catalog}">
 </form>
-
-   <%@ include file="/jsp/fragment/error_info.jsp" %>
 	<mytag:copyright/>
 </body>
 </html>

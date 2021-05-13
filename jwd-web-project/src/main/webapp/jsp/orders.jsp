@@ -45,6 +45,7 @@
             </form>
             </c:if>
         </c:forEach>
+        <br/>
 	<mytag:copyright/>
 </body>
 </html>

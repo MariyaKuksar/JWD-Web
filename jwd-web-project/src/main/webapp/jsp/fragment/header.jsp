@@ -22,6 +22,7 @@
 <fmt:message key="local.issue" var="issue" />
 <fmt:message key="local.clients" var="clients" />
 <fmt:message key="local.my_orders" var="my_orders"/>
+<fmt:message key="local.sign_out" var="sign_out"/>
 <header>
     <div class="header_top">
         <div >
@@ -63,11 +64,12 @@
                             <ul class="menu2">
                                 <li><a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page">${personal_data}</a></li>
                                 <li><a href="${pageContext.request.contextPath}/controller?command=go_to_orders_page">${my_orders}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=sign_out">${sign_out}</a></li>
                             </ul>
                         </li>
                         </c:if>
                         <c:if test="${sessionScope.role == 'ADMIN'}">
-                        <li><a href="#nogo">${clients}</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=go_to_clients_page">${clients}</a></li>
                         </c:if>
                         <li><a>${lang}</a>
                             <ul class="menu2">

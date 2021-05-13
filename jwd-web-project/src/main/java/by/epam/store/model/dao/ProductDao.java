@@ -12,4 +12,6 @@ public interface ProductDao extends BaseDao<Product> {
 	List<Product> findProductsByName(String productName) throws DaoException;
 
 	void reduceAmount(Map<Product, Integer> products) throws DaoException;
+
+	void increaseAmount(Map<Product, Integer> products) throws DaoException;
 }

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
+import by.epam.store.controller.command.impl.BlockUserCommand;
 import by.epam.store.controller.command.impl.CancelOrderCommand;
 import by.epam.store.controller.command.impl.ChangeAmountOfProductInBasketCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
@@ -17,18 +18,19 @@ import by.epam.store.controller.command.impl.ChangeUserDataCommand;
 import by.epam.store.controller.command.impl.CheckoutCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
+import by.epam.store.controller.command.impl.FindUserByLoginCommand;
 import by.epam.store.controller.command.impl.RemoveProductFromBasketCommand;
-import by.epam.store.controller.command.impl.FindUsersByNameCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
 import by.epam.store.controller.command.impl.GoToBasketPageCommand;
 import by.epam.store.controller.command.impl.GoToMainPageCommand;
 import by.epam.store.controller.command.impl.GoToOrdersPageCommand;
 import by.epam.store.controller.command.impl.GoToProfilePageCommand;
+import by.epam.store.controller.command.impl.GoToClientsPageCommand;
 import by.epam.store.controller.command.impl.ShowProductsFromCategoryCommand;
 import by.epam.store.controller.command.impl.SignInCommand;
 import by.epam.store.controller.command.impl.SignOutCommand;
 import by.epam.store.controller.command.impl.SignUpCommand;
-import by.epam.store.controller.command.impl.FindAllUsersCommand;
+import by.epam.store.controller.command.impl.UnblockUserCommand;
 import by.epam.store.controller.command.impl.FindProductsByNameCommand;
 
 public final class CommandProvider {
@@ -36,8 +38,6 @@ public final class CommandProvider {
 	private static Map<CommandType, Command> commands = new EnumMap<>(CommandType.class);
 
 	static {
-		commands.put(CommandType.FIND_ALL_USERS, new FindAllUsersCommand());
-		commands.put(CommandType.FIND_USERS_BY_NAME, new FindUsersByNameCommand());
 		commands.put(CommandType.SIGN_IN, new SignInCommand());
 		commands.put(CommandType.GO_TO_MAIN_PAGE, new GoToMainPageCommand());
 		commands.put(CommandType.EN, new ChangeLocaleCommand());
@@ -61,6 +61,10 @@ public final class CommandProvider {
 		commands.put(CommandType.GO_TO_PROFILE_PAGE, new GoToProfilePageCommand());
 		commands.put(CommandType.CHANGE_USER_DATA, new ChangeUserDataCommand());
 		commands.put(CommandType.CHANGE_PASSWORD, new ChangePasswordCommand());
+		commands.put(CommandType.GO_TO_CLIENTS_PAGE, new GoToClientsPageCommand());
+		commands.put(CommandType.FIND_USER_BY_LOGIN, new FindUserByLoginCommand());
+		commands.put(CommandType.BLOCK_USER, new BlockUserCommand());
+		commands.put(CommandType.UNBLOCK_USER, new UnblockUserCommand());
 	}
 
 	private CommandProvider() {

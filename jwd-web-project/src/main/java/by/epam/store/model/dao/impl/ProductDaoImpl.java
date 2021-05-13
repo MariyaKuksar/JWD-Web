@@ -22,6 +22,7 @@ public class ProductDaoImpl implements ProductDao {
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
 	private static final String SQL_UPDATE_REDUCE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT-? WHERE ID=?";
+	private static final String SQL_UPDATE_INCREASE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT+? WHERE ID=?";
 	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
@@ -97,6 +98,21 @@ public class ProductDaoImpl implements ProductDao {
 	public void reduceAmount(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_REDUCE_AMOUNT_PRODUCT)) {
+			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
+				statement.setInt(1, productAndAmount.getValue());
+				statement.setLong(2, productAndAmount.getKey().getProductId());
+				statement.addBatch();
+			}
+			statement.executeBatch();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+	}
+	
+	@Override
+	public void increaseAmount(Map<Product, Integer> products) throws DaoException {
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_AMOUNT_PRODUCT)) {
 			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
 				statement.setInt(1, productAndAmount.getValue());
 				statement.setLong(2, productAndAmount.getKey().getProductId());

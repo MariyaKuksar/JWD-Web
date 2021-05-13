@@ -18,11 +18,14 @@ public interface UserService {
 
 	List<User> takeAllUsers() throws ServiceException;
 
-	List<User> takeUsersByName(String userName) throws ServiceException;
-
 	Optional<User> takeUserByLogin(String login) throws ServiceException;
 
 	boolean changeUserData(Map<String, String> userInfo) throws ServiceException, InvalidDataException;
 
-	boolean changePassword(String login, String password, String newPassword) throws ServiceException, InvalidDataException;
+	boolean changePassword(String login, String password, String newPassword)
+			throws ServiceException, InvalidDataException;
+
+	boolean blockUser(String userId) throws ServiceException;
+
+	boolean unblockUser(String userId) throws ServiceException;
 }

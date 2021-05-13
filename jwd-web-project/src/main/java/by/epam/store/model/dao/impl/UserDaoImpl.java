@@ -21,10 +21,8 @@ import by.epam.store.model.dao.UserDao;
 
 public class UserDaoImpl implements UserDao {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String SQL_SELECT_ALL_USERS = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS";
-	private static final String SQL_SELECT_USERS_BY_NAME = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS WHERE NAME LIKE ?";
+	private static final String SQL_SELECT_ALL_USERS = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS WHERE ROLE='CLIENT'";
 	private static final String SQL_SELECT_USERS_BY_LOGIN = "SELECT ID, LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS FROM USERS WHERE LOGIN=?";
-	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_USER = "INSERT INTO USERS (LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_STATUS = "UPDATE USERS SET STATUS=? WHERE ID=? AND STATUS=?";
 	private static final String SQL_UPDATE_USER = "UPDATE USERS SET LOGIN=?, NAME=?, PHONE=? WHERE ID=? AND PASSWORD=?";
@@ -50,23 +48,6 @@ public class UserDaoImpl implements UserDao {
 			throw new DaoException("database error", e);
 		}
 		return userOptional;
-	}
-
-	@Override
-	public List<User> findUsersByName(String userName) throws DaoException {
-		List<User> users = new ArrayList<>();
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_USERS_BY_NAME)) {
-			statement.setString(1, userName + ZERO_OR_MORE_CHARACTERS);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				User user = DaoEntityBuilder.buildUser(resultSet);
-				users.add(user);
-			}
-		} catch (ConnectionPoolException | SQLException e) {
-			throw new DaoException("database error", e);
-		}
-		return users;
 	}
 
 	@Override

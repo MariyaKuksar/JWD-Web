@@ -41,11 +41,12 @@ public class OrderServiceImpl implements OrderService {
 	private ProductDao productDao = new ProductDaoImpl();
 
 	@Override
-	public Long addProductToBasket(Long userId, Long orderBasketId, String productId)
-			throws ServiceException, InvalidDataException {
+	public Optional<Basket> addProductToBasket(Long userId, Long orderBasketId, String productId)
+			throws ServiceException {
 		if (userId == null || !IdValidator.isValidId(productId)) {
-			throw new InvalidDataException("invalid userId or productId");
+			return Optional.empty();
 		}
+		Basket basket;
 		try {
 			if (orderBasketId == null) {
 				orderBasketId = takeOrderBasketId(userId);
@@ -55,10 +56,11 @@ public class OrderServiceImpl implements OrderService {
 			if (!orderProductConnectionDao.increaseAmountOfProduct(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
+			basket = new Basket(orderBasketId, userId);
 		} catch (DaoException e) {
 			throw new ServiceException("product adding error", e);
 		}
-		return orderBasketId;
+		return Optional.of(basket);
 	}
 
 	@Override
@@ -168,6 +170,10 @@ public class OrderServiceImpl implements OrderService {
 		boolean orderCanceled;
 		try {
 			orderCanceled = orderDao.updateStatus(orderId, OrderStatus.CANCELED);
+			if (orderCanceled) {
+				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
+				productDao.increaseAmount(products);
+			}
 		} catch (DaoException e) {
 			throw new ServiceException("orders changing status error", e);
 		}

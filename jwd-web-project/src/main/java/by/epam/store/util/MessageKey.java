@@ -42,6 +42,8 @@ public final class MessageKey {
 	public static final String INFO_SAVED_SUCCESSFULLY_MESSAGE = "local.message.saved_successfully";
 	public static final String INFO_NO_ORDERS_MESSAGE = "local.message.no_orders";
 	public static final String INFO_ORDER_CANCELED_MESSAGE = "local.message.order_canceled";
+	public static final String INFO_USER_IS_BLOCKED_MESSAGE = "local.message.user_is_blocked";
+	public static final String INFO_USER_IS_UNBLOCKED_MESSAGE = "local.message.user_is_unblocked";
 	
 	private MessageKey() {
 	}

@@ -35,7 +35,7 @@ public final class OrderInfoValidator {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_DELVERY_METHOD_MESSAGE);
 		}
 		String deliveryMethod = orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD);
-		if (deliveryMethod!=null || DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
+		if (deliveryMethod!=null && DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
 			if (!isValidCity(orderInfo.get(ParameterAndAttribute.CITY))) {
 				errorMessageList.add(MessageKey.ERROR_INCORRECT_CITY_MESSAGE);
 			}

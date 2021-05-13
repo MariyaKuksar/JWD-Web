@@ -1,7 +1,6 @@
 package by.epam.store.controller.command;
 
 public enum CommandType {
-	FIND_ALL_USERS, 
 	FIND_USERS_BY_NAME,
 	DEFAULT,
 	SIGN_IN,
@@ -25,5 +24,9 @@ public enum CommandType {
 	CANCEL_ORDER,
 	GO_TO_PROFILE_PAGE,
 	CHANGE_USER_DATA,
-	CHANGE_PASSWORD
+	CHANGE_PASSWORD,
+	GO_TO_CLIENTS_PAGE,
+	FIND_USER_BY_LOGIN,
+	BLOCK_USER,
+	UNBLOCK_USER
 }

@@ -1,7 +1,6 @@
 package by.epam.store.model.service.impl;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -72,7 +71,35 @@ public class UserServiceImpl implements UserService {
 		}
 		return userActivated;
 	}
+	
+	@Override
+	public boolean blockUser(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return false;
+		}
+		boolean userBlocked;
+		try {
+			userBlocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.ACTIVE, UserStatus.BLOCKED);
+		} catch (DaoException e) {
+			throw new ServiceException("user blocking error", e);
+		}
+		return userBlocked;
+	}
 
+	@Override
+	public boolean unblockUser(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return false;
+		}
+		boolean userUnblocked;
+		try {
+			userUnblocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.BLOCKED, UserStatus.ACTIVE);
+		} catch (DaoException e) {
+			throw new ServiceException("user unblocking error", e);
+		}
+		return userUnblocked;
+	}
+	
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login) || !UserInfoValidator.isValidPassword(password)) {
@@ -116,27 +143,11 @@ public class UserServiceImpl implements UserService {
 		return passwordChanged;
 	}
 
-	// нужно доработать, если буду использовать
 	@Override
 	public List<User> takeAllUsers() throws ServiceException {
 		List<User> users;
 		try {
 			users = userDao.findAll();
-		} catch (DaoException e) {
-			throw new ServiceException("users search error", e);
-		}
-		return users;
-	}
-
-	// нужно доработать, если буду использовать
-	@Override
-	public List<User> takeUsersByName(String userName) throws ServiceException {
-		if (!UserInfoValidator.isValidName(userName)) {
-			return Collections.emptyList();
-		}
-		List<User> users;
-		try {
-			users = userDao.findUsersByName(userName);
 		} catch (DaoException e) {
 			throw new ServiceException("users search error", e);
 		}
@@ -156,17 +167,19 @@ public class UserServiceImpl implements UserService {
 		}
 		return userOptional;
 	}
-	
+
 	@Override
 	public boolean changeUserData(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
 		String userId = userInfo.get(ParameterAndAttribute.USER_ID);
 		String currentLogin = userInfo.get(ParameterAndAttribute.CURRENT_LOGIN);
 		if (!IdValidator.isValidId(userId) || !UserInfoValidator.isValidLogin(currentLogin)) {
-			throw new InvalidDataException("impossible operation", Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
+			throw new InvalidDataException("impossible operation",
+					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
 		}
 		List<String> errorMessageList = UserInfoValidator.findInvalidData(userInfo);
 		String login = userInfo.get(ParameterAndAttribute.LOGIN);
-		if (UserInfoValidator.isValidLogin(login) && !StringUtils.equals(login, currentLogin)  && !checkIfLoginFree(login)) {
+		if (UserInfoValidator.isValidLogin(login) && !StringUtils.equals(login, currentLogin)
+				&& !checkIfLoginFree(login)) {
 			errorMessageList.add(MessageKey.ERROR_LOGIN_IS_BUSY_MESSAGE);
 		}
 		if (!errorMessageList.isEmpty()) {
@@ -184,15 +197,19 @@ public class UserServiceImpl implements UserService {
 		}
 		return userChanged;
 	}
-	
+
 	@Override
 	public boolean changePassword(String login, String currentPassword, String newPassword)
 			throws ServiceException, InvalidDataException {
-		if(!UserInfoValidator.isValidLogin(login)) {
-			throw new InvalidDataException("incorrect login", Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
+		if (!UserInfoValidator.isValidLogin(login)) {
+			throw new InvalidDataException("incorrect login",
+					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
 		}
-		if(!UserInfoValidator.isValidPassword(newPassword) || !UserInfoValidator.isValidPassword(currentPassword)) {
+		if (!UserInfoValidator.isValidPassword(newPassword)) {
 			throw new InvalidDataException("incorrect password", Arrays.asList(MessageKey.ERROR_PASSWORD_MESSAGE));
+		}
+		if (!UserInfoValidator.isValidPassword(currentPassword)) {
+			return false;
 		}
 		boolean passwordChanged;
 		try {
@@ -204,7 +221,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return passwordChanged;
 	}
-	
+
 	private boolean checkIfLoginFree(String login) throws ServiceException {
 		Optional<User> userOptional;
 		try {
@@ -217,5 +234,5 @@ public class UserServiceImpl implements UserService {
 
 	private String generatePassword() {
 		return RandomStringUtils.randomAlphanumeric(NUMBER_PASSWORD_CHARACTERS);
-	}	
+	}
 }

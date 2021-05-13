@@ -1,5 +1,7 @@
 package by.epam.store.controller.command.impl;
 
+import java.util.Optional;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -10,8 +12,8 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
+import by.epam.store.entity.Basket;
 import by.epam.store.entity.UserRole;
-import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
@@ -35,15 +37,19 @@ public class AddProductToBasketCommand implements Command {
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		try {
-			orderBasketId = orderService.addProductToBasket(userId, orderBasketId, productId);
-			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
-			session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasketId);
-			String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-			router = new Router(page, RouteType.REDIRECT);
-		} catch (InvalidDataException e) {
-			logger.error("impossible operation, invalid data", e);
-			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
-			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+			Optional<Basket> basketOptional = orderService.addProductToBasket(userId, orderBasketId, productId);
+			if (basketOptional.isPresent()) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
+						MessageKey.INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, basketOptional.get().getOrderBasketId());
+				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+				router = new Router(page, RouteType.REDIRECT);
+			} else {
+				logger.error("impossible operation, invalid data");
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
+						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+			}
 		} catch (ServiceException e) {
 			logger.error("error adding product to basket", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

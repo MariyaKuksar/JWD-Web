@@ -105,10 +105,10 @@
 						<button id="button_edit_${product.productId}" onclick="openEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')">${edit}</button>
 						<form class="form_edit" id="form_edit_${product.productId}" action="${pageContext.request.contextPath}/controller" method="post" >
                             <span>${edit}</span>
-							<input type="hidden" name="command" value=""/>
+							<input type="hidden" name="command" value="change_product_data"/>
                             <input type="hidden" name="productId" value="${product.productId}"/>
                             <div><label>${name}:<input type="text" name="productName" value="${product.productName}"/></label></div>
-                            <div><label>${price}:<input type="text" name="productPrice" value="${product.price}"/>$</label></div>
+                            <div><label>${price}:<input type="text" name="price" value="${product.price}"/>$</label></div>
                             <input type="submit" onclick="closeEditForm('form_edit_${product.productId}', 'button_edit_${product.productId}')" value="${save}"/>
                         </form>
 						</c:if>
