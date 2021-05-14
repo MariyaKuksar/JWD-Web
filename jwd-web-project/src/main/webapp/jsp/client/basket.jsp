@@ -88,44 +88,58 @@
         </c:forEach>
 		</table> 
 		<div class="order">
-			<div class="final_price">${in_total}: ${requestScope.basket.cost}$</div>
-			<div>
-				<form action="${pageContext.request.contextPath}/controller" method="post">
-					<input type="hidden" name="command" value="checkout"/>
-					  <input type="hidden" name="cost" value="${requestScope.basket.cost}"/>
-	    <br />
-	    <label>${payment_method}:</label>
-	    <br />
-	    <select size="1" id="paymentMethod" name="paymentMethod" required>
-                        <c:forEach var="paymentMethod" items="${requestScope.basket.paymentMethodList}">
-                            <option value="${paymentMethod}"><fmt:message key="local.payment_method.${paymentMethod}"/></option>
-                        </c:forEach>
-        </select>
-        <br />
-         <label>${delivery_method}:</label>
-	    <br />
-	    <select size="1" id="deliveryMethod" name="deliveryMethod" required>
+            <div class="final_price">${in_total}: ${requestScope.basket.cost}$</div>
+            <div class="delivery_and_payment">
+                <form action="${pageContext.request.contextPath}/controller" method="post">
+                    <input type="hidden" name="command" value="checkout"/>
+                    <input type="hidden" name="cost" value="${requestScope.basket.cost}"/>
+                    <div>
+                        <label for="paymentMethod">${payment_method}:</label>
+                        <select size="1" id="paymentMethod" name="paymentMethod" required>
+                                <c:forEach var="paymentMethod" items="${requestScope.basket.paymentMethodList}">
+                                    <option value="${paymentMethod}"><fmt:message key="local.payment_method.${paymentMethod}"/></option>
+                                </c:forEach>
+                        </select>
+                    </div/>
+                    <div>
+                        <label>${delivery_method}:</label>
                         <c:forEach var="deliveryMethod" items="${requestScope.basket.deliveryMethodList}">
-                            <option value="${deliveryMethod}"><fmt:message key="local.delivery_method.${deliveryMethod}"/></option>
+                            <input type="radio" name="deliveryMethod" value="${deliveryMethod}" id="${deliveryMethod}_method_input" onclick="openDiv('${deliveryMethod}_method_info')" required/><label for="${deliveryMethod}_method_input"><fmt:message key="local.delivery_method.${deliveryMethod}"/></label>
                         </c:forEach>
-        </select>
-        <br />
-        <label>${address}:</label>
-	    <br />
-	    <input type="text" name="city" placeholder="${city}"/>
-	    <br />
-		<input type="text" name="street" placeholder="${street}"/>
-		<br />
-		<input type="text" name="house" placeholder="${house}"/>
-		<br />
-		<input type="text" name="apartment" placeholder="${apartment}"/>
-		<br /> 
-        <input type="submit" value="${checkout}"/>
-				</form>
-			</div>
-		</div>
+                    </div>
+                    <div id="method_info">
+                        <div id="DELIVERY_method_info">
+                            <label>${address}:</label>
+                            <br/>
+                            <label>${city}:<input type="text" name="city" placeholder="${city}"/></label>
+                            <label>${street}:<input type="text" name="street" placeholder="${street}"/></label>
+                            <label>${house}:<input type="text" name="house" placeholder="${house}"/></label>
+                            <label>${apartment}:<input type="text" name="apartment" placeholder="${apartment}"/></label>
+                        </div>
+                    </div>
+                    <input type="submit" value="${checkout}"/>
+                </form>
+            </div>
+        </div>
       </c:if>  
       
 	<mytag:copyright/>
+	
+	<script>
+    function openDiv(openId) {
+		var openDiv = document.getElementById(openId);
+		var allMethodInfoDiv = document.getElementById("method_info");
+		if (allMethodInfoDiv.hasChildNodes()) {
+			var children = allMethodInfoDiv.children;
+			for (var i = 0; i < children.length; i++) {
+				children[i].style.display = "none";
+			}
+		}
+		if (openDiv != null) {
+			openDiv.style.display = "block";
+		}
+    }
+</script>
+ 
 </body>
 </html>

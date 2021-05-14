@@ -12,21 +12,19 @@ thead{
 .order {
 	width: 90%;
 	margin: 10px auto 0;
-	height: 50px;
 }
-.order > div {
-	float: left;
-}
-.order > div:first-child {
-	margin: 15px 50px 0;
+.final_price {
+	margin: 15px 50px 15px 0;
 	font-weight:bold;
 }
-.order input[type="submit"] {
+.delivery_and_payment form>div {
+	margin: 5px 0 5px;
+}
+.delivery_and_payment input[type="submit"] {
 	font-size: 14px;
 	outline: none;
 	-webkit-appearance: none;
 	border-radius: 3px;
-	float: right;
 	font-weight: bold;
 	padding: 10px;
 	color: #fff;
@@ -34,6 +32,12 @@ thead{
 	background: #a4a9ab;
 }
 
-.order input[type="submit"]:hover {
+.delivery_and_payment input[type="submit"]:hover {
 	background: #198d98;
+}
+#DELIVERY_method_info {
+	display: none;
+}
+#DELIVERY_method_info input[type="text"] {
+	margin-left: 5px;
 }

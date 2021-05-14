@@ -19,16 +19,21 @@
   <fmt:message key="local.new_password" var="new_password"/>
   <fmt:message key="local.current_password" var="current_password"/>
   <fmt:message key="local.change_password" var="change_password"/>
-   <fmt:message key="local.enter_password" var="enter_password"/>
+  <fmt:message key="local.enter_password" var="enter_password"/>
+  <fmt:message key="local.edit_profile" var="edit_profile"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/profile/style.css" type="text/css" />
 </head>
 <body>
-<%@ include file="/jsp/fragment/header.jsp" %>
-	<p></p>
+	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	  
+<div class="main">
+  <header>
+    <h1>${edit_profile}</h1>
+  </header>
   <p>${personal_data}</p>
   <form action="${pageContext.request.contextPath}/controller" method="post" name="registration" class="edit clearfix">
     <input type="hidden" name="command" value="change_user_data"/>
@@ -42,9 +47,11 @@
 		<input type="text" name="phone" required placeholder="+375XXXXXXXXX" value="${user.phone}" />
       </label>
     </div>
-    <label>${email}:
-		<input type="text" name="login" required placeholder="${email}" value="${user.login}" />
-	</label>
+	<div>
+		<label>${email}:
+			<input type="text" name="login" required placeholder="${email}" value="${user.login}" />
+		</label>
+	</div>
 	<div>
 		<label>${enter_password}:
 			<input type="password" name="password" required placeholder="${password}" />
@@ -68,7 +75,7 @@
 	</div>
     <input type="submit" value="${save}"/>
   </form>
-   	
+</div>
 	<mytag:copyright/>
 	
 </body>

@@ -1,0 +1,89 @@
+@import url("reset.css");
+
+html {
+	background: #ddd;
+}
+
+.main{
+	width: 400px;
+	padding-top: 30px;
+	margin: 0 auto;
+}
+
+.main header{
+	padding: 20px 0 20px;
+	background-color: #282830;
+	border-radius: 15px 15px 0 0;
+	text-transform: uppercase;	
+}
+
+.main > header > h1{
+	font-size: 16px;
+	text-align: center;
+	color: #fff;
+}
+
+.main p{
+	padding-top: 15px;
+	 
+	text-align: center;
+	background: #fff; 
+}
+
+.main header>form{
+	margin-top: -11px;
+	display: block;
+	float: left;
+	border-radius: 3px;
+	color: #fff;
+	cursor: pointer;
+	background: #1dabb8; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1dabb8 0%, #1dabb8 75%, #0c8a9b 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #1dabb8 0%,#1dabb8 75%,#0c8a9b 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #1dabb8 0%,#1dabb8 75%,#0c8a9b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1dabb8', endColorstr='#1dabb8',GradientType=0 ); /* IE6-9 */
+
+}
+
+.edit {
+	padding: 20px;
+	background: #fff;
+}
+
+.edit div{
+	margin-bottom: 15px;
+}
+
+.edit label{
+	text-align: right;
+	 
+}
+
+.edit input[type="text"] {
+	border: 1px solid #dcdcdc;
+	padding: 12px 10px;
+	width: 150px;
+	display: inline-block;
+	font-size: 14px;
+}
+
+
+.edit > input[type="submit"]{
+	border-radius: 3px;
+	color: #fff;
+	font-weight: bold;
+	font-size: 14px;
+	padding: 12px 20px;
+	cursor: pointer;
+	background: #1dabb8; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1dabb8 0%, #1dabb8 75%, #0c8a9b 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #1dabb8 0%,#1dabb8 75%,#0c8a9b 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #1dabb8 0%,#1dabb8 75%,#0c8a9b 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1dabb8', endColorstr='#1dabb8',GradientType=0 ); /* IE6-9 */
+
+}
+
+.edit > input[type="submit"]:hover {
+	background: #198d98; 
+}
+
