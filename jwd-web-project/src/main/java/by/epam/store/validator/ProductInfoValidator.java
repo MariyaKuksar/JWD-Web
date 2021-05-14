@@ -26,9 +26,6 @@ public final class ProductInfoValidator {
 		if (!isValidPrice(productInfo.get(ParameterAndAttribute.PRICE))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRICE_MESSAGE);
 		}
-		if (!isValidImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_IMAGE_NAME_MESSAGE);
-		}
 		if (!isValidName(productInfo.get(ParameterAndAttribute.PRODUCT_NAME))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_NAME_MESSAGE);
 		} else {
@@ -43,7 +40,7 @@ public final class ProductInfoValidator {
 	}
 
 	public static boolean isValidImageName(String imageName) {
-		return (imageName != null) ? imageName.matches(IMAGE_NAME_PATTERN) : true;
+		return (imageName != null) ? imageName.matches(IMAGE_NAME_PATTERN) : false;
 	}
 
 	public static boolean isValidName(String name) {

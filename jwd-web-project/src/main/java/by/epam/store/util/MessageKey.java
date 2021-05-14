@@ -45,6 +45,11 @@ public final class MessageKey {
 	public static final String INFO_USER_IS_BLOCKED_MESSAGE = "local.message.user_is_blocked";
 	public static final String INFO_USER_IS_UNBLOCKED_MESSAGE = "local.message.user_is_unblocked";
 	
+	public static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
+	public static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link ";
+	public static final String CHANGE_PASSWORD_MESSAGE_SUBJECT = "Change password";
+	public static final String CHANGE_PASSWORD_MESSAGE_TEXT = "Your new login password is ";
+	
 	private MessageKey() {
 	}
 }

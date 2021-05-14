@@ -37,6 +37,7 @@ public final class ParameterAndAttribute {
 	public static final String CURRENT_LOGIN = "currentLogin";
 	public static final String NEW_PASSWORD = "newPassword";
 	public static final String USERS = "users";
+	public static final String PATH = "path";
 	
 	private ParameterAndAttribute() {
 	}	

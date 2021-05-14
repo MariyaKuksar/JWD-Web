@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
@@ -27,13 +28,16 @@ import by.epam.store.util.ParameterAndAttribute;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadingServlet extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger();
+	private static final String BUNDLE_NAME = "path";
+	private static final String PATH_IMG = "path.img";
 	private static final String FORMAT_FILE_NAME = "jpg";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String url = request.getParameter(ParameterAndAttribute.URL);
-		File file = new File(url);
+		String imageName = request.getParameter(ParameterAndAttribute.IMAGE_NAME);
+		String path = ResourceBundle.getBundle(BUNDLE_NAME).getString(PATH_IMG);
+		File file = new File(path + imageName);
 		BufferedImage bufferedImage = ImageIO.read(file);
 		try (OutputStream outputStream = response.getOutputStream()) {
 			ImageIO.write(bufferedImage, FORMAT_FILE_NAME, outputStream);

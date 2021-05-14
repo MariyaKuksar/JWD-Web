@@ -4,11 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import javax.mail.MessagingException;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
+
+import by.epam.store.controller.command.PagePath;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 import by.epam.store.entity.UserStatus;
@@ -28,10 +31,8 @@ import by.epam.store.validator.UserInfoValidator;
 
 public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl();
-	private static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
-	private static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link http://localhost:8080/jwd-web-project/controller?command=confirm_registration&userId=";
-	private static final String CHANGE_PASSWORD_MESSAGE_SUBJECT = "Change password";
-	private static final String CHANGE_PASSWORD_MESSAGE_TEXT = "Your new login password is ";
+	private static final String BUNDLE_NAME = "path";
+	private static final String PATH_APP = "path.app";
 	private static final int NUMBER_PASSWORD_CHARACTERS = 8;
 
 	@Override
@@ -51,8 +52,9 @@ public class UserServiceImpl implements UserService {
 			user.setRole(UserRole.CLIENT);
 			user.setStatus(UserStatus.INACTIVE);
 			userDao.create(user);
-			MailSender.send(user.getLogin(), REGISTRATION_MESSAGE_SUBJECT,
-					REGISTRATION_MESSAGE_TEXT + user.getUserId());
+			String link = ResourceBundle.getBundle(BUNDLE_NAME).getString(PATH_APP) + PagePath.CONFIRM_REGISTRATION;
+			MailSender.send(user.getLogin(), MessageKey.REGISTRATION_MESSAGE_SUBJECT,
+					MessageKey.REGISTRATION_MESSAGE_TEXT + link + user.getUserId());
 		} catch (MessagingException | DaoException e) {
 			throw new ServiceException("user creation error", e);
 		}
@@ -71,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userActivated;
 	}
-	
+
 	@Override
 	public boolean blockUser(String userId) throws ServiceException {
 		if (!IdValidator.isValidId(userId)) {
@@ -99,7 +101,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userUnblocked;
 	}
-	
+
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login) || !UserInfoValidator.isValidPassword(password)) {
@@ -135,7 +137,8 @@ public class UserServiceImpl implements UserService {
 			String encryptedPassword = PasswordEncryption.encrypt(newPassword);
 			passwordChanged = userDao.updatePassword(login, encryptedPassword);
 			if (passwordChanged) {
-				MailSender.send(login, CHANGE_PASSWORD_MESSAGE_SUBJECT, CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
+				MailSender.send(login, MessageKey.CHANGE_PASSWORD_MESSAGE_SUBJECT,
+						MessageKey.CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
 			}
 		} catch (MessagingException | DaoException e) {
 			throw new ServiceException("password change error", e);

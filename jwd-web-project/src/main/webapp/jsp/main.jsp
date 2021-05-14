@@ -72,7 +72,7 @@
 				<c:if test="${requestScope.products[0].category.categoryId != category.categoryId}">
 				<figure class="category">
 				</c:if>
-					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${category.imageName}" alt="${category.categoryName}"></a></div>
+					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/upload?imageName=${category.imageName}" alt="${category.categoryName}"></a></div>
 					<div class="name"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}" title="${category.categoryName}"><fmt:message key="local.category.${category.categoryName}"/></a></div>
 				</figure>
 				</c:forEach>
@@ -85,7 +85,7 @@
 			<div class="products">
                 <c:forEach var="product" items="${requestScope.products}">
                     <figure class="product">
-                        <div class="image"><img src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.imageName}" alt="${product.productName}"></div>
+                        <div class="image"><img src="${pageContext.request.contextPath}/upload?imageName=${product.imageName}" alt="${product.productName}"></div>
                         <div class="name"><p>${product.productName}</p></div>
                         <div class="price"><p>${product.price}$</p></div>
                         <c:if test="${product.amount > 0}">

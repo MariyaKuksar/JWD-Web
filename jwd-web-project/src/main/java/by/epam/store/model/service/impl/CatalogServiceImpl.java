@@ -69,6 +69,9 @@ public class CatalogServiceImpl implements CatalogService {
 		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
 		}
+		if (!ProductInfoValidator.isValidImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_IMAGE_NAME_MESSAGE);
+		}
 		if (!errorMessageList.isEmpty()) {
 			throw new InvalidDataException("invalid data", errorMessageList);
 		}

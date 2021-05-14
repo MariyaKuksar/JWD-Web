@@ -1,6 +1,7 @@
 package by.epam.store.controller.command.impl;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
+import by.epam.store.util.FileUtil;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.RequestUtil;
@@ -36,18 +38,23 @@ public class AddProductToCatalogCommand implements Command {
 		}
 		HttpSession session = request.getSession(true);
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
+		Map<String, String> productInfo = new HashMap<String, String>();
 		try {
-			Map<String, String> productInfo = RequestUtil.getParametersFromMultipartRequest(request);
+			productInfo = RequestUtil.getParametersFromMultipartRequest(request);
 			catalogService.addProduct(productInfo);
 			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE);
 			String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
 			router = new Router(PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
 			logger.error("invalid data", e);
+			FileUtil.deleteFile(
+					productInfo.get(ParameterAndAttribute.PATH) + productInfo.get(ParameterAndAttribute.IMAGE_NAME));
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
 			router = new Router(PagePath.ADDED_PRODUCT, RouteType.REDIRECT);
 		} catch (IOException | ServletException | ServiceException e) {
 			logger.error("error adding a product to the catalog", e);
+			FileUtil.deleteFile(
+					productInfo.get(productInfo.get(ParameterAndAttribute.PATH) + ParameterAndAttribute.IMAGE_NAME));
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

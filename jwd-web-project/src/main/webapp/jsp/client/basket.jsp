@@ -54,7 +54,7 @@
 		<c:forEach var="product" items="${requestScope.basket.products}">
 			<tr align="center" valign="center">
 				<td>
-					<img id="product_img" src="${pageContext.request.contextPath}/upload?url=/Users/User/Desktop/img/${product.key.imageName}" />
+					<img id="product_img" src="${pageContext.request.contextPath}/upload?imageName=${product.key.imageName}" />
 				</td>
 			
 				<td>${product.key.productName}</td>

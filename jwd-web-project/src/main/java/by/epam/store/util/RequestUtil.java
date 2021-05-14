@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 public final class RequestUtil {
 	private static final Logger logger = LogManager.getLogger();
-	private static final String PATH = "C:\\Users\\User\\Desktop\\img\\";
+	private static final String BUNDLE_NAME = "path";
+	private static final String PATH_IMG = "path.img";
 
 	private RequestUtil() {
 	}
@@ -31,8 +33,10 @@ public final class RequestUtil {
 		for (Part part : request.getParts()) {
 			if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
 				String imageName = FileUtil.generateName(part.getSubmittedFileName());
-				part.write(PATH + imageName);
+				String path = ResourceBundle.getBundle(BUNDLE_NAME).getString(PATH_IMG);
+				part.write(path + imageName);
 				parameters.put(ParameterAndAttribute.IMAGE_NAME, imageName);
+				parameters.put(ParameterAndAttribute.PATH, path);
 				logger.debug(imageName);
 			}
 		}
