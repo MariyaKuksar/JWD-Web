@@ -16,6 +16,7 @@
   <fmt:message key="local.status" var="status"/>
   <fmt:message key="local.unblock" var="unblock"/>
   <fmt:message key="local.block" var="block"/>
+  <fmt:message key="local.access" var="access"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
@@ -40,6 +41,7 @@
 					<th>${name}</th>
 					<th>${phone}</th>
 					<th>${status}</th>
+					<th>${access}</th>
 				</tr>
 			</thead>
 		<c:forEach var="user" items="${requestScope.users}">

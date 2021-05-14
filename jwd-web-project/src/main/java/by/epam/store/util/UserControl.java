@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.store.controller.command.PagePath;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 
@@ -38,7 +37,6 @@ public final class UserControl {
 			session.setAttribute(ParameterAndAttribute.ROLE, user.getRole());
 			session.setAttribute(ParameterAndAttribute.LOGIN, user.getLogin());
 			session.setAttribute(ParameterAndAttribute.USER_ID, user.getUserId());
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.MAIN);
 			break;
 		case INACTIVE:
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_UNVERIFIED_USER_MESSAGE);
