@@ -39,7 +39,7 @@
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
-	 <c:if test = "${not empty requestScope.basket.products}"> 
+	 <c:if test = "${not empty requestScope.order.products}"> 
 		<table>
 			<thead bgcolor="#c9c9c9" align="center">
 				<tr>
@@ -51,7 +51,7 @@
 					<th>${delete}</th>
 				</tr>
 			</thead>
-		<c:forEach var="product" items="${requestScope.basket.products}">
+		<c:forEach var="product" items="${requestScope.order.products}">
 			<tr align="center" valign="center">
 				<td>
 					<img id="product_img" src="${pageContext.request.contextPath}/upload?imageName=${product.key.imageName}" />
@@ -88,22 +88,22 @@
         </c:forEach>
 		</table> 
 		<div class="order">
-            <div class="final_price">${in_total}: ${requestScope.basket.cost}$</div>
+            <div class="final_price">${in_total}: ${requestScope.order.cost}$</div>
             <div class="delivery_and_payment">
                 <form action="${pageContext.request.contextPath}/controller" method="post">
                     <input type="hidden" name="command" value="checkout"/>
-                    <input type="hidden" name="cost" value="${requestScope.basket.cost}"/>
+                    <input type="hidden" name="cost" value="${requestScope.order.cost}"/>
                     <div>
                         <label for="paymentMethod">${payment_method}:</label>
                         <select size="1" id="paymentMethod" name="paymentMethod" required>
-                                <c:forEach var="paymentMethod" items="${requestScope.basket.paymentMethodList}">
+                                <c:forEach var="paymentMethod" items="${requestScope.paymentMethodList}">
                                     <option value="${paymentMethod}"><fmt:message key="local.payment_method.${paymentMethod}"/></option>
                                 </c:forEach>
                         </select>
                     </div/>
                     <div>
                         <label>${delivery_method}:</label>
-                        <c:forEach var="deliveryMethod" items="${requestScope.basket.deliveryMethodList}">
+                        <c:forEach var="deliveryMethod" items="${requestScope.deliveryMethodList}">
                             <input type="radio" name="deliveryMethod" value="${deliveryMethod}" id="${deliveryMethod}_method_input" onclick="openDiv('${deliveryMethod}_method_info')" required/><label for="${deliveryMethod}_method_input"><fmt:message key="local.delivery_method.${deliveryMethod}"/></label>
                         </c:forEach>
                     </div>

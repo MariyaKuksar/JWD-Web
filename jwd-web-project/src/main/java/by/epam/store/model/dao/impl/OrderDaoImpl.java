@@ -28,6 +28,7 @@ public class OrderDaoImpl implements OrderDao {
 	private static final String SQL_UPDATE_ORDER = "UPDATE ORDERS SET DATE_TIME=?, STATUS=?, PAYMENT_METHOD=?, COST=?, DELIVERY_METHOD=?, CITY=?, STREET=?, HOUSE=?, APARTMENT=? WHERE ID=?";
 	private static final String SQL_SELECT_ORDERS_BY_USER_ID = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE USER_ID=? AND STATUS!='BASKET'";
 	private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE ORDERS SET STATUS=? WHERE ID=?";
+	private static final String SQL_SELECT_ORDERS_BY_STATUS = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE STATUS=?";
 	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
@@ -124,5 +125,22 @@ public class OrderDaoImpl implements OrderDao {
 			throw new DaoException("database error", e);
 		}
 		return numberUpdatedRows == ONE_UPDATED_ROW;
+	}
+
+	@Override
+	public List<Order> findOrdersByStatus(String orderStatus) throws DaoException {
+		List<Order> orders = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_STATUS)) {
+			statement.setString(1, orderStatus);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Order order = DaoEntityBuilder.buildOrder(resultSet);
+				orders.add(order);
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return orders;
 	}
 }

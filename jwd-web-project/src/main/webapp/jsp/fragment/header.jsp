@@ -51,7 +51,7 @@
                             </ul>
                         </li>
                         <c:if test="${sessionScope.role == 'ADMIN'}">
-                        <li><a href="#nogo">${orders}</a></li>
+                        <li><a href="${pageContext.request.contextPath}/controller?command=find_orders_by_status&status=placed">${orders}</a></li>
                         <li><a href="#nogo">${supplies}</a>
                             <ul class="menu2">
                                 <li><a href="#nogo">${issue}</a></li>

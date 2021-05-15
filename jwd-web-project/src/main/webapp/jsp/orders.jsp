@@ -21,6 +21,8 @@
   <fmt:message key="local.info" var="info"/>
   <fmt:message key="local.cancel" var="cancel"/>
   <fmt:message key="local.detail" var="detail"/>
+  <fmt:message key="local.search" var="search"/>
+  <fmt:message key="local.email" var="email"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
@@ -28,8 +30,32 @@
 </head>
 <body>
 	<%@ include file="/jsp/fragment/header.jsp" %>
-	<%@ include file="/jsp/fragment/error_info.jsp" %>
+	
+   <c:if test="${sessionScope.role == 'ADMIN'}">
+   <form action="${pageContext.request.contextPath}/controller" method="get">
+    <input type="hidden" name="command" value="find_orders_by_status"/>
+    <select size="1" id="status" name="status" required >
+                        <c:forEach var="orderStatus" items="${requestScope.orderStatusList}">
+                            <option value="${orderStatus}"><fmt:message key="local.order_status.${orderStatus}" /></option>
+                        </c:forEach>
+    </select>
+    <input type="submit" value="${search}"/>
+   </form>
+   <form action="${pageContext.request.contextPath}/controller" method="get">
+    <input type="hidden" name="command" value="find_orders_by_id"/>
+    <input type="text" name="orderId" required placeholder="${order_number}"/>
+    <input type="submit" value="${search}"/>
+   </form>
+   <form action="${pageContext.request.contextPath}/controller" method="get">
+    <input type="hidden" name="command" value="find_orders_by_user"/>
+    <input type="text" name="login" required placeholder="${email}"/>
+    <input type="submit" value="${search}"/>
+   </form>
+   </c:if>
    
+   <%@ include file="/jsp/fragment/error_info.jsp" %>
+   
+    <c:if test = "${not empty requestScope.orders}"> 
 	<table>
 		<thead bgcolor="#c9c9c9" align="center">
 			<tr>
@@ -39,8 +65,8 @@
 				<th>${payment_method}</th>
 				<th colspan="2">${delivery_method}</th>
 				<th>${status}</th>
-				<th>${info}</th>
 				<th>${cancel}</th>
+				<th>${info}</th>
 			</tr>
 		</thead>
 		<c:forEach var="order" items="${requestScope.orders}">
@@ -60,23 +86,30 @@
 			</td>
 			<td><fmt:message key="local.order_status.${order.orderStatus}" /></td>
 			<td>
-				<button>${detail}</button>
-			</td>
-			<td>
 				<form action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="cancel_order"/>
 					<input type="hidden" name="orderId" value="${order.orderId}"/>
-					<c:if test="${order.orderStatus == 'PLACED'}">
+					<c:if test="${sessionScope.role == 'CLIENT' && order.orderStatus == 'PLACED'}">
 					<input type="submit" value="${cancel}"/>
 					</c:if>
-					<c:if test="${order.orderStatus != 'PLACED'}">
+					<c:if test="${sessionScope.role == 'CLIENT' && order.orderStatus != 'PLACED'}">
+					<input type="submit" value="${cancel}" disabled/>
+					</c:if>
+					<c:if test="${sessionScope.role == 'ADMIN' && order.orderStatus != 'DELIVERED' && order.orderStatus != 'CANCELED'}">
+					<input type="submit" value="${cancel}"/>
+					</c:if>
+					<c:if test="${sessionScope.role == 'ADMIN' && (order.orderStatus == 'DELIVERED' || order.orderStatus == 'CANCELED')}">
 					<input type="submit" value="${cancel}" disabled/>
 					</c:if>
 				</form>
 			</td>
+			<td>
+				<button>${detail}</button>
+			</td>
 		</tr>
 		</c:forEach>
 	</table>
+    </c:if>
 
    	<mytag:copyright/>
 </body>

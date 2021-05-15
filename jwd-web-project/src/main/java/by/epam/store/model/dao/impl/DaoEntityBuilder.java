@@ -57,11 +57,17 @@ final class DaoEntityBuilder {
 		Order order = new Order();
 		order.setOrderId(resultSet.getLong(ColumnName.ORDERS_ID));
 		order.setUserId(resultSet.getLong(ColumnName.ORDERS_USER_ID));
-		order.setDateTime(resultSet.getTimestamp(ColumnName.ORDERS_DATE_TIME).toLocalDateTime());
+		if (resultSet.getTimestamp(ColumnName.ORDERS_DATE_TIME) != null) {
+			order.setDateTime(resultSet.getTimestamp(ColumnName.ORDERS_DATE_TIME).toLocalDateTime());
+		}
 		order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));
-		order.setPaymentMethod(PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD)));
+		if (resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD) != null) {
+			order.setPaymentMethod(PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD)));
+		}
 		order.setCost(resultSet.getBigDecimal(ColumnName.ORDERS_COST));
-		order.setDeliveryMethod(DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD)));
+		if (resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD) != null) {
+			order.setDeliveryMethod(DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD)));
+		}
 		order.getAddress().setCity(resultSet.getString(ColumnName.ORDERS_CITY));
 		order.getAddress().setStreet(resultSet.getString(ColumnName.ORDERS_STREET));
 		order.getAddress().setHouse(resultSet.getString(ColumnName.ORDERS_HOUSE));

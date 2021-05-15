@@ -18,6 +18,7 @@ import by.epam.store.controller.command.impl.ChangeUserDataCommand;
 import by.epam.store.controller.command.impl.CheckoutCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
+import by.epam.store.controller.command.impl.FindOrdersByStatusCommand;
 import by.epam.store.controller.command.impl.FindUserByLoginCommand;
 import by.epam.store.controller.command.impl.RemoveProductFromBasketCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
@@ -65,6 +66,7 @@ public final class CommandProvider {
 		commands.put(CommandType.FIND_USER_BY_LOGIN, new FindUserByLoginCommand());
 		commands.put(CommandType.BLOCK_USER, new BlockUserCommand());
 		commands.put(CommandType.UNBLOCK_USER, new UnblockUserCommand());
+		commands.put(CommandType.FIND_ORDERS_BY_STATUS, new FindOrdersByStatusCommand());
 	}
 
 	private CommandProvider() {

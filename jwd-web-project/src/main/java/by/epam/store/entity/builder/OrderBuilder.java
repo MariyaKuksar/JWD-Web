@@ -26,7 +26,7 @@ public class OrderBuilder implements EntityBuilder<Order> {
 		order.setOrderId(Long.parseLong(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID)));
 		order.setOrderStatus(OrderStatus.PLACED);
 		order.setCost(new BigDecimal(orderInfo.get(ParameterAndAttribute.COST)));
-		order.setDateTime(LocalDateTime.now()); //TODO норм это использовать для текущей даты?
+		order.setDateTime(LocalDateTime.now());
 		order.setPaymentMethod(PaymentMethod.valueOf(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD)));
 		order.setDeliveryMethod(DeliveryMethod.valueOf(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD)));
 		if (order.getDeliveryMethod()==DeliveryMethod.DELIVERY) {

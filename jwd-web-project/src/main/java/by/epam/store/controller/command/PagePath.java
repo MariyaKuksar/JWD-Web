@@ -21,6 +21,7 @@ public final class PagePath {
 	public static final String GO_TO_CLIENTS_PAGE = "controller?command=go_to_clients_page";
 	public static final String FIND_USER_BY_LOGIN = "controller?command=find_user_by_login&login=";
 	public static final String CONFIRM_REGISTRATION = "controller?command=confirm_registration&userId=";
+	public static final String FIND_ORDERS_BY_STATUS = "controller?command=find_orders_by_status&status=";
 	
 	private PagePath() {
 	}

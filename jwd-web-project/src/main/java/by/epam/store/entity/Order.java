@@ -24,6 +24,11 @@ public class Order implements Serializable {
 		this.userId = userId;
 	}
 
+	public Order(Long orderId, Long userId) {
+		this.orderId = orderId;
+		this.userId = userId;
+	}
+
 	public Long getOrderId() {
 		return orderId;
 	}

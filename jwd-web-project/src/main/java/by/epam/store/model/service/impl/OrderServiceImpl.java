@@ -1,7 +1,6 @@
 package by.epam.store.model.service.impl;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +8,9 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.store.entity.Basket;
-import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderProductConnection;
 import by.epam.store.entity.OrderStatus;
-import by.epam.store.entity.PaymentMethod;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.builder.OrderBuilder;
 import by.epam.store.model.dao.DaoException;
@@ -41,12 +37,12 @@ public class OrderServiceImpl implements OrderService {
 	private ProductDao productDao = new ProductDaoImpl();
 
 	@Override
-	public Optional<Basket> addProductToBasket(Long userId, Long orderBasketId, String productId)
+	public Optional<Order> addProductToBasket(Long userId, Long orderBasketId, String productId)
 			throws ServiceException {
 		if (userId == null || !IdValidator.isValidId(productId)) {
 			return Optional.empty();
 		}
-		Basket basket;
+		Order orderBasket;
 		try {
 			if (orderBasketId == null) {
 				orderBasketId = takeOrderBasketId(userId);
@@ -56,34 +52,32 @@ public class OrderServiceImpl implements OrderService {
 			if (!orderProductConnectionDao.increaseAmountOfProduct(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
-			basket = new Basket(orderBasketId, userId);
+			orderBasket = new Order(orderBasketId, userId);
 		} catch (DaoException e) {
 			throw new ServiceException("product adding error", e);
 		}
-		return Optional.of(basket);
+		return Optional.of(orderBasket);
 	}
 
 	@Override
-	public Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
+	public Optional<Order> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
 		if (userId == null) {
 			return Optional.empty();
 		}
-		Basket basket;
+		Order orderBasket;
 		try {
 			if (orderBasketId == null) {
 				orderBasketId = takeOrderBasketId(userId);
 			}
-			basket = new Basket(orderBasketId, userId);
+			orderBasket = new Order(orderBasketId, userId);
 			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
-			basket.setProducts(products);
+			orderBasket.setProducts(products);
 			BigDecimal orderCost = PriceCalculator.calculateTotalCost(products);
-			basket.setCost(orderCost);
-			basket.setDeliveryMethodList(Arrays.asList(DeliveryMethod.values()));
-			basket.setPaymentMethodList(Arrays.asList(PaymentMethod.values()));
+			orderBasket.setCost(orderCost);
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}
-		return Optional.of(basket);
+		return Optional.of(orderBasket);
 	}
 
 	@Override
@@ -178,6 +172,32 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("orders changing status error", e);
 		}
 		return orderCanceled;
+	}
+
+	@Override
+	public List<Order> takeOrdersByStatus(String orderStatus) throws ServiceException {
+		logger.debug(orderStatus);
+		if (!OrderInfoValidator.isValidOrderStatus(orderStatus)) {
+			logger.debug(false);
+			return Collections.emptyList();
+		}
+		List<Order> orders;
+		try {
+			orders = orderDao.findOrdersByStatus(orderStatus);
+			if (!orders.isEmpty()) {
+				Collections.reverse(orders);
+				for (Order order : orders) {
+					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
+					order.setProducts(products);
+					if (OrderStatus.valueOf(orderStatus.toUpperCase())==OrderStatus.BASKET) {
+						order.setCost(PriceCalculator.calculateTotalCost(products));
+					}
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("orders search error", e);
+		}
+		return orders;
 	}
 
 	private Long takeOrderBasketId(Long userId) throws DaoException {

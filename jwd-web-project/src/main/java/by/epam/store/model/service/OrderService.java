@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import by.epam.store.entity.Basket;
 import by.epam.store.entity.Order;
 
 public interface OrderService {
 
-	Optional<Basket> addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException;
+	Optional<Order> addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException;
 
-	Optional<Basket> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException;
+	Optional<Order> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException;
 
 	boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct) throws ServiceException;
 
@@ -22,4 +21,6 @@ public interface OrderService {
 	List<Order> takeOrdersByUserId(Long userId) throws ServiceException;
 
 	boolean cancelOrder(String orderId) throws ServiceException;
+
+	List<Order> takeOrdersByStatus(String orderStatus) throws ServiceException;
 }

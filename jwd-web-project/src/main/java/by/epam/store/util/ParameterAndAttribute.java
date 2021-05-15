@@ -19,12 +19,12 @@ public final class ParameterAndAttribute {
 	public static final String PRODUCT_ID = "productId";
 	public static final String PRICE = "price";
 	public static final String IMAGE_NAME = "imageName";
-	public static final String USER_STATUS = "userStatus";
+	public static final String STATUS = "status";
 	public static final String ORDER_BASKET_ID = "orderBasketId";
 	public static final String ORDERS = "orders";
 	public static final String URL = "url"; 
 	public static final String AMOUNT_PRODUCT = "amountProduct"; 
-	public static final String BASKET = "basket";
+	public static final String ORDER = "order";
 	public static final String COST = "cost";
 	public static final String PAYMENT_METHOD = "paymentMethod";
 	public static final String DELIVERY_METHOD = "deliveryMethod";
@@ -38,6 +38,9 @@ public final class ParameterAndAttribute {
 	public static final String NEW_PASSWORD = "newPassword";
 	public static final String USERS = "users";
 	public static final String PATH = "path";
+	public static final String DELIVERY_METHOD_LIST = "deliveryMethodList";
+	public static final String PAYMENT_METHOD_LIST = "paymentMethodList";
+	public static final String ORDER_STATUS_LIST = "orderStatusList";
 	
 	private ParameterAndAttribute() {
 	}	

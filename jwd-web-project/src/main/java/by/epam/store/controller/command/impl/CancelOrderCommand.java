@@ -37,7 +37,8 @@ public class CancelOrderCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 			}
-			router = new Router(PagePath.GO_TO_ORDERS_PAGE, RouteType.REDIRECT);
+			String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
+			router = new Router(page, RouteType.REDIRECT);
 		} catch (ServiceException e) {
 			logger.error("order cancelation error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);

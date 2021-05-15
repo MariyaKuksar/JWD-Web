@@ -1,5 +1,6 @@
 package by.epam.store.controller.command.impl;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +13,9 @@ import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
-import by.epam.store.entity.Basket;
+import by.epam.store.entity.DeliveryMethod;
+import by.epam.store.entity.Order;
+import by.epam.store.entity.PaymentMethod;
 import by.epam.store.entity.UserRole;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
@@ -36,15 +39,17 @@ public class GoToBasketPageCommand implements Command {
 		Long userId = (Long) session.getAttribute(ParameterAndAttribute.USER_ID);
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		try {
-			Optional<Basket> basketOptional = orderService.takeOrderBasket(userId, orderBasketId);
-			if (basketOptional.isPresent()) {
-				Basket basket = basketOptional.get();
-				if (basket.getProducts().isEmpty()) {
+			Optional<Order> orderBasketOptional = orderService.takeOrderBasket(userId, orderBasketId);
+			if (orderBasketOptional.isPresent()) {
+				Order orderBasket = orderBasketOptional.get();
+				if (orderBasket.getProducts().isEmpty()) {
 					session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_BASKET_IS_EMPTY_MESSAGE);
 				}
-				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, basket.getOrderBasketId());
+				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasket.getOrderId());
 				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);
-				request.setAttribute(ParameterAndAttribute.BASKET, basket);
+				request.setAttribute(ParameterAndAttribute.ORDER, orderBasket);
+				request.setAttribute(ParameterAndAttribute.DELIVERY_METHOD_LIST, Arrays.asList(DeliveryMethod.values()));
+				request.setAttribute(ParameterAndAttribute.PAYMENT_METHOD_LIST, Arrays.asList(PaymentMethod.values()));
 				router = new Router(PagePath.BASKET, RouteType.FORWARD);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,

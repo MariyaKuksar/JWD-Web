@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.store.entity.DeliveryMethod;
+import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.PaymentMethod;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
@@ -62,7 +63,7 @@ public final class OrderInfoValidator {
 			return false;
 		}
 		try {
-			PaymentMethod.valueOf(paymentMethod);
+			PaymentMethod.valueOf(paymentMethod.toUpperCase());
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
@@ -74,7 +75,7 @@ public final class OrderInfoValidator {
 			return false;
 		}
 		try {
-			DeliveryMethod.valueOf(deliveryMethod);
+			DeliveryMethod.valueOf(deliveryMethod.toUpperCase());
 		} catch (IllegalArgumentException e) {
 			return false;
 		}
@@ -95,5 +96,19 @@ public final class OrderInfoValidator {
 
 	public static boolean isValidApartment(String apartment) {
 		return (apartment != null) ? apartment.matches(APARTMENT_PATTERN) : true;
+	}
+	
+	public static boolean isValidOrderStatus(String orderStatus) {
+		if (orderStatus == null) {
+			logger.debug("null");
+			return false;
+		}
+		try {
+			OrderStatus.valueOf(orderStatus.toUpperCase());
+		} catch (IllegalArgumentException e) {
+			logger.debug("IllegalArgumentException");
+			return false;
+		}
+		return true;
 	}
 }
