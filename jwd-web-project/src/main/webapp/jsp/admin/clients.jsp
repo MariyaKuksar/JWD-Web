@@ -70,6 +70,9 @@
 						<input type="submit" value="${block}"/>
 					</form>
                     </c:if>
+                    <c:if test="${user.status == 'INACTIVE'}">
+					<input type="submit" value="${block}" disabled/>
+					</c:if>
 				</td>
 			</tr>
         </c:forEach>

@@ -23,6 +23,7 @@
   <fmt:message key="local.detail" var="detail"/>
   <fmt:message key="local.search" var="search"/>
   <fmt:message key="local.email" var="email"/>
+  <fmt:message key="local.process" var="process"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
@@ -65,7 +66,12 @@
 				<th>${payment_method}</th>
 				<th colspan="2">${delivery_method}</th>
 				<th>${status}</th>
+				<c:if test="${sessionScope.role == 'CLIENT'}">
 				<th>${cancel}</th>
+				</c:if>
+				<c:if test="${sessionScope.role == 'ADMIN'}">
+				<th colspan="2">${process}</th>
+				</c:if>
 				<th>${info}</th>
 			</tr>
 		</thead>
@@ -85,6 +91,21 @@
 				</c:if>
 			</td>
 			<td><fmt:message key="local.order_status.${order.orderStatus}" /></td>
+			
+			<c:if test="${sessionScope.role == 'ADMIN'}">
+			<td>
+				<form action="${pageContext.request.contextPath}/controller" method="post">
+					<input type="hidden" name="command" value="process_order"/>
+					<input type="hidden" name="orderId" value="${order.orderId}"/>
+					<c:if test="${order.orderStatus == 'PLACED' || order.orderStatus == 'ACCEPTED' || order.orderStatus == 'READY'}">
+					<input type="submit" value="${process}"/>
+					</c:if>
+					<c:if test="${order.orderStatus != 'PLACED' && order.orderStatus != 'ACCEPTED' && order.orderStatus != 'READY'}">
+					<input type="submit" value="${process}" disabled/>
+					</c:if>
+				</form>
+			</td>
+			</c:if>
 			<td>
 				<form action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="cancel_order"/>
