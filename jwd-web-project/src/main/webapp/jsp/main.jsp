@@ -26,6 +26,10 @@
     <fmt:message key="local.save" var="save"/>
     <fmt:message key="local.name" var="name"/>
     <fmt:message key="local.price" var="price"/>
+    <fmt:message key="local.show" var="show"/>
+    <fmt:message key="local.cheap_first" var="cheap_first"/>
+    <fmt:message key="local.expensive_first" var="expensive_first"/>
+    
     <title>${title}</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
@@ -78,9 +82,13 @@
 				</c:forEach>
 			</div>
 			</c:if>
+				
 			<c:if test="${requestScope.products != null}">
 			<div class="menu3">
 				<p><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a> > <fmt:message key="local.category.${requestScope.products[0].category.categoryName}"/> </p>
+			<p>${show}: </p>
+			<li><a href="${currentPage}&sortingMethod=increasePrice">${cheap_first}</a></li>
+			<li><a href="${currentPage}&sortingMethod=decreasePrice">${expensive_first}</a></li>
 			</div>
 			<div class="products">
                 <c:forEach var="product" items="${requestScope.products}">

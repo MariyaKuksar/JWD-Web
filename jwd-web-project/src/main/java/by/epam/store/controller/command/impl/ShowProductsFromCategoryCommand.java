@@ -13,9 +13,11 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.entity.Product;
+import by.epam.store.entity.comporator.ProductComporator;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
+import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 
 public class ShowProductsFromCategoryCommand implements Command {
@@ -27,9 +29,24 @@ public class ShowProductsFromCategoryCommand implements Command {
 		HttpSession session = request.getSession(true);
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
 		String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
+		String sortingMethod = request.getParameter(ParameterAndAttribute.SORTING_METHOD);
 		try {
 			List<Product> products = catalogService.takeProductsFromCategory(categoryId);
-			request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
+			if (!products.isEmpty()) {
+				if (sortingMethod != null) {
+					switch (sortingMethod) {
+					case "increasePrice":
+						products.sort(ProductComporator.INCREASE_PRICE);
+						break;
+					case "decreasePrice":
+						products.sort(ProductComporator.DECREASE_PRICE);
+						break;
+					}
+				}
+				request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
+			} else {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
+			}
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId);
 			router = new Router(PagePath.MAIN, RouteType.FORWARD);
 		} catch (ServiceException e) {

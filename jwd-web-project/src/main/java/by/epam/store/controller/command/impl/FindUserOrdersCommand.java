@@ -1,5 +1,6 @@
 package by.epam.store.controller.command.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.entity.Order;
+import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.UserRole;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
@@ -42,6 +44,7 @@ public class FindUserOrdersCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NO_ORDERS_MESSAGE);
 			}
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_USER_ORDERS + login);
+			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, Arrays.asList(OrderStatus.values()));
 			router = new Router(PagePath.ORDERS, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("orders search error", e);

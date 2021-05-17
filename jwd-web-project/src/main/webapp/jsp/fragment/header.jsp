@@ -23,6 +23,8 @@
 <fmt:message key="local.clients" var="clients" />
 <fmt:message key="local.my_orders" var="my_orders"/>
 <fmt:message key="local.sign_out" var="sign_out"/>
+<fmt:message key="local.products_in_stock" var="products_in_stock"/>
+<fmt:message key="local.products_on_order" var="products_on_order"/>
 <header>
     <div class="header_top">
         <div >
@@ -46,7 +48,8 @@
                             </c:forEach>
                             <c:if test="${sessionScope.role == 'ADMIN'}">
                                 <li><a href="${pageContext.request.contextPath}/jsp/admin/adding_product.jsp">${add_product}</a></li>
-                                <li><a href="#nogo">${report}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_in_stock">${products_in_stock}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_on_order">${products_on_order}</a></li>
                             </c:if>
                             </ul>
                         </li>

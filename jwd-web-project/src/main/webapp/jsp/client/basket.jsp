@@ -100,7 +100,7 @@
                                     <option value="${paymentMethod}"><fmt:message key="local.payment_method.${paymentMethod}"/></option>
                                 </c:forEach>
                         </select>
-                    </div/>
+                    </div>
                     <div>
                         <label>${delivery_method}:</label>
                         <c:forEach var="deliveryMethod" items="${requestScope.deliveryMethodList}">
