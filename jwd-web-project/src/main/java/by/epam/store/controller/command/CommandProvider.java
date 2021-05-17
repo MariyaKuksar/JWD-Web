@@ -18,14 +18,17 @@ import by.epam.store.controller.command.impl.ChangeUserDataCommand;
 import by.epam.store.controller.command.impl.CheckoutCommand;
 import by.epam.store.controller.command.impl.ConfirmRegistrationCommand;
 import by.epam.store.controller.command.impl.DefaultCommand;
+import by.epam.store.controller.command.impl.FindOrderByIdCommand;
 import by.epam.store.controller.command.impl.FindOrdersByStatusCommand;
 import by.epam.store.controller.command.impl.FindUserByLoginCommand;
+import by.epam.store.controller.command.impl.FindUserOrdersCommand;
 import by.epam.store.controller.command.impl.RemoveProductFromBasketCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
 import by.epam.store.controller.command.impl.GoToBasketPageCommand;
 import by.epam.store.controller.command.impl.GoToMainPageCommand;
 import by.epam.store.controller.command.impl.GoToOrdersPageCommand;
 import by.epam.store.controller.command.impl.GoToProfilePageCommand;
+import by.epam.store.controller.command.impl.ProcessOrderCommand;
 import by.epam.store.controller.command.impl.GoToClientsPageCommand;
 import by.epam.store.controller.command.impl.ShowProductsFromCategoryCommand;
 import by.epam.store.controller.command.impl.SignInCommand;
@@ -67,6 +70,9 @@ public final class CommandProvider {
 		commands.put(CommandType.BLOCK_USER, new BlockUserCommand());
 		commands.put(CommandType.UNBLOCK_USER, new UnblockUserCommand());
 		commands.put(CommandType.FIND_ORDERS_BY_STATUS, new FindOrdersByStatusCommand());
+		commands.put(CommandType.FIND_ORDER_BY_ID, new FindOrderByIdCommand());
+		commands.put(CommandType.FIND_USER_ORDERS, new FindUserOrdersCommand());
+		commands.put(CommandType.PROCESS_ORDER, new ProcessOrderCommand());
 	}
 
 	private CommandProvider() {

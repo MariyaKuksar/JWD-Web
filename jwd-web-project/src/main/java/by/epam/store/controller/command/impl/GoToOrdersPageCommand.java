@@ -23,7 +23,7 @@ import by.epam.store.util.UserControl;
 
 public class GoToOrdersPageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -33,14 +33,15 @@ public class GoToOrdersPageCommand implements Command {
 		}
 		HttpSession session = request.getSession(true);
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
-		Long userId = (Long) session.getAttribute(ParameterAndAttribute.USER_ID);
+		String login = (String) session.getAttribute(ParameterAndAttribute.LOGIN);
 		try {
-			List<Order> orders = orderService.takeOrdersByUserId(userId);
-			if (orders.isEmpty()) {
+			List<Order> orders = orderService.takeOrdersByLogin(login);
+			if (!orders.isEmpty()) {
+				request.setAttribute(ParameterAndAttribute.ORDERS, orders);
+			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NO_ORDERS_MESSAGE);
 			}
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_ORDERS_PAGE);
-			request.setAttribute(ParameterAndAttribute.ORDERS, orders);
 			router = new Router(PagePath.ORDERS, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("orders search error", e);

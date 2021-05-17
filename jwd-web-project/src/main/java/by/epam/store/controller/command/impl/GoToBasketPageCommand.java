@@ -43,7 +43,7 @@ public class GoToBasketPageCommand implements Command {
 			if (orderBasketOptional.isPresent()) {
 				Order orderBasket = orderBasketOptional.get();
 				if (orderBasket.getProducts().isEmpty()) {
-					session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_BASKET_IS_EMPTY_MESSAGE);
+					session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_BASKET_EMPTY_MESSAGE);
 				}
 				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasket.getOrderId());
 				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);

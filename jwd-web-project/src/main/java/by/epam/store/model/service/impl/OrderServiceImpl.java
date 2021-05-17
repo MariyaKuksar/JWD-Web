@@ -12,6 +12,7 @@ import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderProductConnection;
 import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.Product;
+import by.epam.store.entity.UserRole;
 import by.epam.store.entity.builder.OrderBuilder;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderDao;
@@ -28,6 +29,7 @@ import by.epam.store.util.PriceCalculator;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.OrderInfoValidator;
 import by.epam.store.validator.ProductInfoValidator;
+import by.epam.store.validator.UserInfoValidator;
 
 public class OrderServiceImpl implements OrderService {
 	private static final Logger logger = LogManager.getLogger();
@@ -136,13 +138,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> takeOrdersByUserId(Long userId) throws ServiceException {
-		if (userId == null) {
+	public List<Order> takeOrdersByLogin(String login) throws ServiceException {
+		if (!UserInfoValidator.isValidLogin(login)) {
 			return Collections.emptyList();
 		}
 		List<Order> orders;
 		try {
-			orders = orderDao.findOrdersByUserId(userId);
+			orders = orderDao.findOrdersByLogin(login);
 			if (!orders.isEmpty()) {
 				Collections.reverse(orders);
 				for (Order order : orders) {
@@ -157,13 +159,19 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public boolean cancelOrder(String orderId) throws ServiceException {
-		if (!IdValidator.isValidId(orderId)) {
+	public boolean cancelOrder(String orderId, String orderStatus, UserRole userRole) throws ServiceException {
+		if (!IdValidator.isValidId(orderId) || !OrderInfoValidator.isValidOrderStatus(orderStatus)
+				|| userRole == null) {
+			return false;
+		}
+		OrderStatus statusFrom = OrderStatus.valueOf(orderStatus.toUpperCase());
+		if ((userRole == UserRole.CLIENT && statusFrom != OrderStatus.PLACED)
+				|| (userRole == UserRole.ADMIN && statusFrom == OrderStatus.CANCELED)) {
 			return false;
 		}
 		boolean orderCanceled;
 		try {
-			orderCanceled = orderDao.updateStatus(orderId, OrderStatus.CANCELED);
+			orderCanceled = orderDao.updateStatus(orderId, statusFrom, OrderStatus.CANCELED);
 			if (orderCanceled) {
 				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
 				productDao.increaseAmount(products);
@@ -189,7 +197,7 @@ public class OrderServiceImpl implements OrderService {
 				for (Order order : orders) {
 					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
 					order.setProducts(products);
-					if (OrderStatus.valueOf(orderStatus.toUpperCase())==OrderStatus.BASKET) {
+					if (OrderStatus.valueOf(orderStatus.toUpperCase()) == OrderStatus.BASKET) {
 						order.setCost(PriceCalculator.calculateTotalCost(products));
 					}
 				}
@@ -198,6 +206,57 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("orders search error", e);
 		}
 		return orders;
+	}
+
+	@Override
+	public Optional<Order> takeOrderById(String orderId) throws ServiceException {
+		if (!IdValidator.isValidId(orderId)) {
+			return Optional.empty();
+		}
+		Optional<Order> orderOptional;
+		try {
+			orderOptional = orderDao.findOrderById(orderId);
+			if (orderOptional.isPresent()) {
+				Order order = orderOptional.get();
+				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
+				order.setProducts(products);
+				if (order.getOrderStatus() == OrderStatus.BASKET) {
+					order.setCost(PriceCalculator.calculateTotalCost(products));
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("order search error", e);
+		}
+		return orderOptional;
+	}
+
+	@Override
+	public boolean processOrder(String orderId, String orderStatus) throws ServiceException {
+		if (!IdValidator.isValidId(orderId) || !OrderInfoValidator.isValidOrderStatus(orderStatus)) {
+			return false;
+		}
+		OrderStatus statusFrom = OrderStatus.valueOf(orderStatus.toUpperCase());
+		OrderStatus statusTo;
+		switch (statusFrom) {
+		case PLACED:
+			statusTo = OrderStatus.ACCEPTED;
+			break;
+		case ACCEPTED:
+			statusTo = OrderStatus.READY;
+			break;
+		case READY:
+			statusTo = OrderStatus.DELIVERED;
+			break;
+		default:
+			return false;
+		}
+		boolean orderProcessed;
+		try {
+			orderProcessed = orderDao.updateStatus(orderId, statusFrom, statusTo);
+		} catch (DaoException e) {
+			throw new ServiceException("orders changing status error", e);
+		}
+		return orderProcessed;
 	}
 
 	private Long takeOrderBasketId(Long userId) throws DaoException {

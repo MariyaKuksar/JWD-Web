@@ -37,13 +37,14 @@ public final class MessageKey {
 	public static final String INFO_NOTHING_FOUND_MESSAGE = "local.message.nothing_found";
 	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";
 	public static final String INFO_PRODUCT_ADDED_TO_CATALOG_MESSAGE = "local.message.product_added_to_catalog";
-	public static final String INFO_BASKET_IS_EMPTY_MESSAGE = "local.message.basket_is_empty";
-	public static final String INFO_ORDER_IS_PLACED_MESSAGE = "local.message.order_is_placed";
+	public static final String INFO_BASKET_EMPTY_MESSAGE = "local.message.basket_empty";
+	public static final String INFO_ORDER_PLACED_MESSAGE = "local.message.order_placed";
 	public static final String INFO_SAVED_SUCCESSFULLY_MESSAGE = "local.message.saved_successfully";
 	public static final String INFO_NO_ORDERS_MESSAGE = "local.message.no_orders";
 	public static final String INFO_ORDER_CANCELED_MESSAGE = "local.message.order_canceled";
-	public static final String INFO_USER_IS_BLOCKED_MESSAGE = "local.message.user_is_blocked";
-	public static final String INFO_USER_IS_UNBLOCKED_MESSAGE = "local.message.user_is_unblocked";
+	public static final String INFO_USER_BLOCKED_MESSAGE = "local.message.user_blocked";
+	public static final String INFO_USER_UNBLOCKED_MESSAGE = "local.message.user_unblocked";
+	public static final String INFO_ORDER_PROCESSED_MESSAGE = "local.message.order_processed";
 	
 	public static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
 	public static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link ";

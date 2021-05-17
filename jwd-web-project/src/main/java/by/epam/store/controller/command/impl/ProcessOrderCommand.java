@@ -18,13 +18,13 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
-public class CancelOrderCommand implements Command {
+public class ProcessOrderCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-
+	
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
-		if (!UserControl.isLoggedInUser(request)) {
+		if (!UserControl.isLoggedInUser(request) || !UserControl.isValidForRole(request, UserRole.ADMIN)) {
 			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			return router;
 		}
@@ -32,10 +32,9 @@ public class CancelOrderCommand implements Command {
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		String orderId = request.getParameter(ParameterAndAttribute.ORDER_ID);
 		String orderStatus = request.getParameter(ParameterAndAttribute.STATUS);
-		UserRole userRole = (UserRole) session.getAttribute(ParameterAndAttribute.ROLE);
 		try {
-			if (orderService.cancelOrder(orderId, orderStatus, userRole)) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_ORDER_CANCELED_MESSAGE);
+			if (orderService.processOrder(orderId, orderStatus)) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_ORDER_PROCESSED_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
@@ -43,7 +42,7 @@ public class CancelOrderCommand implements Command {
 			String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 			router = new Router(page, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("order cancelation error", e);
+			logger.error("order processing error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

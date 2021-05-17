@@ -26,9 +26,10 @@ public class OrderDaoImpl implements OrderDao {
 	private static final String SQL_SELECT_ORDER_BASKET_BY_USER_ID = "SELECT ID FROM ORDERS WHERE USER_ID=? AND STATUS='BASKET'";
 	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, 'BASKET')";
 	private static final String SQL_UPDATE_ORDER = "UPDATE ORDERS SET DATE_TIME=?, STATUS=?, PAYMENT_METHOD=?, COST=?, DELIVERY_METHOD=?, CITY=?, STREET=?, HOUSE=?, APARTMENT=? WHERE ID=?";
-	private static final String SQL_SELECT_ORDERS_BY_USER_ID = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE USER_ID=? AND STATUS!='BASKET'";
-	private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE ORDERS SET STATUS=? WHERE ID=?";
+	private static final String SQL_SELECT_ORDERS_BY_LOGIN = "SELECT ORDERS.ID, USER_ID, DATE_TIME, ORDERS.STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS JOIN USERS ON ORDERS.USER_ID=USERS.ID WHERE LOGIN=? AND ORDERS.STATUS!='BASKET'";
+	private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE ORDERS SET STATUS=? WHERE ID=? AND STATUS=?";
 	private static final String SQL_SELECT_ORDERS_BY_STATUS = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE STATUS=?";
+	private static final String SQL_SELECT_ORDERS_BY_ID = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE ID=?";
 	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
@@ -97,11 +98,11 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public List<Order> findOrdersByUserId(Long userId) throws DaoException {
+	public List<Order> findOrdersByLogin(String login) throws DaoException {
 		List<Order> orders = new ArrayList<>();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_USER_ID)) {
-			statement.setLong(1, userId);
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_LOGIN)) {
+			statement.setString(1, login);
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				Order order = DaoEntityBuilder.buildOrder(resultSet);
@@ -114,12 +115,13 @@ public class OrderDaoImpl implements OrderDao {
 	}
 
 	@Override
-	public boolean updateStatus(String orderId, OrderStatus orderStatus) throws DaoException {
+	public boolean updateStatus(String orderId, OrderStatus statusFrom, OrderStatus statusTo) throws DaoException {
 		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_ORDER_STATUS)) {
-			statement.setString(1, String.valueOf(orderStatus));
+			statement.setString(1, String.valueOf(statusTo));
 			statement.setString(2, orderId);
+			statement.setString(3, String.valueOf(statusFrom));
 			numberUpdatedRows = statement.executeUpdate();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
@@ -142,5 +144,24 @@ public class OrderDaoImpl implements OrderDao {
 			throw new DaoException("database error", e);
 		}
 		return orders;
+	}
+
+	@Override
+	public Optional<Order> findOrderById(String orderId) throws DaoException {
+		Optional<Order> orderOptional;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_ORDERS_BY_ID)) {
+			statement.setString(1, orderId);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				Order order = DaoEntityBuilder.buildOrder(resultSet);
+				orderOptional = Optional.of(order);
+			} else {
+				orderOptional = Optional.empty();
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return orderOptional;
 	}
 }

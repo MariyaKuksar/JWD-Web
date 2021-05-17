@@ -38,11 +38,12 @@ public class FindOrdersByStatusCommand implements Command {
 		String orderStatus = request.getParameter(ParameterAndAttribute.STATUS);
 		try {
 			List<Order> orders = orderService.takeOrdersByStatus(orderStatus);
-			if (orders.isEmpty()) {
+			if (!orders.isEmpty()) {
+				request.setAttribute(ParameterAndAttribute.ORDERS, orders);
+			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NO_ORDERS_MESSAGE);
 			}
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_ORDERS_BY_STATUS + orderStatus);
-			request.setAttribute(ParameterAndAttribute.ORDERS, orders);
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_ORDERS_BY_STATUS + orderStatus);	
 			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, Arrays.asList(OrderStatus.values()));
 			router = new Router(PagePath.ORDERS, RouteType.FORWARD);
 		} catch (ServiceException e) {

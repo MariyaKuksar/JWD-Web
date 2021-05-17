@@ -40,7 +40,7 @@ public class CheckoutCommand implements Command {
 		try {
 			if (orderService.checkout(orderInfo)) {
 				session.removeAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_ORDER_IS_PLACED_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_ORDER_PLACED_MESSAGE);
 				router = new Router(PagePath.GO_TO_ORDERS_PAGE, RouteType.REDIRECT);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);

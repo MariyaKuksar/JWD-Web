@@ -32,7 +32,7 @@ public class BlockUserCommand implements Command {
 		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
 		try {
 			if (userService.blockUser (userId)) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_USER_IS_BLOCKED_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_USER_BLOCKED_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);

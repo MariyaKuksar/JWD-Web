@@ -33,7 +33,7 @@ public class UnblockUserCommand implements Command {
 		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
 		try {
 			if (userService.unblockUser(userId)) {
-				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_USER_IS_UNBLOCKED_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_USER_UNBLOCKED_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);

@@ -43,12 +43,12 @@
     <input type="submit" value="${search}"/>
    </form>
    <form action="${pageContext.request.contextPath}/controller" method="get">
-    <input type="hidden" name="command" value="find_orders_by_id"/>
+    <input type="hidden" name="command" value="find_order_by_id"/>
     <input type="text" name="orderId" required placeholder="${order_number}"/>
     <input type="submit" value="${search}"/>
    </form>
    <form action="${pageContext.request.contextPath}/controller" method="get">
-    <input type="hidden" name="command" value="find_orders_by_user"/>
+    <input type="hidden" name="command" value="find_user_orders"/>
     <input type="text" name="login" required placeholder="${email}"/>
     <input type="submit" value="${search}"/>
    </form>
@@ -97,6 +97,7 @@
 				<form action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="process_order"/>
 					<input type="hidden" name="orderId" value="${order.orderId}"/>
+					<input type="hidden" name="status" value="${order.orderStatus}"/>
 					<c:if test="${order.orderStatus == 'PLACED' || order.orderStatus == 'ACCEPTED' || order.orderStatus == 'READY'}">
 					<input type="submit" value="${process}"/>
 					</c:if>
@@ -110,16 +111,17 @@
 				<form action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="cancel_order"/>
 					<input type="hidden" name="orderId" value="${order.orderId}"/>
+					<input type="hidden" name="status" value="${order.orderStatus}"/>
 					<c:if test="${sessionScope.role == 'CLIENT' && order.orderStatus == 'PLACED'}">
 					<input type="submit" value="${cancel}"/>
 					</c:if>
 					<c:if test="${sessionScope.role == 'CLIENT' && order.orderStatus != 'PLACED'}">
 					<input type="submit" value="${cancel}" disabled/>
 					</c:if>
-					<c:if test="${sessionScope.role == 'ADMIN' && order.orderStatus != 'DELIVERED' && order.orderStatus != 'CANCELED'}">
+					<c:if test="${sessionScope.role == 'ADMIN' && order.orderStatus != 'CANCELED'}">
 					<input type="submit" value="${cancel}"/>
 					</c:if>
-					<c:if test="${sessionScope.role == 'ADMIN' && (order.orderStatus == 'DELIVERED' || order.orderStatus == 'CANCELED')}">
+					<c:if test="${sessionScope.role == 'ADMIN' && order.orderStatus == 'CANCELED'}">
 					<input type="submit" value="${cancel}" disabled/>
 					</c:if>
 				</form>
