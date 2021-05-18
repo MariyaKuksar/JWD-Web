@@ -10,9 +10,9 @@ public interface CatalogService {
 
 	List<ProductCategory> takeAllProductCategories() throws ServiceException;
 
-	List<Product> takeProductsFromCategory(String categoryId) throws ServiceException;
+	List<Product> takeProductsFromCategory(String categoryId, String sortingMethod) throws ServiceException;
 
-	List<Product> takeProductsWithName(String productName) throws ServiceException;
+	List<Product> takeProductsWithName(String productName, String sortingMethod) throws ServiceException;
 
 	void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
 

@@ -87,8 +87,8 @@
 			<div class="menu3">
 				<p><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a> > <fmt:message key="local.category.${requestScope.products[0].category.categoryName}"/> </p>
 			<p>${show}: </p>
-			<li><a href="${currentPage}&sortingMethod=increasePrice">${cheap_first}</a></li>
-			<li><a href="${currentPage}&sortingMethod=decreasePrice">${expensive_first}</a></li>
+			<li><a href="${currentPage}&sortingMethod=increase_price">${cheap_first}</a></li>
+			<li><a href="${currentPage}&sortingMethod=decrease_price">${expensive_first}</a></li>
 			</div>
 			<div class="products">
                 <c:forEach var="product" items="${requestScope.products}">

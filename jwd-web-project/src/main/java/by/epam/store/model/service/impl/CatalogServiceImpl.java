@@ -1,12 +1,17 @@
 package by.epam.store.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.builder.ProductBuilder;
+import by.epam.store.entity.comparator.ProductComparator;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 import by.epam.store.model.dao.ProductDao;
@@ -21,6 +26,7 @@ import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.ProductInfoValidator;
 
 public class CatalogServiceImpl implements CatalogService {
+	private static final Logger logger = LogManager.getLogger();
 	private ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
 
@@ -36,29 +42,39 @@ public class CatalogServiceImpl implements CatalogService {
 	}
 
 	@Override
-	public List<Product> takeProductsFromCategory(String categoryId) throws ServiceException {
+	public List<Product> takeProductsFromCategory(String categoryId, String sortingMethod) throws ServiceException {
 		if(!IdValidator.isValidId(categoryId)) {
 			return Collections.emptyList();
 		}
-		List<Product> products;
+		List<Product> products = new ArrayList<>();
 		try {
 			products = productDao.findProductsByCategoryId(categoryId);
+			if (!products.isEmpty() && sortingMethod!=null) {
+				products.sort(ProductComparator.valueOf(sortingMethod.toUpperCase()).getComporator());
+			} 
 		} catch (DaoException e) {
 			throw new ServiceException("products from category search error", e);
+		} catch (IllegalArgumentException  e) {
+			logger.error("impossible sorting method");
 		}
 		return products;
 	}
 
 	@Override
-	public List<Product> takeProductsWithName(String productName) throws ServiceException {
+	public List<Product> takeProductsWithName(String productName, String sortingMethod) throws ServiceException {
 		if (!ProductInfoValidator.isValidName(productName)) {
 			return Collections.emptyList();
 		}
-		List<Product> products;
+		List<Product> products = new ArrayList<>();
 		try {
 			products = productDao.findProductsByName(productName);
+			if (!products.isEmpty() && sortingMethod!=null) {
+				products.sort(ProductComparator.valueOf(sortingMethod.toUpperCase()).getComporator());
+			} 
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
+		} catch (IllegalArgumentException  e) {
+			logger.error("impossible sorting method");
 		}
 		return products;
 	}

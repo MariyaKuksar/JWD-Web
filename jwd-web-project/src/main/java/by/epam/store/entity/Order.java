@@ -3,6 +3,7 @@ package by.epam.store.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Map;
 //TODO сделала внутренний класс, пересмотреть
 public class Order implements Serializable {
@@ -54,7 +55,7 @@ public class Order implements Serializable {
 	}
 
 	public Map<Product, Integer> getProducts() {
-		return products;
+		return Collections.unmodifiableMap(products);
 	}
 
 	public void setProducts(Map<Product, Integer> products) {
