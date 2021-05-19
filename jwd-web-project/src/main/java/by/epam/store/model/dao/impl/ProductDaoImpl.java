@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +16,11 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductDao;
 
 public class ProductDaoImpl implements ProductDao {
-	// TODO private static final Logger logger = LogManager.getLogger();
+	//TODO private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
+	private static final String SQL_SELECT_PRODUCTS_IN_STOCK = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT > 0";
+	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT <= 0";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
@@ -122,5 +125,37 @@ public class ProductDaoImpl implements ProductDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
+	}
+
+	@Override
+	public List<Product> findProductsInStock() throws DaoException {
+		List<Product> products = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				Statement statement = connection.createStatement()) {
+			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_IN_STOCK);
+			while (resultSet.next()) {
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
+				products.add(product);
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> findProductsOnOrder() throws DaoException {
+		List<Product> products = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				Statement statement = connection.createStatement()) {
+			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_ON_ORDER);
+			while (resultSet.next()) {
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
+				products.add(product);
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return products;
 	}
 }

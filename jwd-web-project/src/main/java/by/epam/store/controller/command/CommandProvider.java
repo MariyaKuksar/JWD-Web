@@ -31,6 +31,8 @@ import by.epam.store.controller.command.impl.GoToProfilePageCommand;
 import by.epam.store.controller.command.impl.ProcessOrderCommand;
 import by.epam.store.controller.command.impl.GoToClientsPageCommand;
 import by.epam.store.controller.command.impl.ShowProductsFromCategoryCommand;
+import by.epam.store.controller.command.impl.ShowProductsInStockCommand;
+import by.epam.store.controller.command.impl.ShowProductsOnOrderCommand;
 import by.epam.store.controller.command.impl.SignInCommand;
 import by.epam.store.controller.command.impl.SignOutCommand;
 import by.epam.store.controller.command.impl.SignUpCommand;
@@ -73,6 +75,8 @@ public final class CommandProvider {
 		commands.put(CommandType.FIND_ORDER_BY_ID, new FindOrderByIdCommand());
 		commands.put(CommandType.FIND_USER_ORDERS, new FindUserOrdersCommand());
 		commands.put(CommandType.PROCESS_ORDER, new ProcessOrderCommand());
+		commands.put(CommandType.SHOW_PRODUCTS_IN_STOCK, new ShowProductsInStockCommand());
+		commands.put(CommandType.SHOW_PRODUCTS_ON_ORDER, new ShowProductsOnOrderCommand());
 	}
 
 	private CommandProvider() {

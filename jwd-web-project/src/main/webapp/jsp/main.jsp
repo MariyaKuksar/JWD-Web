@@ -29,7 +29,7 @@
     <fmt:message key="local.show" var="show"/>
     <fmt:message key="local.cheap_first" var="cheap_first"/>
     <fmt:message key="local.expensive_first" var="expensive_first"/>
-    
+    <fmt:message key="local.pc" var="pc"/>
     <title>${title}</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
@@ -101,6 +101,9 @@
                         </c:if>
                         <c:if test="${product.amount < 1}">
                         <div class="status"><p>${on_order}</p></div>
+                        </c:if>
+                        <c:if test="${sessionScope.role == 'ADMIN' && product.amount > 0}">
+                        <div class="status"><p>${product.amount} ${pc}</p></div>
                         </c:if>
 						<c:if test="${sessionScope.role == 'CLIENT'}">
                         <form action="${pageContext.request.contextPath}/controller" method="post" >

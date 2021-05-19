@@ -43,18 +43,18 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<Product> takeProductsFromCategory(String categoryId, String sortingMethod) throws ServiceException {
-		if(!IdValidator.isValidId(categoryId)) {
+		if (!IdValidator.isValidId(categoryId)) {
 			return Collections.emptyList();
 		}
 		List<Product> products = new ArrayList<>();
 		try {
 			products = productDao.findProductsByCategoryId(categoryId);
-			if (!products.isEmpty() && sortingMethod!=null) {
+			if (!products.isEmpty() && sortingMethod != null) {
 				products.sort(ProductComparator.valueOf(sortingMethod.toUpperCase()).getComporator());
-			} 
+			}
 		} catch (DaoException e) {
 			throw new ServiceException("products from category search error", e);
-		} catch (IllegalArgumentException  e) {
+		} catch (IllegalArgumentException e) {
 			logger.error("impossible sorting method");
 		}
 		return products;
@@ -68,12 +68,12 @@ public class CatalogServiceImpl implements CatalogService {
 		List<Product> products = new ArrayList<>();
 		try {
 			products = productDao.findProductsByName(productName);
-			if (!products.isEmpty() && sortingMethod!=null) {
+			if (!products.isEmpty() && sortingMethod != null) {
 				products.sort(ProductComparator.valueOf(sortingMethod.toUpperCase()).getComporator());
-			} 
+			}
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
-		} catch (IllegalArgumentException  e) {
+		} catch (IllegalArgumentException e) {
 			logger.error("impossible sorting method");
 		}
 		return products;
@@ -114,7 +114,34 @@ public class CatalogServiceImpl implements CatalogService {
 			productChanged = productDao.update(product);
 		} catch (DaoException e) {
 			throw new ServiceException("product changing error", e);
-		}	
-		return productChanged;	
+		}
+		return productChanged;
+	}
+
+	@Override
+	public List<Product> takeProductsInStock() throws ServiceException {
+		List<Product> products = new ArrayList<>();
+		try {
+			products = productDao.findProductsInStock();
+		} catch (DaoException e) {
+			throw new ServiceException("products search error", e);
+		}
+		return products;
+	}
+
+	@Override
+	public List<Product> takeProductsOnOrder() throws ServiceException {
+		List<Product> products = new ArrayList<>();
+		try {
+			products = productDao.findProductsOnOrder();
+			if (!products.isEmpty()) {
+				for (Product product : products) {
+					product.setAmount(Math.abs(product.getAmount()));
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("products search error", e);
+		}
+		return products;
 	}
 }

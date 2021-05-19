@@ -51,6 +51,9 @@ public final class MessageKey {
 	public static final String CHANGE_PASSWORD_MESSAGE_SUBJECT = "Change password";
 	public static final String CHANGE_PASSWORD_MESSAGE_TEXT = "Your new login password is ";
 	
+	public static final String TITLE_PRODUCTS_IN_STOCK = "local.products_in_stock";
+	public static final String TITLE_PRODUCTS_ON_ORDER = "local.products_on_order";
+	
 	private MessageKey() {
 	}
 }

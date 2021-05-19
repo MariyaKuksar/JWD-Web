@@ -42,6 +42,7 @@ public final class ParameterAndAttribute {
 	public static final String PAYMENT_METHOD_LIST = "paymentMethodList";
 	public static final String ORDER_STATUS_LIST = "orderStatusList";
 	public static final String SORTING_METHOD = "sortingMethod";
+	public static final String TITLE = "title";
 	
 	private ParameterAndAttribute() {
 	}	

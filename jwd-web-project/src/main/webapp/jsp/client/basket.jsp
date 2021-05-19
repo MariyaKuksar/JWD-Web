@@ -14,7 +14,7 @@
   <fmt:message key="local.delete" var="delete"/>
   <fmt:message key="local.checkout" var="checkout"/>
   <fmt:message key="local.in_total" var="in_total"/>
-  <fmt:message key="local.products" var="products"/>
+  <fmt:message key="local.product" var="product"/>
   <fmt:message key="local.price" var="price"/>
   <fmt:message key="local.amount" var="amount"/>
   <fmt:message key="local.availability" var="availability"/>
@@ -43,7 +43,7 @@
 		<table>
 			<thead bgcolor="#c9c9c9" align="center">
 				<tr>
-					<th colspan="2">${products}</th>
+					<th colspan="2">${product}</th>
 					<th>${price}</th>
 					<th>${amount}</th>
 					<th>${availability}</th>
