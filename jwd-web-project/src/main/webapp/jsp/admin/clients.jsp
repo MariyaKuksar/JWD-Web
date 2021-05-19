@@ -17,6 +17,8 @@
   <fmt:message key="local.unblock" var="unblock"/>
   <fmt:message key="local.block" var="block"/>
   <fmt:message key="local.access" var="access"/>
+  <fmt:message key="local.message" var="message"/>
+  <fmt:message key="local.send" var="send"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
@@ -27,7 +29,7 @@
    
             <form action="${pageContext.request.contextPath}/controller" method="get">
                 <input type="hidden" name="command" value="find_user_by_login" />
-                <input type="text" required placeholder ="${email}" name="login"/>
+                <input type="email" required placeholder ="${email}" name="login" maxlength="45"/>
                 <input type="submit" value="${search}"/>
             </form>
             
@@ -42,6 +44,7 @@
 					<th>${phone}</th>
 					<th>${status}</th>
 					<th>${access}</th>
+					<th colspan="2">${message}</th>
 				</tr>
 			</thead>
 		<c:forEach var="user" items="${requestScope.users}">
@@ -73,6 +76,14 @@
                     <c:if test="${user.status == 'INACTIVE'}">
 					<input type="submit" value="${block}" disabled/>
 					</c:if>
+				</td>
+				<td>
+					<form action="${pageContext.request.contextPath}/controller" method="post">
+						<input type="hidden" name="command" value="send_message"/>
+						<input type="hidden" name="email" value="${user.login}"/>
+						<input type="text" name="message" required placeholder="${message}"/>
+						<input type="submit" value="${send}"/>
+					</form>
 				</td>
 			</tr>
         </c:forEach>

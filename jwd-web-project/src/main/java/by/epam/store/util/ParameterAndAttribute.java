@@ -43,6 +43,8 @@ public final class ParameterAndAttribute {
 	public static final String ORDER_STATUS_LIST = "orderStatusList";
 	public static final String SORTING_METHOD = "sortingMethod";
 	public static final String TITLE = "title";
+	public static final String MESSAGE = "message";
+	public static final String EMAIL = "email";
 	
 	private ParameterAndAttribute() {
 	}	

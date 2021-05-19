@@ -45,11 +45,13 @@ public final class MessageKey {
 	public static final String INFO_USER_BLOCKED_MESSAGE = "local.message.user_blocked";
 	public static final String INFO_USER_UNBLOCKED_MESSAGE = "local.message.user_unblocked";
 	public static final String INFO_ORDER_PROCESSED_MESSAGE = "local.message.order_processed";
+	public static final String INFO_MESSAGE_SENT_MESSAGE = "local.message.message_sent";
 	
 	public static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
 	public static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link ";
 	public static final String CHANGE_PASSWORD_MESSAGE_SUBJECT = "Change password";
 	public static final String CHANGE_PASSWORD_MESSAGE_TEXT = "Your new login password is ";
+	public static final String INFO_MESSAGE_SUBJECT = "Info message";
 	
 	public static final String TITLE_PRODUCTS_IN_STOCK = "local.products_in_stock";
 	public static final String TITLE_PRODUCTS_ON_ORDER = "local.products_on_order";

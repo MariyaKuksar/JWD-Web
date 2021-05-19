@@ -33,7 +33,7 @@
         <fieldset>
             <form action="${pageContext.request.contextPath}/controller" method="post">
               <input type="hidden" name="command" value="forgot_password"/>
-              <input type="text" name="login" required placeholder="${email}"/>
+              <input type="email" name="login" required placeholder="${email}" maxlength="45"/>
               <input type="submit" value="${send}"/>
             </form>
         </fieldset>

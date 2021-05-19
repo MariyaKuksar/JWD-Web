@@ -44,12 +44,12 @@
    </form>
    <form action="${pageContext.request.contextPath}/controller" method="get">
     <input type="hidden" name="command" value="find_order_by_id"/>
-    <input type="text" name="orderId" required placeholder="${order_number}"/>
+    <input type="number" name="orderId" required placeholder="${order_number}" min="1" max="9223372036854775807"/>
     <input type="submit" value="${search}"/>
    </form>
    <form action="${pageContext.request.contextPath}/controller" method="get">
     <input type="hidden" name="command" value="find_user_orders"/>
-    <input type="text" name="login" required placeholder="${email}"/>
+    <input type="email" name="login" required placeholder="${email}" maxlength="45"/>
     <input type="submit" value="${search}"/>
    </form>
    </c:if>

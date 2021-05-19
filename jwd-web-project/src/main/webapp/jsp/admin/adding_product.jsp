@@ -32,9 +32,9 @@
                         </c:forEach>
     </select>
     <br />
-	<input type="text" name="productName" required placeholder="${product_name}"/>
+	<input type="text" name="productName" required placeholder="${product_name}" maxlength="45"/>
 	<br />
-	<input type="text" name="price" required placeholder="${price}"/>
+	<input type="text" name="price" required placeholder="${price}" pattern="\d{1,8}(\.\d{2})?"/>
 	<br />
     <input type="file" name="file" value="" height="150">
     <br />

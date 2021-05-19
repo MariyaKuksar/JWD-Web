@@ -225,6 +225,20 @@ public class UserServiceImpl implements UserService {
 		return passwordChanged;
 	}
 
+	@Override
+	public boolean sendMessage(String email, String message) throws ServiceException {
+		if ((UserInfoValidator.isValidLogin(email) && checkIfLoginFree(email))) {
+			return false;
+		}
+		try {
+			MailSender.send(email, MessageKey.INFO_MESSAGE_SUBJECT,
+					message);
+		} catch (MessagingException e) {
+			throw new ServiceException("message sending error", e);
+		}
+		return true;
+	}
+
 	private boolean checkIfLoginFree(String login) throws ServiceException {
 		Optional<User> userOptional;
 		try {

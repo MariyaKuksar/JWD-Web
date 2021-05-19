@@ -16,8 +16,8 @@ import by.epam.store.util.ParameterAndAttribute;
 public final class OrderInfoValidator {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String COST_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
-	private static final String CITY_PATTERN = "^[a-zA-Zа-яА-Я-\s\\.]{1,20}$";
-	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\s\\.]{1,20}$";
+	private static final String CITY_PATTERN = "^[a-zA-Zа-яА-Я-\\s\\.]{1,20}$";
+	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\\s\\.]{1,20}$";
 	private static final String HOUSE_PATTERN = "^\\d{1,3}[\\s-/]?[абвгд\\d]?$";
 	private static final String APARTMENT_PATTERN = "[\\d-]{0,3}";
 

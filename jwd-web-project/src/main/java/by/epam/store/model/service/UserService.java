@@ -28,4 +28,6 @@ public interface UserService {
 	boolean blockUser(String userId) throws ServiceException;
 
 	boolean unblockUser(String userId) throws ServiceException;
+
+	boolean sendMessage(String email, String message) throws ServiceException;
 }

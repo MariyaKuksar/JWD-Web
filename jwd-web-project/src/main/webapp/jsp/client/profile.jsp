@@ -12,7 +12,6 @@
   <fmt:message key="local.title.profile" var="title"/>
   <fmt:message key="local.personal_data" var="personal_data"/>
   <fmt:message key="local.email" var="email"/>
-  <fmt:message key="local.password" var="password"/>
   <fmt:message key="local.name" var="name"/>
   <fmt:message key="local.phone" var="phone"/>
   <fmt:message key="local.save" var="save"/>
@@ -21,6 +20,7 @@
   <fmt:message key="local.change_password" var="change_password"/>
   <fmt:message key="local.enter_password" var="enter_password"/>
   <fmt:message key="local.edit_profile" var="edit_profile"/>
+  <fmt:message key="local.password_rules" var="password_rules"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
@@ -39,22 +39,22 @@
     <input type="hidden" name="command" value="change_user_data"/>
     <div>
       <label>${name}: 
-          <input type="text" name="userName" required placeholder="${name}" value="${user.name}" />
+          <input type="text" name="userName" required placeholder="${name}" value="${user.name}" pattern="[a-zA-Zа-яА-Я-\s]{1,45}" />
       </label>
     </div>
     <div>
       <label>${phone}:
-		<input type="text" name="phone" required placeholder="+375XXXXXXXXX" value="${user.phone}" />
+		<input type="tel" name="phone" required placeholder="+375XXXXXXXXX" value="${user.phone}" pattern="\+375[\d]{9}"/>
       </label>
     </div>
 	<div>
 		<label>${email}:
-			<input type="text" name="login" required placeholder="${email}" value="${user.login}" />
+			<input type="email" name="login" required placeholder="${email}" value="${user.login}" maxlength="45" />
 		</label>
 	</div>
 	<div>
 		<label>${enter_password}:
-			<input type="password" name="password" required placeholder="${password}" />
+			<input type="password" name="password" required placeholder="${current_password}" />
 		</label>
 	</div>
     <input type="submit" value="${save}"/>
@@ -65,7 +65,7 @@
     <input type="hidden" name="command" value="change_password"/>
 	<div>
 		<label>${new_password}:
-			<input type="password" name="newPassword" placeholder="${new_password}" />
+			<input type="password" name="newPassword" placeholder="${password_rules}" pattern="[A-Za-z\d]{5,15}"/>
 		</label>
 	</div>
 	<div>

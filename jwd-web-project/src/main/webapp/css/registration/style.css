@@ -50,6 +50,8 @@ body > div:first-child{
 }
 
 #submit-form input[type="text"],
+#submit-form input[type="email"],
+#submit-form input[type="tel"],
 #submit-form input[type="password"] {
 	border: 1px solid #dcdcdc;
 	padding: 12px 10px;

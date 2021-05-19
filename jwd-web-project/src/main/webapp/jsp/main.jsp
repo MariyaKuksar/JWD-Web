@@ -48,7 +48,7 @@
 				<div class="login_input">
 				<form action="${pageContext.request.contextPath}/controller" method="post">
 				<input type="hidden" name="command" value="sign_in"/>
-					<p><label>${login}<p><input type="text" required placeholder="${email}" name="login" class="log"></p></label></p>
+					<p><label>${login}<p><input type="email" required placeholder="${email}" name="login" class="log" maxlength="45"></p></label></p>
             		<p><label>${password}<p><input type="password" required placeholder="${password}" name="password" class="log"></p></label></p>
 					<a href="${pageContext.request.contextPath}/jsp/forgot_password.jsp">${forgot_password}</a>
             		<input type="submit" value="${sign_in}" class="button" onclick="fun1()"/>

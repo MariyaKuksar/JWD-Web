@@ -23,6 +23,7 @@ import by.epam.store.controller.command.impl.FindOrdersByStatusCommand;
 import by.epam.store.controller.command.impl.FindUserByLoginCommand;
 import by.epam.store.controller.command.impl.FindUserOrdersCommand;
 import by.epam.store.controller.command.impl.RemoveProductFromBasketCommand;
+import by.epam.store.controller.command.impl.SendMessageCommand;
 import by.epam.store.controller.command.impl.ForgotPasswordCommand;
 import by.epam.store.controller.command.impl.GoToBasketPageCommand;
 import by.epam.store.controller.command.impl.GoToMainPageCommand;
@@ -77,6 +78,7 @@ public final class CommandProvider {
 		commands.put(CommandType.PROCESS_ORDER, new ProcessOrderCommand());
 		commands.put(CommandType.SHOW_PRODUCTS_IN_STOCK, new ShowProductsInStockCommand());
 		commands.put(CommandType.SHOW_PRODUCTS_ON_ORDER, new ShowProductsOnOrderCommand());
+		commands.put(CommandType.SEND_MESSAGE, new SendMessageCommand());
 	}
 
 	private CommandProvider() {

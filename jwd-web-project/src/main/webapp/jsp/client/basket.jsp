@@ -65,7 +65,7 @@
 					<form action="${pageContext.request.contextPath}/controller" method="post">
 						<input type="hidden" name="command" value="change_amount_of_product_in_basket"/>
 						<input type="hidden" name="productId" value="${product.key.productId}"/>
-						<input type="text" name="amountProduct" required placeholder="${product.value}" />
+						<input type="number" name="amountProduct" required placeholder="${product.value}" min="1" max="10"/>
 						<input type="submit" value="${save}"/>
 					</form>
 				</td>
@@ -111,10 +111,10 @@
                         <div id="DELIVERY_method_info">
                             <label>${address}:</label>
                             <br/>
-                            <label>${city}:<input type="text" name="city" placeholder="${city}"/></label>
-                            <label>${street}:<input type="text" name="street" placeholder="${street}"/></label>
-                            <label>${house}:<input type="text" name="house" placeholder="${house}"/></label>
-                            <label>${apartment}:<input type="text" name="apartment" placeholder="${apartment}"/></label>
+                            <label>${city}:<input type="text" name="city" placeholder="${city}" pattern="[a-zA-Zа-яА-Я-\s\.]{1,20}"/></label>
+                            <label>${street}:<input type="text" name="street" placeholder="${street}" pattern="[\da-zA-Zа-яА-Я-\s\.]{1,20}"/></label>
+                            <label>${house}:<input type="text" name="house" placeholder="${house}" pattern="\d{1,3}[\s-\/]?[абвгд\d]?"/></label>
+                            <label>${apartment}:<input type="number" name="apartment" placeholder="${apartment}" min="1" max="9999"/></label>
                         </div>
                     </div>
                     <input type="submit" value="${checkout}"/>

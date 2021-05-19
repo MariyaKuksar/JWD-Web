@@ -14,9 +14,9 @@
 	</c:if>
 
 	<c:if test="${infoMessage != null}">
-	<fmt:message key="${infoMessage}" var="message"/>
+	<fmt:message key="${infoMessage}" var="infoMessage"/>
 		<div class="message">
-			<h4>${message}</h4>
+			<h4>${infoMessage}</h4>
 		</div>
 		<c:remove var="infoMessage"/>
 	</c:if>
