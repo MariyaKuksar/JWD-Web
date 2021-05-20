@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import by.epam.store.entity.Product;
+import by.epam.store.entity.ProductList;
 
 public interface ProductDao extends BaseDao<Product> {
 
@@ -15,7 +16,7 @@ public interface ProductDao extends BaseDao<Product> {
 
 	void increaseAmount(Map<Product, Integer> products) throws DaoException;
 
-	List<Product> findProductsInStock() throws DaoException;
+	ProductList findProductsInStock(int start, int recordsPerPages) throws DaoException;
 
-	List<Product> findProductsOnOrder() throws DaoException;
+	ProductList findProductsOnOrder(int start, int recordsPerPages) throws DaoException;
 }

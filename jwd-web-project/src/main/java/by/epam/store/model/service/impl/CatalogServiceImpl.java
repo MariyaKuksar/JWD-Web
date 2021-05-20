@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
+import by.epam.store.entity.ProductList;
 import by.epam.store.entity.builder.ProductBuilder;
 import by.epam.store.entity.comparator.ProductComparator;
 import by.epam.store.model.dao.DaoException;
@@ -27,6 +28,8 @@ import by.epam.store.validator.ProductInfoValidator;
 
 public class CatalogServiceImpl implements CatalogService {
 	private static final Logger logger = LogManager.getLogger();
+	private static final int RECORDS_PER_PAGES = 4;
+	private static final int DEFAULT_PAGE_NUMBER = 1;
 	private ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
 
@@ -119,29 +122,45 @@ public class CatalogServiceImpl implements CatalogService {
 	}
 
 	@Override
-	public List<Product> takeProductsInStock() throws ServiceException {
-		List<Product> products = new ArrayList<>();
+	public ProductList takeProductsInStock(String page) throws ServiceException {
+		int pageNumber;
 		try {
-			products = productDao.findProductsInStock();
+			pageNumber = Integer.parseInt(page);
+		} catch (NumberFormatException e) {
+			pageNumber = DEFAULT_PAGE_NUMBER;
+		}
+		int start = pageNumber * RECORDS_PER_PAGES - RECORDS_PER_PAGES;
+		ProductList productList;
+		try {
+			productList = productDao.findProductsInStock(start, RECORDS_PER_PAGES);
+			productList.setCurrentPageNumber(pageNumber);
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
 		}
-		return products;
+		return productList;
 	}
 
 	@Override
-	public List<Product> takeProductsOnOrder() throws ServiceException {
-		List<Product> products = new ArrayList<>();
+	public ProductList takeProductsOnOrder(String page) throws ServiceException {
+		int pageNumber;
 		try {
-			products = productDao.findProductsOnOrder();
-			if (!products.isEmpty()) {
-				for (Product product : products) {
+			pageNumber = Integer.parseInt(page);
+		} catch (NumberFormatException e) {
+			pageNumber = DEFAULT_PAGE_NUMBER;
+		}
+		int start = pageNumber * RECORDS_PER_PAGES - RECORDS_PER_PAGES;
+		ProductList productList;
+		try {
+			productList = productDao.findProductsOnOrder(start, RECORDS_PER_PAGES);
+			productList.setCurrentPageNumber(pageNumber);
+			if (!productList.getProducts().isEmpty()) {
+				for (Product product : productList.getProducts()) {
 					product.setAmount(Math.abs(product.getAmount()));
 				}
 			}
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
 		}
-		return products;
+		return productList;
 	}
 }

@@ -45,6 +45,9 @@ public final class ParameterAndAttribute {
 	public static final String TITLE = "title";
 	public static final String MESSAGE = "message";
 	public static final String EMAIL = "email";
+	public static final String PAGE = "page";
+	public static final String NUMBER_OF_PAGES = "numberOfPages";
+	
 	
 	private ParameterAndAttribute() {
 	}	

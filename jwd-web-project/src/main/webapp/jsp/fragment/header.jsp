@@ -48,8 +48,8 @@
                             </c:forEach>
                             <c:if test="${sessionScope.role == 'ADMIN'}">
                                 <li><a href="${pageContext.request.contextPath}/jsp/admin/adding_product.jsp">${add_product}</a></li>
-                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_in_stock">${products_in_stock}</a></li>
-                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_on_order">${products_on_order}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_in_stock&page=1">${products_in_stock}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/controller?command=show_products_on_order&page=1">${products_on_order}</a></li>
                             </c:if>
                             </ul>
                         </li>

@@ -17,16 +17,19 @@
   <fmt:message key="local.in_stock" var="in_stock"/>
   <fmt:message key="local.on_order" var="on_order"/>
   <fmt:message key="local.pc" var="pc"/>
+  <fmt:message key="local.previous" var="previous"/>
+  <fmt:message key="local.next" var="next"/>
   <title>${title}</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/style.css" type="text/css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
-	
+
 	 <c:if test = "${not empty requestScope.products}"> 
 	 <p><fmt:message key="${requestScope.title}"/></p>
 		<table>
@@ -54,8 +57,38 @@
 			</tr>
         </c:forEach>
 		</table> 
+		
+		<nav aria-label="Navigation">
+        <ul class="pagination">
+            <c:if test="${requestScope.page > 1}">
+                <li class="page-item"><a class="page-link"
+                    href="${sessionScope.currentPage}&page=${requestScope.page-1}">${previous}</a>
+                </li>
+            </c:if>
+
+            <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                <c:choose>
+                    <c:when test="${requestScope.page == i}">
+                        <li class="page-item active"><a class="page-link">
+                                ${i} <span class="sr-only">(current)</span></a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li class="page-item"><a class="page-link"
+                            href="${sessionScope.currentPage}&page=${i}">${i}</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+
+            <c:if test="${requestScope.page < requestScope.numberOfPages}">
+                <li class="page-item"><a class="page-link"
+                    href="${sessionScope.currentPage}&page=${requestScope.page+1}">${next}</a>
+                </li>
+            </c:if>
+        </ul>
+        </nav>	
       </c:if>  
-      
 	<mytag:copyright/>
  
 </body>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
+import by.epam.store.entity.ProductList;
 
 public interface CatalogService {
 
@@ -18,7 +19,7 @@ public interface CatalogService {
 
 	boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
 
-	List<Product> takeProductsInStock() throws ServiceException;
+	ProductList takeProductsInStock(String page) throws ServiceException;
 
-	List<Product> takeProductsOnOrder() throws ServiceException;
+	ProductList takeProductsOnOrder(String page) throws ServiceException;
 }

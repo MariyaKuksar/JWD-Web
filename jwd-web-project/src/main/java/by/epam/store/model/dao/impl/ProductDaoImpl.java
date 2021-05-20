@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import by.epam.store.entity.Product;
+import by.epam.store.entity.ProductList;
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
@@ -19,14 +20,16 @@ public class ProductDaoImpl implements ProductDao {
 	//TODO private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
-	private static final String SQL_SELECT_PRODUCTS_IN_STOCK = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT > 0";
-	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT <= 0";
+	private static final String SQL_SELECT_PRODUCTS_IN_STOCK = "SELECT SQL_CALC_FOUND_ROWS PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT > 0 LIMIT ";
+	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT SQL_CALC_FOUND_ROWS PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT <= 0 LIMIT ";
+	private static final String SQL_SELECT_FOUND_ROWS = "SELECT FOUND_ROWS()";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
 	private static final String SQL_UPDATE_REDUCE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT-? WHERE ID=?";
 	private static final String SQL_UPDATE_INCREASE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT+? WHERE ID=?";
 	private static final int ONE_UPDATED_ROW = 1;
+	private static final String SEPARATOR = ", ";
 
 	@Override
 	public List<Product> findAll() throws DaoException {
@@ -111,7 +114,7 @@ public class ProductDaoImpl implements ProductDao {
 			throw new DaoException("database error", e);
 		}
 	}
-	
+
 	@Override
 	public void increaseAmount(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
@@ -128,34 +131,50 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findProductsInStock() throws DaoException {
-		List<Product> products = new ArrayList<>();
+	public ProductList findProductsInStock(int start, int recordsPerPages) throws DaoException {
+		ProductList productList = new ProductList();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_IN_STOCK);
+			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_IN_STOCK + start + SEPARATOR + recordsPerPages);
+			List<Product> products = new ArrayList<>();
 			while (resultSet.next()) {
 				Product product = DaoEntityBuilder.buildProduct(resultSet);
 				products.add(product);
 			}
+			productList.setProducts(products);
+			resultSet = statement.executeQuery(SQL_SELECT_FOUND_ROWS);
+			if (resultSet.next()) {
+				int numberOfRows = resultSet.getInt(1);
+				int numberOfPages = (int) Math.ceil((double)numberOfRows / recordsPerPages);
+				productList.setNumberOfPages(numberOfPages);
+			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return products;
+		return productList;
 	}
 
 	@Override
-	public List<Product> findProductsOnOrder() throws DaoException {
-		List<Product> products = new ArrayList<>();
+	public ProductList findProductsOnOrder(int start, int recordsPerPages) throws DaoException {
+		ProductList productList = new ProductList();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_ON_ORDER);
+			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_ON_ORDER + start + SEPARATOR + recordsPerPages);
+			List<Product> products = new ArrayList<>();
 			while (resultSet.next()) {
 				Product product = DaoEntityBuilder.buildProduct(resultSet);
 				products.add(product);
 			}
+			productList.setProducts(products);
+			resultSet = statement.executeQuery(SQL_SELECT_FOUND_ROWS);
+			if (resultSet.next()) {
+				int numberOfRows = resultSet.getInt(1);
+				int numberOfPages = (int) Math.ceil((double)numberOfRows / recordsPerPages);
+				productList.setNumberOfPages(numberOfPages);
+			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return products;
+		return productList;
 	}
 }
