@@ -28,8 +28,14 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/orders/style.css" type="text/css" />
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
-<body>
+<c:if test="${sessionScope.role == 'ADMIN'}">
+<body onload="selectMenu(1)">
+</c:if>
+<c:if test="${sessionScope.role == 'CLIENT'}">
+<body onload="selectMenu(2)">
+</c:if>
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	
    <c:if test="${sessionScope.role == 'ADMIN'}">

@@ -22,8 +22,9 @@
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
-<body>
+<body onload="selectMenu(3)">
 <%@ include file="/jsp/fragment/header.jsp" %>
 	<p></p>
    

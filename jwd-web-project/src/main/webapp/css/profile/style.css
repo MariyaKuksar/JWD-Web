@@ -59,7 +59,7 @@ html {
 	 
 }
 
-.edit input[type="text"] {
+.edit input {
 	border: 1px solid #dcdcdc;
 	padding: 12px 10px;
 	width: 150px;

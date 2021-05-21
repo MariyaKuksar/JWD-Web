@@ -16,8 +16,9 @@
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+  <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
-<body>
+<body onload="selectMenu(0)">
 <%@ include file="/jsp/fragment/header.jsp" %>
 <%@ include file="/jsp/fragment/error_info.jsp" %>
 	<p></p>

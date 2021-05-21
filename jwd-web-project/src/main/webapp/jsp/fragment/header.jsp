@@ -37,7 +37,7 @@
                 <input type="submit" value="${search}"/>
             </form>
             <nav class="menu">
-                    <ul class="menu1" >
+                    <ul class="menu1" id="menu1">
                         <c:if test="${sessionScope.role != 'ADMIN'}">
                         <li><a href="${pageContext.request.contextPath}/controller?command=go_to_basket_page">${basket}</a></li>
                         </c:if>
