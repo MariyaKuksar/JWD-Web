@@ -2,6 +2,7 @@ package by.epam.store.model.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
@@ -22,4 +23,6 @@ public interface CatalogService {
 	ProductList takeProductsInStock(String page) throws ServiceException;
 
 	ProductList takeProductsOnOrder(String page) throws ServiceException;
+
+	Optional<Product> takeProductById(String productId) throws ServiceException;
 }

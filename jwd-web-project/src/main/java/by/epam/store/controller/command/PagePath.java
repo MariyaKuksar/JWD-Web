@@ -12,6 +12,7 @@ public final class PagePath {
 	public static final String PROFILE = "jsp/client/profile.jsp";
 	public static final String CLIENTS = "jsp/admin/clients.jsp";
 	public static final String PRODUCTS = "jsp/admin/products.jsp";
+	public static final String SUPPLY = "jsp/admin/supply.jsp";
 
 	public static final String GO_TO_MAIN_PAGE = "controller?command=go_to_main_page";
 	public static final String SHOW_PRODUCTS_FROM_CATEGORY = "controller?command=show_products_from_category&categoryId=";
@@ -27,6 +28,7 @@ public final class PagePath {
 	public static final String FIND_USER_ORDERS = "controller?command=find_user_orders&login=";
 	public static final String SHOW_PRODUCTS_IN_STOCK = "controller?command=show_products_in_stock";
 	public static final String SHOW_PRODUCTS_ON_ORDER = "controller?command=show_products_on_order";
+	public static final String GO_TO_SUPPLY_PAGE = "controller?command=go_to_supply_page";
 	
 	private PagePath() {
 	}

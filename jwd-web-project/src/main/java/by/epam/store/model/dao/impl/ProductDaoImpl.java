@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductList;
@@ -20,6 +21,7 @@ public class ProductDaoImpl implements ProductDao {
 	//TODO private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
+	private static final String SQL_SELECT_PRODUCT_BY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE PRODUCTS.ID=?";
 	private static final String SQL_SELECT_PRODUCTS_IN_STOCK = "SELECT SQL_CALC_FOUND_ROWS PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT > 0 LIMIT ";
 	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT SQL_CALC_FOUND_ROWS PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT <= 0 LIMIT ";
 	private static final String SQL_SELECT_FOUND_ROWS = "SELECT FOUND_ROWS()";
@@ -176,5 +178,24 @@ public class ProductDaoImpl implements ProductDao {
 			throw new DaoException("database error", e);
 		}
 		return productList;
+	}
+
+	@Override
+	public Optional<Product> findProductById(String productId) throws DaoException {
+		Optional<Product> productOptional;
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
+			statement.setString(1,productId);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
+				productOptional = Optional.of(product);
+			} else {
+				productOptional = Optional.empty();
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return productOptional;
 	}
 }

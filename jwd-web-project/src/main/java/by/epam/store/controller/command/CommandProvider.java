@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
+import by.epam.store.controller.command.impl.AddProductToSupplyCommand;
 import by.epam.store.controller.command.impl.BlockUserCommand;
 import by.epam.store.controller.command.impl.CancelOrderCommand;
 import by.epam.store.controller.command.impl.ChangeAmountOfProductInBasketCommand;
@@ -79,6 +80,7 @@ public final class CommandProvider {
 		commands.put(CommandType.SHOW_PRODUCTS_IN_STOCK, new ShowProductsInStockCommand());
 		commands.put(CommandType.SHOW_PRODUCTS_ON_ORDER, new ShowProductsOnOrderCommand());
 		commands.put(CommandType.SEND_MESSAGE, new SendMessageCommand());
+		commands.put(CommandType.ADD_PRODUCT_TO_SUPPLY, new AddProductToSupplyCommand());
 	}
 
 	private CommandProvider() {

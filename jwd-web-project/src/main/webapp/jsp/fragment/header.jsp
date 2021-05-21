@@ -17,7 +17,6 @@
 <fmt:message key="local.orders" var="orders"/>
 <fmt:message key="local.lang" var="lang" />
 <fmt:message key="local.add_product" var="add_product" />
-<fmt:message key="local.report" var="report" />
 <fmt:message key="local.supplies" var="supplies" />
 <fmt:message key="local.issue" var="issue" />
 <fmt:message key="local.clients" var="clients" />
@@ -55,10 +54,9 @@
                         </li>
                         <c:if test="${sessionScope.role == 'ADMIN'}">
                         <li><a href="${pageContext.request.contextPath}/controller?command=find_orders_by_status&status=placed">${orders}</a></li>
-                        <li><a href="#nogo">${supplies}</a>
+                        <li><a href="${pageContext.request.contextPath}/jsp/admin/supply.jsp">${supplies}</a>
                             <ul class="menu2">
-                                <li><a href="#nogo">${issue}</a></li>
-                                <li><a href="#nogo">${report}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/jsp/admin/supply.jsp">${issue}</a></li>
                             </ul>
                         </li>
                         </c:if>

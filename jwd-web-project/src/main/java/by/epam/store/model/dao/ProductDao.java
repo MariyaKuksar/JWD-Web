@@ -2,6 +2,7 @@ package by.epam.store.model.dao;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductList;
@@ -19,4 +20,6 @@ public interface ProductDao extends BaseDao<Product> {
 	ProductList findProductsInStock(int start, int recordsPerPages) throws DaoException;
 
 	ProductList findProductsOnOrder(int start, int recordsPerPages) throws DaoException;
+
+	Optional<Product> findProductById(String productId) throws DaoException;
 }

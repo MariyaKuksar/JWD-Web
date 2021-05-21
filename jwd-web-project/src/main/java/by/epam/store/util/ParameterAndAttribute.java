@@ -47,7 +47,8 @@ public final class ParameterAndAttribute {
 	public static final String EMAIL = "email";
 	public static final String PAGE = "page";
 	public static final String NUMBER_OF_PAGES = "numberOfPages";
-	
+	public static final String PRODUCT_ID_LIST = "productIdList";
+	public static final String SUPPLIED_PRODUCTS = "suppliedProducts";
 	
 	private ParameterAndAttribute() {
 	}	
