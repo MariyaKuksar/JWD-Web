@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.controller.command.impl.AcceptProductsCommand;
 import by.epam.store.controller.command.impl.AddProductToBasketCommand;
 import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
 import by.epam.store.controller.command.impl.AddProductToSupplyCommand;
@@ -81,6 +82,7 @@ public final class CommandProvider {
 		commands.put(CommandType.SHOW_PRODUCTS_ON_ORDER, new ShowProductsOnOrderCommand());
 		commands.put(CommandType.SEND_MESSAGE, new SendMessageCommand());
 		commands.put(CommandType.ADD_PRODUCT_TO_SUPPLY, new AddProductToSupplyCommand());
+		commands.put(CommandType.ACCEPT_PRODUCTS, new AcceptProductsCommand());
 	}
 
 	private CommandProvider() {

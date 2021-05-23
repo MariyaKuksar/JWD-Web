@@ -62,7 +62,7 @@
         </c:forEach>
 		</table> 
 		<form action="${pageContext.request.contextPath}/controller" method="post">
-		<input type="hidden" name="command" value="accept_supply"/>
+		<input type="hidden" name="command" value="accept_products"/>
 		<input type="submit" value="${accept}"/>
 		</form>
       </c:if>  

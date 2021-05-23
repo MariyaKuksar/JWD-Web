@@ -28,7 +28,6 @@ public final class PagePath {
 	public static final String FIND_USER_ORDERS = "controller?command=find_user_orders&login=";
 	public static final String SHOW_PRODUCTS_IN_STOCK = "controller?command=show_products_in_stock";
 	public static final String SHOW_PRODUCTS_ON_ORDER = "controller?command=show_products_on_order";
-	public static final String GO_TO_SUPPLY_PAGE = "controller?command=go_to_supply_page";
 	
 	private PagePath() {
 	}

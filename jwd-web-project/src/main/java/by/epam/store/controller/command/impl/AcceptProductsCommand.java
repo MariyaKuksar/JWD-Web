@@ -1,8 +1,6 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -23,7 +21,7 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
-public class AddProductToSupplyCommand implements Command {
+public class AcceptProductsCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
 	@Override
@@ -35,34 +33,21 @@ public class AddProductToSupplyCommand implements Command {
 		}
 		HttpSession session = request.getSession(true);
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
-		@SuppressWarnings("unchecked") // TODO компилятор предупреждает что непроверенное привидение и требует эту аннотацию, как тут быть?
-		Map<Product, Integer> suppliedProducts = (Map<Product, Integer>) session.getAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS);
-		if (suppliedProducts == null) {
-			suppliedProducts = new HashMap<Product, Integer>();
-		}
-		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
-		String amount = request.getParameter(ParameterAndAttribute.AMOUNT_PRODUCT);
+		@SuppressWarnings("unchecked") // TODO компилятор предупреждает что непроверенное привидение и требует эту
+										// аннотацию, как тут быть?
+		Map<Product, Integer> suppliedProducts = (Map<Product, Integer>) session
+				.getAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS);
 		try {
-			Optional<Product> productOptional = catalogService.takeProductById(productId);
-			if (productOptional.isPresent()) {
-				Product product = productOptional.get();
-				int numberOfProducts = Integer.parseInt(amount);
-				if (suppliedProducts.computeIfPresent(product, (key, val) -> val + numberOfProducts) == null) {
-					suppliedProducts.put(product, numberOfProducts);
-				}
-				session.setAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS, suppliedProducts);	
+			if (catalogService.acceptProducts(suppliedProducts)) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PRODUCT_ACCEPTED_MESSAGE);
+				session.removeAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
-						MessageKey.ERROR_NO_SUCH_PRODUCT_MESSAGE);
+						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 			}
 			router = new Router(PagePath.SUPPLY, RouteType.REDIRECT);
-		} catch (NumberFormatException e) {
-			logger.error("invalid number of products", e);
-			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
-					MessageKey.ERROR_INCORRECT_AMOUNT_PRODUCTS);
-			router = new Router(PagePath.SUPPLY, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("error adding product to basket", e);
+			logger.error("error accepting products", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

@@ -25,4 +25,6 @@ public interface CatalogService {
 	ProductList takeProductsOnOrder(String page) throws ServiceException;
 
 	Optional<Product> takeProductById(String productId) throws ServiceException;
+
+	boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException;
 }

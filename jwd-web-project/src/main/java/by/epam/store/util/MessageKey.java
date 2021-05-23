@@ -48,6 +48,7 @@ public final class MessageKey {
 	public static final String INFO_USER_UNBLOCKED_MESSAGE = "local.message.user_unblocked";
 	public static final String INFO_ORDER_PROCESSED_MESSAGE = "local.message.order_processed";
 	public static final String INFO_MESSAGE_SENT_MESSAGE = "local.message.message_sent";
+	public static final String INFO_PRODUCT_ACCEPTED_MESSAGE = "local.message.product_accepted";
 	
 	public static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
 	public static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link ";

@@ -1,5 +1,6 @@
 package by.epam.store.model.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,13 +13,16 @@ import org.apache.logging.log4j.Logger;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.ProductList;
+import by.epam.store.entity.Supply;
 import by.epam.store.entity.builder.ProductBuilder;
 import by.epam.store.entity.comparator.ProductComparator;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 import by.epam.store.model.dao.ProductDao;
+import by.epam.store.model.dao.SupplyDao;
 import by.epam.store.model.dao.impl.ProductCategoryDaoImpl;
 import by.epam.store.model.dao.impl.ProductDaoImpl;
+import by.epam.store.model.dao.impl.SupplyDaoImpl;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
@@ -33,6 +37,7 @@ public class CatalogServiceImpl implements CatalogService {
 	private static final int DEFAULT_PAGE_NUMBER = 1;
 	private ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
+	private SupplyDao supplyDao = new SupplyDaoImpl();
 
 	@Override
 	public List<ProductCategory> takeAllProductCategories() throws ServiceException {
@@ -178,5 +183,21 @@ public class CatalogServiceImpl implements CatalogService {
 			throw new ServiceException("product search error", e);
 		}
 		return productOptional;
+	}
+
+	@Override
+	public boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException {
+		if (suppliedProducts == null || suppliedProducts.isEmpty()) {
+			return false;
+		}
+		Supply supply = new Supply(LocalDateTime.now(), suppliedProducts);
+		try {
+			supplyDao.create(supply);
+			supplyDao.createSupplyProductConnection(supply);
+			productDao.increaseAmount(suppliedProducts);
+		} catch (DaoException e) {
+			throw new ServiceException("product accepting error", e);
+		}
+		return true;
 	}
 }
