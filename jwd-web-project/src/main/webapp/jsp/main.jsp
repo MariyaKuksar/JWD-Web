@@ -91,9 +91,23 @@
 			<c:if test="${requestScope.products != null}">
 			<div class="menu3">
 				<p><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a> > <fmt:message key="local.category.${requestScope.products[0].category.categoryName}"/> </p>
-			<p>${show}: </p>
-			<li><a href="${currentPage}&sortingMethod=increase_price">${cheap_first}</a></li>
-			<li><a href="${currentPage}&sortingMethod=decrease_price">${expensive_first}</a></li>
+				<p>${show}: </p>
+				<c:if test="${param.sortingMethod == 'increase_price'}">
+				<div class="filter filter_chosen">
+				</c:if>
+				<c:if test="${param.sortingMethod != 'increase_price'}">
+				<div class="filter">
+				</c:if>
+					<a href="${currentPage}&sortingMethod=increase_price">${cheap_first}</a>
+				</div>
+				<c:if test="${param.sortingMethod == 'decrease_price'}">
+				<div class="filter filter_chosen">
+				</c:if>
+				<c:if test="${param.sortingMethod != 'decrease_price'}">
+				<div class="filter">
+				</c:if>
+					<a href="${currentPage}&sortingMethod=decrease_price">${expensive_first}</a>
+				</div>
 			</div>
 			<div class="products">
                 <c:forEach var="product" items="${requestScope.products}">

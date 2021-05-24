@@ -13,12 +13,15 @@
   <fmt:message key="local.error" var="error"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/error/style.css" type="text/css" />
 </head>
 <body>
-<%@ include file="/jsp/fragment/header.jsp" %>
-	<p>${error}</p>
-	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
-	<img src="${pageContext.request.contextPath}/upload?imageName=error.jpg">
+	<%@ include file="/jsp/fragment/header.jsp" %>
+	<div class="error">
+		<p>${error}</p>
+		<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
+		<div><img src="${pageContext.request.contextPath}/img/error.jpg"></div>
+	</div>
 	<mytag:copyright/>
 </body>
 </html>

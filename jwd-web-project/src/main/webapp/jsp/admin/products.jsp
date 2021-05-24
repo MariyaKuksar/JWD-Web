@@ -23,16 +23,17 @@
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/basket/style.css" type="text/css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/products/style.css" type="text/css" />
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
 <body onload="selectMenu(0)">
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 
-	 <c:if test = "${not empty requestScope.products}"> 
-	 <p><fmt:message key="${requestScope.title}"/></p>
+
+	<c:if test = "${not empty requestScope.products}">
+	<div class="products_in_stock">
+		<p><fmt:message key="${requestScope.title}"/></p>
 		<table>
 			<thead bgcolor="#c9c9c9" align="center">
 				<tr>
@@ -42,24 +43,24 @@
 					<th>${amount}</th>
 				</tr>
 			</thead>
-		<c:forEach var="product" items="${requestScope.products}">
+			<c:forEach var="product" items="${requestScope.products}">
 			<tr align="center" valign="center">
 			    <td>${product.productId}</td>
-			    
+
 				<td>
-					<img id="product_img" src="${pageContext.request.contextPath}/upload?imageName=${product.imageName}" />
+					<img id="product_img" src="${pageContext.request.contextPath}/img/${product.imageName}" />
 				</td>
-			
+
 				<td>${product.productName}</td>
-				
+
 				<td>${product.price}$</td>
-				
+
 				<td>${product.amount} ${pc}</td>
 			</tr>
-        </c:forEach>
-		</table> 
-		
-		<nav aria-label="Navigation">
+			</c:forEach>
+		</table>
+
+		<nav>
         <ul class="pagination">
             <c:if test="${requestScope.page > 1}">
                 <li class="page-item"><a class="page-link"
@@ -88,8 +89,10 @@
                 </li>
             </c:if>
         </ul>
-        </nav>	
-      </c:if>  
+        </nav>
+    </div>
+	</c:if>
+
 	<mytag:copyright/>
  
 </body>

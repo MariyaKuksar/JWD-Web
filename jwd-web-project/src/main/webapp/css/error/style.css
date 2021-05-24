@@ -1,0 +1,16 @@
+.error {
+	width: 75%;
+	margin: 0 auto;
+	text-align:  center;
+}
+.error p {
+	font:normal 16px TTNormsRegular;
+}
+.error img {
+	height: 300px;
+}
+.error > div {
+	margin: 0 auto;
+	height: 300px;
+	width: 300px;
+}

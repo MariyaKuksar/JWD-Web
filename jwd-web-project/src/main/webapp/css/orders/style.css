@@ -1,7 +1,35 @@
-table {
+.main {
 	width: 97%;
 	margin: 50px auto 0;
 }
-thead{
+.orders_table {
+	width: 100%;
+}
+.orders_table thead{
 	color: #fff;
+}
+.filters {
+	height: 70px;
+	margin-bottom: 15px;
+}
+.filters p {
+	font: normal 18px TTNormsRegular;
+	margin-bottom: 15px;
+}
+.filters form {
+	float:left;
+	margin-right: 15px;
+}
+.filters form label {
+	margin-right: 5px;
+}
+.products_table {
+	width:90%;
+	margin: 10px auto;
+}
+.products_table thead {
+	color: #000;
+}
+.products_table img {
+	height: 160px;
 }

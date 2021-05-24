@@ -286,4 +286,18 @@ footer {
 .menu3 {
 	margin-left: 15px;
 	margin-bottom: 15px;
+	height:65px;
+}
+.filter {
+	float: left;
+	margin-right: 15px;
+}
+.filter a{
+	border-bottom: 2px dotted #444;
+	text-decoration: none;
+}
+.filter_chosen a {
+	border-bottom: 2px dotted #df5558;
+	text-decoration: none;
+	color: #df5558;
 }

@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import by.epam.store.controller.command.PagePath;
 import by.epam.store.entity.UserRole;
 import by.epam.store.util.MessageKey;
@@ -20,7 +21,6 @@ import by.epam.store.util.ParameterAndAttribute;
 
 @WebFilter(urlPatterns = { "/jsp/client/*" })
 public class ClientAccessFilter implements Filter {
-
 	public void init(FilterConfig fConfig) throws ServletException {
 	}
 

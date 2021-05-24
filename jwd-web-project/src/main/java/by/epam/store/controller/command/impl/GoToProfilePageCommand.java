@@ -49,7 +49,5 @@ public class GoToProfilePageCommand implements Command {
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;
-
 	}
-
 }
