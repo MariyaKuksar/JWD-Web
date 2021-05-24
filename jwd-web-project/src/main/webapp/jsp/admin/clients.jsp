@@ -22,21 +22,23 @@
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/clients/style.css" type="text/css" />
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
 <body onload="selectMenu(3)">
 <%@ include file="/jsp/fragment/header.jsp" %>
-	<p></p>
-   
+	<div class="main">
+
             <form action="${pageContext.request.contextPath}/controller" method="get">
                 <input type="hidden" name="command" value="find_user_by_login" />
+				<label>${email}:</label>
                 <input type="email" required placeholder ="${email}" name="login" maxlength="45"/>
                 <input type="submit" value="${search}"/>
             </form>
-            
+
             <%@ include file="/jsp/fragment/error_info.jsp" %>
    <br/>
-    <c:if test = "${not empty requestScope.users}"> 
+    <c:if test = "${not empty requestScope.users}">
 		<table>
 			<thead bgcolor="#c9c9c9" align="center">
 				<tr>
@@ -50,15 +52,15 @@
 			</thead>
 		<c:forEach var="user" items="${requestScope.users}">
 			<tr align="center" valign="center">
-			   				
-				<td>${user.login}</td>
-				
+
+				<td align="left">${user.login}</td>
+
 				<td>${user.name}</td>
-				
+
 				<td>${user.phone}</td>
-				
+
 				<td>${user.status}</td>
-				
+
 				<td>
 					<c:if test="${user.status == 'BLOCKED'}">
 					<form action="${pageContext.request.contextPath}/controller" method="post">
@@ -88,9 +90,9 @@
 				</td>
 			</tr>
         </c:forEach>
-		</table> 
-		</c:if>  
-	<br/>	
+		</table>
+		</c:if>
+	</div>
 	<mytag:copyright/>
 </body>
 </html>

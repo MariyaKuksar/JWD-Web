@@ -48,7 +48,7 @@
 			    <td>${product.productId}</td>
 
 				<td>
-					<img id="product_img" src="${pageContext.request.contextPath}/img/${product.imageName}" />
+					<img id="product_img" src="${pageContext.request.contextPath}/upload?imageName=${product.imageName}" />
 				</td>
 
 				<td>${product.productName}</td>

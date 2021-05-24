@@ -1,0 +1,18 @@
+.main {
+	width:75%;
+	margin: 15px auto;
+}
+.add_product_form {
+	margin-bottom: 15px;
+}
+.add_product_form > div {
+	margin-bottom: 10px;
+}
+.add_product_form > input, .add_product_form > label{
+	margin-right: 15px;
+}
+.main p {
+	font: bold 18px TTNormsRegular;
+	text-align: center;
+	margin-bottom: 15px;
+}

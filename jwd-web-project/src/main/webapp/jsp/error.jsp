@@ -20,7 +20,7 @@
 	<div class="error">
 		<p>${error}</p>
 		<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
-		<div><img src="${pageContext.request.contextPath}/img/error.jpg"></div>
+		<div><img src="${pageContext.request.contextPath}/upload?imageName=error.jpg"></div>
 	</div>
 	<mytag:copyright/>
 </body>

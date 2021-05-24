@@ -1,0 +1,14 @@
+.main {
+	width:85%;
+	margin: 15px auto;
+}
+table {
+	width: 100%;
+	margin: 0 auto 15px;
+}
+table img {
+	height: 100px;
+}
+thead{
+	color: #fff;
+}

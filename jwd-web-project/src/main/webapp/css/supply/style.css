@@ -1,0 +1,30 @@
+.wrapper {
+	 min-height: calc(100vh - 35px);
+}
+.main {
+	width:75%;
+	margin: 15px auto;
+}
+.supply_form {
+	height: 40px;
+	margin-bottom: 15px;
+}
+.supply_form input, label{
+	float: left;
+	margin-right: 10px;
+}
+.main p {
+	font: bold 18px TTNormsRegular;
+	text-align: center;
+	margin-bottom: 15px;
+}
+table {
+	width: 100%;
+	margin: 0 auto 15px;
+}
+table img {
+	height: 100px;
+}
+thead{
+	color: #fff;
+}
