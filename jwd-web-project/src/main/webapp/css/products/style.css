@@ -1,3 +1,6 @@
+.wrapper {
+	min-height: calc(100vh - 55px);
+}
 .products_in_stock {
 	width: 90%;
 	margin: 50px auto 0;

@@ -24,6 +24,7 @@
     
 </head>
 <body>
+<div class="wrapper">
 <%@ include file="/jsp/fragment/header.jsp" %>
 <div>
 	<div id="submit-form">
@@ -31,7 +32,7 @@
 		<h1>${title}</h1>
 	  </div>
 	  
-<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
+	<c:set var="currentPage" value="${pageContext.request.requestURI}" scope="session"> </c:set>
 
 	  <fieldset>
 		<form action="${pageContext.request.contextPath}/controller" method="post">
@@ -47,6 +48,7 @@
 	
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
+</div>
 </div>
 <mytag:copyright/>
 </body>

@@ -7,34 +7,34 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-	<fmt:setLocale value="${sessionScope.locale}"/>
-    <fmt:setBundle basename="local"/>
-    <fmt:message key="local.title.main" var="title"/>
-    <fmt:message key="local.sign_out" var="sign_out"/>
-    <fmt:message key="local.sign_in" var="sign_in"/>
-    <fmt:message key="local.sign_up" var="sign_up"/>
-    <fmt:message key="local.login" var="login"/>
-    <fmt:message key="local.email" var="email"/>
-    <fmt:message key="local.password" var="password"/>
-    <fmt:message key="local.in_stock" var="in_stock"/>
-    <fmt:message key="local.on_order" var="on_order"/>
-    <fmt:message key="local.add_to_basket" var="add_to_basket"/>
-    <fmt:message key="local.welcome" var="welcome" />
-    <fmt:message key="local.forgot_password" var="forgot_password"/>
-    <fmt:message key="local.catalog" var="catalog"/>
-    <fmt:message key="local.edit" var="edit"/>
-    <fmt:message key="local.save" var="save"/>
-    <fmt:message key="local.name" var="name"/>
-    <fmt:message key="local.price" var="price"/>
-    <fmt:message key="local.show" var="show"/>
-    <fmt:message key="local.cheap_first" var="cheap_first"/>
-    <fmt:message key="local.expensive_first" var="expensive_first"/>
-    <title>${title}</title>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
+		<fmt:setLocale value="${sessionScope.locale}"/>
+		<fmt:setBundle basename="local"/>
+		<fmt:message key="local.title.main" var="title"/>
+		<fmt:message key="local.sign_out" var="sign_out"/>
+		<fmt:message key="local.sign_in" var="sign_in"/>
+		<fmt:message key="local.sign_up" var="sign_up"/>
+		<fmt:message key="local.login" var="login"/>
+		<fmt:message key="local.email" var="email"/>
+		<fmt:message key="local.password" var="password"/>
+		<fmt:message key="local.in_stock" var="in_stock"/>
+		<fmt:message key="local.on_order" var="on_order"/>
+		<fmt:message key="local.add_to_basket" var="add_to_basket"/>
+		<fmt:message key="local.welcome" var="welcome" />
+		<fmt:message key="local.forgot_password" var="forgot_password"/>
+		<fmt:message key="local.catalog" var="catalog"/>
+		<fmt:message key="local.edit" var="edit"/>
+		<fmt:message key="local.save" var="save"/>
+		<fmt:message key="local.name" var="name"/>
+		<fmt:message key="local.price" var="price"/>
+		<fmt:message key="local.show" var="show"/>
+		<fmt:message key="local.cheap_first" var="cheap_first"/>
+		<fmt:message key="local.expensive_first" var="expensive_first"/>
+		<title>${title}</title>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/main/style.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
+		<script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 	</head>
 	<c:if test="${sessionScope.role != 'ADMIN'}">
     <body onload="selectMenu(1)">
@@ -42,6 +42,7 @@
     <c:if test="${sessionScope.role == 'ADMIN'}">
     <body onload="selectMenu(0)">
     </c:if>
+	<div class="wrapper">
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
@@ -146,7 +147,7 @@
 		</div>
 		<hr/>
 	</div>
-
+	</div>
 	<mytag:copyright/>
 
 	<script>

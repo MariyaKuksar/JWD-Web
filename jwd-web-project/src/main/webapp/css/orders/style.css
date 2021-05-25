@@ -1,3 +1,6 @@
+.wrapper {
+	min-height: calc(100vh - 55px);
+}
 .main {
 	width: 97%;
 	margin: 50px auto 0;
@@ -8,7 +11,7 @@
 .orders_table thead{
 	color: #fff;
 }
-.cancel_order_form input, .process_order_form input{
+.cancel_order_form input, .process_order_form input, .order_info input, .order_info button{
 	width: 100%;
 }
 .filters {

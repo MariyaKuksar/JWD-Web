@@ -12,7 +12,9 @@ body {
 	font-family: sans-serif;
 	background: #ddd;
 }
-
+.wrapper {
+	min-height: calc(100vh - 55px);
+}
 a {
 	color: #999;
 	text-decoration: none;

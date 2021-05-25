@@ -27,6 +27,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
 <body onload="selectMenu(0)">
+<div class="wrapper">
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 
@@ -92,8 +93,8 @@
         </nav>
     </div>
 	</c:if>
-
-	<mytag:copyright/>
+</div>
+<mytag:copyright/>
  
 </body>
 </html>

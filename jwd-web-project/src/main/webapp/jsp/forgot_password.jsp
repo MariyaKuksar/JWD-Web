@@ -21,6 +21,7 @@
   
 </head>
 <body>
+<div class="wrapper">
 <%@ include file="/jsp/fragment/header.jsp" %>
 <div>
     <div id="submit-form">
@@ -39,6 +40,7 @@
         </fieldset>
     </div>
    <%@ include file="/jsp/fragment/error_info.jsp" %>
+</div>
 </div>
 <mytag:copyright/>
 </body>

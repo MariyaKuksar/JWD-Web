@@ -37,6 +37,7 @@
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
 <body onload="selectMenu(0)">
+<div class="wrapper">
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
 	
@@ -123,10 +124,9 @@
             </div>
         </div>
       </c:if>  
-      
-	<mytag:copyright/>
-	
-	<script>
+</div>      
+<mytag:copyright/>
+<script>
     function openDiv(openId) {
 		var openDiv = document.getElementById(openId);
 		var allMethodInfoDiv = document.getElementById("method_info");

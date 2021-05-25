@@ -35,6 +35,7 @@
   <fmt:message key="local.customer" var="customer"/>
   <title>${title}</title>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/orders/style.css" type="text/css" />
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
@@ -45,6 +46,7 @@
 <c:if test="${sessionScope.role == 'CLIENT'}">
 <body onload="selectMenu(2)">
 </c:if>
+<div class="wrapper">
 	<%@ include file="/jsp/fragment/header.jsp" %>
 	<div class="main">
 		<c:if test="${sessionScope.role == 'ADMIN'}">
@@ -81,7 +83,7 @@
 	<table class="orders_table">
 		<thead bgcolor="#c9c9c9" align="center">
 			<tr>
-				<th>${order_number}</th>
+				<th>№</th>
 				<th>${date_of_issue}</th>
 				<th>${cost}</th>
 				<th>${payment_method}</th>
@@ -124,9 +126,9 @@
 					</c:if>
 					<c:if test="${order.orderStatus != 'PLACED' && order.orderStatus != 'ACCEPTED' && order.orderStatus != 'READY'}">
 					<input type="submit" value="${process}" disabled/>
-				    </c:if>
+				</c:if>
 				</form>
-			    </c:if>
+			</c:if>
 				<form class="cancel_order_form" action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="cancel_order"/>
 					<input type="hidden" name="orderId" value="${order.orderId}"/>
@@ -145,9 +147,9 @@
 					</c:if>
 				</form>
 			</td>
-			<td valign="center" align="center">
+			<td valign="center" align="center" class="order_info">
 			    <c:if test="${sessionScope.role == 'ADMIN'}">
-				<form class="process_order_form" action="${pageContext.request.contextPath}/controller" method="post">
+				<form action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="find_user_by_id"/>
 					<input type="hidden" name="userId" value="${order.userId}"/>
 					<input type="submit" value="${customer}"/>
@@ -193,7 +195,8 @@
 	</table>
     </c:if>
 	</div>
-   	<mytag:copyright/>
+</div>
+<mytag:copyright/>
 <script>
     function openDetails(id, buttonToCloseId, buttonToOpenId) {
 		var openDetails = document.getElementById(id);

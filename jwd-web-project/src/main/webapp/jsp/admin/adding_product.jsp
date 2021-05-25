@@ -17,11 +17,13 @@
   <fmt:message key="local.upload_image" var="upload_image"/>
   <title>${title}</title> 
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/header.css" type="text/css" />
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/footer.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/common/error_info.css" type="text/css" />
   <link rel="stylesheet" href="${pageContext.request.contextPath}/css/adding_product/style.css" type="text/css" />
   <script type="text/javascript" src="${pageContext.request.contextPath}/js/selectMenu.js"></script>
 </head>
 <body onload="selectMenu(0)">
+<div class="wrapper">
 <%@ include file="/jsp/fragment/header.jsp" %>
 
 	<div class="main">
@@ -53,7 +55,7 @@
 	</div>
 	
 	<%@ include file="/jsp/fragment/error_info.jsp" %>
-	
-	<mytag:copyright/>
+</div>	
+<mytag:copyright/>
 </body>
 </html>

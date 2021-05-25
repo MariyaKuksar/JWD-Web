@@ -7,7 +7,9 @@
 html {
     background-color: #ddd;
 }
-
+.wrapper {
+	min-height: calc(100vh - 55px);
+}
 /* ---------- REGISTRATION-FORM ---------- */
 
 body > div:first-child{
