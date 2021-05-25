@@ -41,6 +41,7 @@ import by.epam.store.controller.command.impl.SignOutCommand;
 import by.epam.store.controller.command.impl.SignUpCommand;
 import by.epam.store.controller.command.impl.UnblockUserCommand;
 import by.epam.store.controller.command.impl.FindProductsByNameCommand;
+import by.epam.store.controller.command.impl.FindUserByIdCommand;
 
 public final class CommandProvider {
 	private static final Logger logger = LogManager.getLogger();
@@ -83,6 +84,7 @@ public final class CommandProvider {
 		commands.put(CommandType.SEND_MESSAGE, new SendMessageCommand());
 		commands.put(CommandType.ADD_PRODUCT_TO_SUPPLY, new AddProductToSupplyCommand());
 		commands.put(CommandType.ACCEPT_PRODUCTS, new AcceptProductsCommand());
+		commands.put(CommandType.FIND_USER_BY_ID, new FindUserByIdCommand());
 	}
 
 	private CommandProvider() {

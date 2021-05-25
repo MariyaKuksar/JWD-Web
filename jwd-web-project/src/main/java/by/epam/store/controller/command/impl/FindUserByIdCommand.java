@@ -22,9 +22,9 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
-public class FindUserByLoginCommand implements Command {
+public class FindUserByIdCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-
+	
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -34,15 +34,15 @@ public class FindUserByLoginCommand implements Command {
 		}
 		HttpSession session = request.getSession(true);
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		String login = request.getParameter(ParameterAndAttribute.LOGIN);
+		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
 		try {
-			Optional<User> userOptional = userService.takeUserByLogin(login);
-			if (userOptional.isPresent() && userOptional.get().getRole() == UserRole.CLIENT) {
+			Optional<User> userOptional = userService.takeUserById(userId);
+			if (userOptional.isPresent()) {
 				request.setAttribute(ParameterAndAttribute.USERS, Arrays.asList(userOptional.get()));
 			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_USER_BY_LOGIN + login);
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_USER_BY_ID + userId);
 			router = new Router(PagePath.CLIENTS, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("user search error", e);

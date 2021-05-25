@@ -172,6 +172,20 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Optional<User> takeUserById(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return Optional.empty();
+		}
+		Optional<User> userOptional;
+		try {
+			userOptional = userDao.findUserById(userId);
+		} catch (DaoException e) {
+			throw new ServiceException("user search error", e);
+		}
+		return userOptional;
+	}
+	
+	@Override
 	public boolean changeUserData(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
 		String userId = userInfo.get(ParameterAndAttribute.USER_ID);
 		String currentLogin = userInfo.get(ParameterAndAttribute.CURRENT_LOGIN);

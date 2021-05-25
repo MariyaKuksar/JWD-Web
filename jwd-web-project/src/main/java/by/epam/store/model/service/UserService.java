@@ -30,4 +30,6 @@ public interface UserService {
 	boolean unblockUser(String userId) throws ServiceException;
 
 	boolean sendMessage(String email, String message) throws ServiceException;
+
+	Optional<User> takeUserById(String userId) throws ServiceException;;
 }

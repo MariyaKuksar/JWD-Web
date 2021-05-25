@@ -124,9 +124,9 @@
 					</c:if>
 					<c:if test="${order.orderStatus != 'PLACED' && order.orderStatus != 'ACCEPTED' && order.orderStatus != 'READY'}">
 					<input type="submit" value="${process}" disabled/>
-				</c:if>
+				    </c:if>
 				</form>
-			</c:if>
+			    </c:if>
 				<form class="cancel_order_form" action="${pageContext.request.contextPath}/controller" method="post">
 					<input type="hidden" name="command" value="cancel_order"/>
 					<input type="hidden" name="orderId" value="${order.orderId}"/>
@@ -145,7 +145,14 @@
 					</c:if>
 				</form>
 			</td>
-			<td>
+			<td valign="center" align="center">
+			    <c:if test="${sessionScope.role == 'ADMIN'}">
+				<form class="process_order_form" action="${pageContext.request.contextPath}/controller" method="post">
+					<input type="hidden" name="command" value="find_user_by_id"/>
+					<input type="hidden" name="userId" value="${order.userId}"/>
+					<input type="submit" value="${customer}"/>
+				</form>
+				</c:if>
 				<button id="details_id_button_${order.orderId}" onclick="openDetails('products_${order.orderId}', 'details_id_button_${order.orderId}', 'close_details_id_button_${order.orderId}')">${detail}</button>
 				<button id="close_details_id_button_${order.orderId}" style="display:none;" onclick="closeDetails('products_${order.orderId}', 'close_details_id_button_${order.orderId}', 'details_id_button_${order.orderId}')">${close_details}</button>
 			</td>
