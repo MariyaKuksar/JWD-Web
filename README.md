@@ -1,23 +1,45 @@
 ## Project Overview
-The web application is a сhildren's furniture online store.  The online store contains a catalog of products in stock and on order. A registered user can place an order and pay for it, as well as view, edit and cancel their orders. The administrator manages the issued orders, changes the order status to “accepted for work”, “ready”, “delivered”, “canceled”.
+The web application is an online store of children's furniture. The online store contains a catalog of products in stock and on order. The administrator manages the catalog, controls the availability of products, processes orders, accepts supplies of products, and controls user access. To place an order, a client needs to register using an up-to-date e-mail, after which it becomes available to manage his orders and profile.
 
-## User Roles
+## User roles and functions available to them
 - Guest
+  - switch language;
+  - product search by name or category;
+  - viewing information about products;
+  - sorting products by price;
   - registration;
   - authorization;
   - password recovery;
-  - viewing information about goods;
-  - product search by filters;
-- Registered user
-  - viewing information about goods;
-  - product search by filters;
+
+- Registered user - client
+  - switch language;
+  - product search by name or category;
+  - viewing information about products;
+  - sorting products by price;
+  - adding product to the basket;
+  - changing the quantity of products in the basket;
+  - removing product from the basket;
   - ordering;
-  - payment for the order;
   - view information about orders;
-  - editing an order;
-  - order cancellation;
-  - editing a profile
+  - cancellation of orders;
+  - editing a profile;
+  - logout;
+
 - Administrator
-  - maintaining a catalog of goods;
-  - change of order status;
-  - user management.
+  - switch language;
+  - product search by name or category;
+  - viewing information about products;
+  - sorting products by price;
+  - adding a product to the catalog;
+  - editing product information;
+  - viewing products in stock and on order in page mode;
+  - search for orders by status, number or e-mail of the customer;
+  - view information about orders;
+  - order processing;
+  - cancellation of orders;
+  - viewing information about clients;
+  - search for clients by email;
+  - client access control;
+  - sending messages to clients;
+  - logout.
+  
