@@ -5,7 +5,6 @@ import java.util.Map;
 
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Product;
-import by.epam.store.entity.ProductCategory;
 
 public class ProductBuilder implements EntityBuilder<Product> {
 	private static final ProductBuilder instance = new ProductBuilder();
@@ -26,8 +25,7 @@ public class ProductBuilder implements EntityBuilder<Product> {
 		}
 		String categoryId = productInfo.get(ParameterAndAttribute.CATEGORY_ID);
 		if (categoryId != null) {
-			ProductCategory category = new ProductCategory(Long.parseLong(categoryId));
-			product.setCategory(category);
+			product.setCategoryId(Long.parseLong(categoryId));
 		}
 		product.setProductName(productInfo.get(ParameterAndAttribute.PRODUCT_NAME));
 		product.setImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME));

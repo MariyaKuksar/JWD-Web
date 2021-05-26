@@ -76,10 +76,10 @@
 			<c:if test="${sessionScope.productCategories != null}">
 			<div class="categories">
 				<c:forEach var="category" items="${sessionScope.productCategories}">
-				<c:if test="${requestScope.products[0].category.categoryId == category.categoryId}">
+				<c:if test="${requestScope.categoryId == category.categoryId}">
 				<figure class="category selected">
 				</c:if>
-				<c:if test="${requestScope.products[0].category.categoryId != category.categoryId}">
+				<c:if test="${requestScope.categoryId != category.categoryId}">
 				<figure class="category">
 				</c:if>
 					<div class="image"><a href="${pageContext.request.contextPath}/controller?command=show_products_from_category&categoryId=${category.categoryId}"  title="${category.categoryName}"><img src="${pageContext.request.contextPath}/upload?imageName=${category.imageName}" alt="${category.categoryName}"></a></div>
@@ -91,7 +91,6 @@
 				
 			<c:if test="${requestScope.products != null}">
 			<div class="menu3">
-				<p><a href="${pageContext.request.contextPath}/controller?command=go_to_main_page">${catalog}</a> > <fmt:message key="local.category.${requestScope.products[0].category.categoryName}"/> </p>
 				<p>${show}: </p>
 				<c:if test="${param.sortingMethod == 'increase_price'}">
 				<div class="filter filter_chosen">

@@ -33,6 +33,7 @@ public class ShowProductsFromCategoryCommand implements Command {
 			List<Product> products = catalogService.takeProductsFromCategory(categoryId, sortingMethod);
 			if (!products.isEmpty()) {
 				request.setAttribute(ParameterAndAttribute.PRODUCTS, products);
+				request.setAttribute(ParameterAndAttribute.CATEGORY_ID, categoryId);
 			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}

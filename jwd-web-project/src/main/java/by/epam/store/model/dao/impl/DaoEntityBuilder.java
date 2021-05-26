@@ -42,10 +42,7 @@ final class DaoEntityBuilder {
 	static Product buildProduct(ResultSet resultSet) throws SQLException {
 		Product product = new Product();
 		product.setProductId(resultSet.getLong(ColumnName.PRODUCTS_ID));
-		Long categoryId = resultSet.getLong(ColumnName.PRODUCTS_CATEGORY_ID);
-		String categoryName = resultSet.getString(ColumnName.PRODUCT_CATEGORIES_CATEGORY);
-		ProductCategory category = new ProductCategory(categoryId, categoryName);
-		product.setCategory(category);
+		product.setCategoryId(resultSet.getLong(ColumnName.PRODUCTS_CATEGORY_ID));
 		product.setProductName(resultSet.getString(ColumnName.PRODUCTS_NAME));
 		product.setImageName(resultSet.getString(ColumnName.PRODUCTS_IMAGE_NAME));
 		product.setPrice(resultSet.getBigDecimal(ColumnName.PRODUCTS_PRICE));

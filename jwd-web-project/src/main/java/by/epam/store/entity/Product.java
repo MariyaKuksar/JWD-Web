@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long productId;
-	private ProductCategory category;
+	private Long categoryId;
 	private String productName;
 	private String imageName;
 	private BigDecimal price;
@@ -23,12 +23,12 @@ public class Product implements Serializable {
 		this.productId = productId;
 	}
 
-	public ProductCategory getCategory() {
-		return category;
+	public Long getCategoryId() {
+		return categoryId;
 	}
 
-	public void setCategory(ProductCategory category) {
-		this.category = category;
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	public String getProductName() {
@@ -68,7 +68,7 @@ public class Product implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + amount;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
+		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
 		result = prime * result + ((imageName == null) ? 0 : imageName.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
@@ -87,10 +87,10 @@ public class Product implements Serializable {
 		Product other = (Product) obj;
 		if (amount != other.amount)
 			return false;
-		if (category == null) {
-			if (other.category != null)
+		if (categoryId == null) {
+			if (other.categoryId != null)
 				return false;
-		} else if (!category.equals(other.category))
+		} else if (!categoryId.equals(other.categoryId))
 			return false;
 		if (imageName == null) {
 			if (other.imageName != null)
@@ -120,8 +120,8 @@ public class Product implements Serializable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Product [productId=");
 		builder.append(productId);
-		builder.append(", category=");
-		builder.append(category);
+		builder.append(", categoryId=");
+		builder.append(categoryId);
 		builder.append(", productName=");
 		builder.append(productName);
 		builder.append(", imageName=");
