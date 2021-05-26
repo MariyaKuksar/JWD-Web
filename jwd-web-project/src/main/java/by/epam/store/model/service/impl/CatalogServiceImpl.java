@@ -113,7 +113,6 @@ public class CatalogServiceImpl implements CatalogService {
 		Optional<Product> productOptional;
 		try {
 			productOptional = productDao.findProductById(productId);
-
 		} catch (DaoException e) {
 			throw new ServiceException("product search error", e);
 		}

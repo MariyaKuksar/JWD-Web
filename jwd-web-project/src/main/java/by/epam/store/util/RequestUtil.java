@@ -39,7 +39,6 @@ public final class RequestUtil {
 				part.write(path + imageName);
 				parameters.put(ParameterAndAttribute.IMAGE_NAME, imageName);
 				parameters.put(ParameterAndAttribute.PATH, path);
-				logger.debug(imageName);
 			}
 		}
 		return parameters;

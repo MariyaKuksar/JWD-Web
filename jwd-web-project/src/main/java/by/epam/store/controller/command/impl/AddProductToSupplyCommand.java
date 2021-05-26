@@ -62,7 +62,7 @@ public class AddProductToSupplyCommand implements Command {
 					MessageKey.ERROR_INCORRECT_AMOUNT_PRODUCTS);
 			router = new Router(PagePath.SUPPLY, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("error adding product to basket", e);
+			logger.error("error adding product to supply", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;
