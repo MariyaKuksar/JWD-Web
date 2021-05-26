@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 

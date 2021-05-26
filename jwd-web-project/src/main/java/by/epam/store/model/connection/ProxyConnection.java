@@ -19,11 +19,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 class ProxyConnection implements Connection {
-	private static final Logger logger = LogManager.getLogger();
 	private Connection connection;
 
 	ProxyConnection(Connection connection) {
@@ -32,7 +28,6 @@ class ProxyConnection implements Connection {
 
 	void reallyClose() throws SQLException {
 		connection.close();
-		logger.debug("closeConnection");
 	}
 
 	@Override

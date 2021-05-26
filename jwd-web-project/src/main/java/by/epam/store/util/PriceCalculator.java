@@ -12,6 +12,9 @@ public final class PriceCalculator {
 
 	public static BigDecimal calculateTotalCost (Map<Product, Integer> products) {
 		BigDecimal totalCost = BigDecimal.ZERO;
+		if (products == null) {
+			return totalCost;
+		}
 		for (Map.Entry<Product, Integer> productAndAmount: products.entrySet()) {
 			BigDecimal price = productAndAmount.getKey().getPrice();
 			BigDecimal amount = new BigDecimal(productAndAmount.getValue());

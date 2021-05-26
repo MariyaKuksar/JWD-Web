@@ -15,10 +15,10 @@ import org.apache.logging.log4j.Logger;
 import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.CommandProvider;
 import by.epam.store.controller.command.PagePath;
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
-import by.epam.store.util.ParameterAndAttribute;
 
 @WebServlet(name = "controller", urlPatterns = { "/controller" })
 public class Controller extends HttpServlet {
@@ -61,7 +61,6 @@ public class Controller extends HttpServlet {
 
 	@Override
 	public void destroy() {
-		logger.debug("destroyPool");
 		super.destroy();
 		try {
 			ConnectionPool.getInstance().destroyPool();

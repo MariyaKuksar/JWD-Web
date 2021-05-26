@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -15,16 +14,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.epam.store.controller.command.PagePath;
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.UserRole;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 
 @WebFilter(urlPatterns = { "/jsp/admin/*" })
 public class AdminAccessFilter implements Filter {
 
-	public void init(FilterConfig fConfig) throws ServletException {
-	}
-
+	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
@@ -36,8 +33,5 @@ public class AdminAccessFilter implements Filter {
 			return;
 		}
 		chain.doFilter(request, response);
-	}
-
-	public void destroy() {
 	}
 }

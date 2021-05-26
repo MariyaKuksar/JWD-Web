@@ -21,12 +21,6 @@ public class SupplyDaoImpl implements SupplyDao {
 	private static final String SQL_INSERT_SUPPLY_PRODUCT_CONNECTION = "INSERT INTO SUPPLY_PRODUCT_CONNECTION (SUPPLY_ID, PRODUCT_ID, AMOUNT_OF_PRODUCT) VALUES (?,?,?)";
 
 	@Override
-	public List<Supply> findAll() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void create(Supply supply) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT_SUPPLY,
@@ -40,13 +34,7 @@ public class SupplyDaoImpl implements SupplyDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-	}
-
-	@Override
-	public boolean update(Supply supply) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	}	
 
 	@Override
 	public void createSupplyProductConnection(Supply supply) throws DaoException {
@@ -62,5 +50,15 @@ public class SupplyDaoImpl implements SupplyDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
+	}
+	
+	@Override
+	public boolean update(Supply supply) throws DaoException {
+		throw new UnsupportedOperationException("operation not supported for class SupplyDaoImpl");
+	}
+	
+	@Override
+	public List<Supply> findAll() throws DaoException {
+		throw new UnsupportedOperationException("operation not supported for class SupplyDaoImpl");
 	}
 }

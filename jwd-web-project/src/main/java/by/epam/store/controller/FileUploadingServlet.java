@@ -21,8 +21,8 @@ import org.apache.logging.log4j.Logger;
 import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.CommandProvider;
 import by.epam.store.controller.command.PagePath;
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
-import by.epam.store.util.ParameterAndAttribute;
 
 @WebServlet(name = "upload", urlPatterns = { "/upload" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)

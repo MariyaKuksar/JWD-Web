@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 import by.epam.store.entity.DeliveryMethod;
@@ -21,7 +22,6 @@ import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.UserControl;
 
 public class GoToBasketPageCommand implements Command {

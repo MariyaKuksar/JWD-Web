@@ -1,5 +1,7 @@
 package by.epam.store.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 public final class XssProtectUtil {
 
 	private static final String START_TAG = "<";
@@ -11,7 +13,9 @@ public final class XssProtectUtil {
 	}
 
 	public static String correctText(String text) {
-		//TODO нужно проверять на null
+		if(text == null) {
+			return StringUtils.EMPTY;
+		}
 		return text.replaceAll(START_TAG, LESS_THAN_CHARACTER).replaceAll(END_TAG, GREATER_THAN_CHARACTER);
 	}
 }

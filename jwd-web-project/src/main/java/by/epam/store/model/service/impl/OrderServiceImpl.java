@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderProductConnection;
 import by.epam.store.entity.OrderStatus;
@@ -24,7 +25,6 @@ import by.epam.store.model.dao.impl.ProductDaoImpl;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
-import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PriceCalculator;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.OrderInfoValidator;
@@ -57,27 +57,6 @@ public class OrderServiceImpl implements OrderService {
 			orderBasket = new Order(orderBasketId, userId);
 		} catch (DaoException e) {
 			throw new ServiceException("product adding error", e);
-		}
-		return Optional.of(orderBasket);
-	}
-
-	@Override
-	public Optional<Order> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
-		if (userId == null) {
-			return Optional.empty();
-		}
-		Order orderBasket;
-		try {
-			if (orderBasketId == null) {
-				orderBasketId = takeOrderBasketId(userId);
-			}
-			orderBasket = new Order(orderBasketId, userId);
-			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
-			orderBasket.setProducts(products);
-			BigDecimal orderCost = PriceCalculator.calculateTotalCost(products);
-			orderBasket.setCost(orderCost);
-		} catch (DaoException e) {
-			throw new ServiceException("product search error", e);
 		}
 		return Optional.of(orderBasket);
 	}
@@ -138,27 +117,6 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> takeOrdersByLogin(String login) throws ServiceException {
-		if (!UserInfoValidator.isValidLogin(login)) {
-			return Collections.emptyList();
-		}
-		List<Order> orders;
-		try {
-			orders = orderDao.findOrdersByLogin(login);
-			if (!orders.isEmpty()) {
-				Collections.reverse(orders);
-				for (Order order : orders) {
-					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
-					order.setProducts(products);
-				}
-			}
-		} catch (DaoException e) {
-			throw new ServiceException("orders search error", e);
-		}
-		return orders;
-	}
-
-	@Override
 	public boolean cancelOrder(String orderId, String orderStatus, UserRole userRole) throws ServiceException {
 		if (!IdValidator.isValidId(orderId) || !OrderInfoValidator.isValidOrderStatus(orderStatus)
 				|| userRole == null) {
@@ -180,54 +138,6 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("orders changing status error", e);
 		}
 		return orderCanceled;
-	}
-
-	@Override
-	public List<Order> takeOrdersByStatus(String orderStatus) throws ServiceException {
-		logger.debug(orderStatus);
-		if (!OrderInfoValidator.isValidOrderStatus(orderStatus)) {
-			logger.debug(false);
-			return Collections.emptyList();
-		}
-		List<Order> orders;
-		try {
-			orders = orderDao.findOrdersByStatus(orderStatus);
-			if (!orders.isEmpty()) {
-				Collections.reverse(orders);
-				for (Order order : orders) {
-					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
-					order.setProducts(products);
-					if (OrderStatus.valueOf(orderStatus.toUpperCase()) == OrderStatus.BASKET) {
-						order.setCost(PriceCalculator.calculateTotalCost(products));
-					}
-				}
-			}
-		} catch (DaoException e) {
-			throw new ServiceException("orders search error", e);
-		}
-		return orders;
-	}
-
-	@Override
-	public Optional<Order> takeOrderById(String orderId) throws ServiceException {
-		if (!IdValidator.isValidId(orderId)) {
-			return Optional.empty();
-		}
-		Optional<Order> orderOptional;
-		try {
-			orderOptional = orderDao.findOrderById(orderId);
-			if (orderOptional.isPresent()) {
-				Order order = orderOptional.get();
-				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
-				order.setProducts(products);
-				if (order.getOrderStatus() == OrderStatus.BASKET) {
-					order.setCost(PriceCalculator.calculateTotalCost(products));
-				}
-			}
-		} catch (DaoException e) {
-			throw new ServiceException("order search error", e);
-		}
-		return orderOptional;
 	}
 
 	@Override
@@ -257,6 +167,96 @@ public class OrderServiceImpl implements OrderService {
 			throw new ServiceException("orders changing status error", e);
 		}
 		return orderProcessed;
+	}
+
+	@Override
+	public Optional<Order> takeOrderBasket(Long userId, Long orderBasketId) throws ServiceException {
+		if (userId == null) {
+			return Optional.empty();
+		}
+		Order orderBasket;
+		try {
+			if (orderBasketId == null) {
+				orderBasketId = takeOrderBasketId(userId);
+			}
+			orderBasket = new Order(orderBasketId, userId);
+			Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(orderBasketId);
+			orderBasket.setProducts(products);
+			BigDecimal orderCost = PriceCalculator.calculateTotalCost(products);
+			orderBasket.setCost(orderCost);
+		} catch (DaoException e) {
+			throw new ServiceException("product search error", e);
+		}
+		return Optional.of(orderBasket);
+	}
+
+	@Override
+	public Optional<Order> takeOrderById(String orderId) throws ServiceException {
+		if (!IdValidator.isValidId(orderId)) {
+			return Optional.empty();
+		}
+		Optional<Order> orderOptional;
+		try {
+			orderOptional = orderDao.findOrderById(orderId);
+			if (orderOptional.isPresent()) {
+				Order order = orderOptional.get();
+				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
+				order.setProducts(products);
+				if (order.getOrderStatus() == OrderStatus.BASKET) {
+					order.setCost(PriceCalculator.calculateTotalCost(products));
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("order search error", e);
+		}
+		return orderOptional;
+	}
+
+	@Override
+	public List<Order> takeOrdersByLogin(String login) throws ServiceException {
+		if (!UserInfoValidator.isValidLogin(login)) {
+			return Collections.emptyList();
+		}
+		List<Order> orders;
+		try {
+			orders = orderDao.findOrdersByLogin(login);
+			if (!orders.isEmpty()) {
+				Collections.reverse(orders);
+				for (Order order : orders) {
+					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
+					order.setProducts(products);
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("orders search error", e);
+		}
+		return orders;
+	}
+
+	@Override
+	public List<Order> takeOrdersByStatus(String orderStatus) throws ServiceException {
+		logger.debug(orderStatus);
+		if (!OrderInfoValidator.isValidOrderStatus(orderStatus)) {
+			logger.debug(false);
+			return Collections.emptyList();
+		}
+		List<Order> orders;
+		try {
+			orders = orderDao.findOrdersByStatus(orderStatus);
+			if (!orders.isEmpty()) {
+				Collections.reverse(orders);
+				for (Order order : orders) {
+					Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
+					order.setProducts(products);
+					if (OrderStatus.valueOf(orderStatus.toUpperCase()) == OrderStatus.BASKET) {
+						order.setCost(PriceCalculator.calculateTotalCost(products));
+					}
+				}
+			}
+		} catch (DaoException e) {
+			throw new ServiceException("orders search error", e);
+		}
+		return orders;
 	}
 
 	private Long takeOrderBasketId(Long userId) throws DaoException {

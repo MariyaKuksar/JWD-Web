@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.XssProtectUtil;
 
 public final class ProductInfoValidator {

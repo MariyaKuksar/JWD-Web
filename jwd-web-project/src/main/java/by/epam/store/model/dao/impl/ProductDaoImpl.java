@@ -18,7 +18,10 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductDao;
 
 public class ProductDaoImpl implements ProductDao {
-	//TODO private static final Logger logger = LogManager.getLogger();
+	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
+	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
+	private static final String SQL_UPDATE_REDUCE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT-? WHERE ID=?";
+	private static final String SQL_UPDATE_INCREASE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT+? WHERE ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE CATEGORY_ID=?";
 	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE NAME LIKE ?";
 	private static final String SQL_SELECT_PRODUCT_BY_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE PRODUCTS.ID=?";
@@ -26,18 +29,8 @@ public class ProductDaoImpl implements ProductDao {
 	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT SQL_CALC_FOUND_ROWS PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE AMOUNT <= 0 LIMIT ";
 	private static final String SQL_SELECT_FOUND_ROWS = "SELECT FOUND_ROWS()";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
-	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
-	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
-	private static final String SQL_UPDATE_REDUCE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT-? WHERE ID=?";
-	private static final String SQL_UPDATE_INCREASE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT+? WHERE ID=?";
 	private static final int ONE_UPDATED_ROW = 1;
 	private static final String SEPARATOR = ", ";
-
-	@Override
-	public List<Product> findAll() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void create(Product product) throws DaoException {
@@ -86,20 +79,18 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public List<Product> findProductsByName(String productName) throws DaoException {
-		List<Product> products = new ArrayList<>();
+	public void increaseAmount(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_NAME)) {
-			statement.setString(1, ZERO_OR_MORE_CHARACTERS + productName + ZERO_OR_MORE_CHARACTERS);
-			ResultSet resultSet = statement.executeQuery();
-			while (resultSet.next()) {
-				Product product = DaoEntityBuilder.buildProduct(resultSet);
-				products.add(product);
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_AMOUNT_PRODUCT)) {
+			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
+				statement.setInt(1, productAndAmount.getValue());
+				statement.setLong(2, productAndAmount.getKey().getProductId());
+				statement.addBatch();
 			}
+			statement.executeBatch();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return products;
 	}
 
 	@Override
@@ -116,20 +107,41 @@ public class ProductDaoImpl implements ProductDao {
 			throw new DaoException("database error", e);
 		}
 	}
-
+	
 	@Override
-	public void increaseAmount(Map<Product, Integer> products) throws DaoException {
+	public Optional<Product> findProductById(String productId) throws DaoException {
+		Optional<Product> productOptional;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_AMOUNT_PRODUCT)) {
-			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
-				statement.setInt(1, productAndAmount.getValue());
-				statement.setLong(2, productAndAmount.getKey().getProductId());
-				statement.addBatch();
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
+			statement.setString(1,productId);
+			ResultSet resultSet = statement.executeQuery();
+			if (resultSet.next()) {
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
+				productOptional = Optional.of(product);
+			} else {
+				productOptional = Optional.empty();
 			}
-			statement.executeBatch();
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
+		return productOptional;
+	}
+	
+	@Override
+	public List<Product> findProductsByName(String productName) throws DaoException {
+		List<Product> products = new ArrayList<>();
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCTS_BY_NAME)) {
+			statement.setString(1, ZERO_OR_MORE_CHARACTERS + productName + ZERO_OR_MORE_CHARACTERS);
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				Product product = DaoEntityBuilder.buildProduct(resultSet);
+				products.add(product);
+			}
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+		return products;
 	}
 
 	@Override
@@ -179,23 +191,9 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		return productList;
 	}
-
+	
 	@Override
-	public Optional<Product> findProductById(String productId) throws DaoException {
-		Optional<Product> productOptional;
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
-			statement.setString(1,productId);
-			ResultSet resultSet = statement.executeQuery();
-			if (resultSet.next()) {
-				Product product = DaoEntityBuilder.buildProduct(resultSet);
-				productOptional = Optional.of(product);
-			} else {
-				productOptional = Optional.empty();
-			}
-		} catch (ConnectionPoolException | SQLException e) {
-			throw new DaoException("database error", e);
-		}
-		return productOptional;
+	public List<Product> findAll() throws DaoException {
+		throw new UnsupportedOperationException("operation not supported for class ProductDaoImpl");
 	}
 }

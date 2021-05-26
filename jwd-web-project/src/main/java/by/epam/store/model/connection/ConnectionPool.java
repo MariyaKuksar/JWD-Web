@@ -45,7 +45,6 @@ public class ConnectionPool {
 		try {
 			connection = freeConnections.take();
 			givenAwayConnections.offer(connection);
-			logger.debug("getConnection");
 		} catch (InterruptedException e) {
 			Thread.currentThread().interrupt();
 			throw new ConnectionPoolException("error getting connection", e);
@@ -57,7 +56,6 @@ public class ConnectionPool {
 		boolean isReleased = false;
 		if (givenAwayConnections.remove(connection)) {
 			isReleased = freeConnections.offer((ProxyConnection) connection);
-			logger.debug("releaseConnection");
 		}
 		return isReleased;
 	}
@@ -82,7 +80,6 @@ public class ConnectionPool {
 			Driver driver = drivers.nextElement();
 			try {
 				DriverManager.deregisterDriver(driver);
-				logger.debug("deregisterDrivers");
 			} catch (SQLException e) {
 				throw new ConnectionPoolException("driver deregistration error", e);
 			}

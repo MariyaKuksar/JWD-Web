@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.PaymentMethod;
-import by.epam.store.util.ParameterAndAttribute;
 
 public class OrderBuilder implements EntityBuilder<Order> {
 	private static final OrderBuilder instance = new OrderBuilder();

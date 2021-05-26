@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.ProductList;
@@ -27,7 +28,6 @@ import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.ProductInfoValidator;
 
@@ -38,7 +38,62 @@ public class CatalogServiceImpl implements CatalogService {
 	private ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
 	private SupplyDao supplyDao = new SupplyDaoImpl();
-
+	
+	@Override
+	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
+		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
+		}
+		if (!ProductInfoValidator.isValidImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_IMAGE_NAME_MESSAGE);
+		}
+		if (!errorMessageList.isEmpty()) {
+			throw new InvalidDataException("invalid data", errorMessageList);
+		}
+		Product product = ProductBuilder.getInstance().build(productInfo);
+		try {
+			productDao.create(product);
+		} catch (DaoException e) {
+			throw new ServiceException("product creation error", e);
+		}
+	}
+	
+	@Override
+	public boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException {
+		if (suppliedProducts == null || suppliedProducts.isEmpty()) {
+			return false;
+		}
+		Supply supply = new Supply(LocalDateTime.now(), suppliedProducts);
+		try {
+			supplyDao.create(supply);
+			supplyDao.createSupplyProductConnection(supply);
+			productDao.increaseAmount(suppliedProducts);
+		} catch (DaoException e) {
+			throw new ServiceException("product accepting error", e);
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
+		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
+		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
+			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_ID_MESSAGE);
+		}
+		if (!errorMessageList.isEmpty()) {
+			throw new InvalidDataException("invalid data", errorMessageList);
+		}
+		Product product = ProductBuilder.getInstance().build(productInfo);
+		boolean productChanged;
+		try {
+			productChanged = productDao.update(product);
+		} catch (DaoException e) {
+			throw new ServiceException("product changing error", e);
+		}
+		return productChanged;
+	}
+	
 	@Override
 	public List<ProductCategory> takeAllProductCategories() throws ServiceException {
 		List<ProductCategory> productCategoties;
@@ -50,6 +105,21 @@ public class CatalogServiceImpl implements CatalogService {
 		return productCategoties;
 	}
 
+	@Override
+	public Optional<Product> takeProductById(String productId) throws ServiceException {
+		if (!IdValidator.isValidId(productId)) {
+			return Optional.empty();
+		}
+		Optional<Product> productOptional;
+		try {
+			productOptional = productDao.findProductById(productId);
+
+		} catch (DaoException e) {
+			throw new ServiceException("product search error", e);
+		}
+		return productOptional;
+	}
+	
 	@Override
 	public List<Product> takeProductsFromCategory(String categoryId, String sortingMethod) throws ServiceException {
 		if (!IdValidator.isValidId(categoryId)) {
@@ -86,45 +156,6 @@ public class CatalogServiceImpl implements CatalogService {
 			logger.error("impossible sorting method");
 		}
 		return products;
-	}
-
-	@Override
-	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
-		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
-		}
-		if (!ProductInfoValidator.isValidImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_IMAGE_NAME_MESSAGE);
-		}
-		if (!errorMessageList.isEmpty()) {
-			throw new InvalidDataException("invalid data", errorMessageList);
-		}
-		Product product = ProductBuilder.getInstance().build(productInfo);
-		try {
-			productDao.create(product);
-		} catch (DaoException e) {
-			throw new ServiceException("product creation error", e);
-		}
-	}
-
-	@Override
-	public boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
-		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
-			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_ID_MESSAGE);
-		}
-		if (!errorMessageList.isEmpty()) {
-			throw new InvalidDataException("invalid data", errorMessageList);
-		}
-		Product product = ProductBuilder.getInstance().build(productInfo);
-		boolean productChanged;
-		try {
-			productChanged = productDao.update(product);
-		} catch (DaoException e) {
-			throw new ServiceException("product changing error", e);
-		}
-		return productChanged;
 	}
 
 	@Override
@@ -168,36 +199,5 @@ public class CatalogServiceImpl implements CatalogService {
 			throw new ServiceException("products search error", e);
 		}
 		return productList;
-	}
-
-	@Override
-	public Optional<Product> takeProductById(String productId) throws ServiceException {
-		if (!IdValidator.isValidId(productId)) {
-			return Optional.empty();
-		}
-		Optional<Product> productOptional;
-		try {
-			productOptional = productDao.findProductById(productId);
-
-		} catch (DaoException e) {
-			throw new ServiceException("product search error", e);
-		}
-		return productOptional;
-	}
-
-	@Override
-	public boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException {
-		if (suppliedProducts == null || suppliedProducts.isEmpty()) {
-			return false;
-		}
-		Supply supply = new Supply(LocalDateTime.now(), suppliedProducts);
-		try {
-			supplyDao.create(supply);
-			supplyDao.createSupplyProductConnection(supply);
-			productDao.increaseAmount(suppliedProducts);
-		} catch (DaoException e) {
-			throw new ServiceException("product accepting error", e);
-		}
-		return true;
-	}
+	}	
 }

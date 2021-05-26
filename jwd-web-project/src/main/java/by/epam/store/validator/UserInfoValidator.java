@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 
 public final class UserInfoValidator {
 	private static final String LOGIN_PATTERN = "^[\\w-\\+]+(\\.[\\w-]+)*@[a-zA-Z\\d-]+(\\.[a-zA-Z\\d]+)*(\\.[a-zA-Z]{2,})$";
@@ -18,6 +18,10 @@ public final class UserInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> userInfo) {
 		List<String> errorMessageList = new ArrayList<>();
+		if(userInfo == null) {
+			errorMessageList.add(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+			return errorMessageList;
+		}
 		if (!isValidName(userInfo.get(ParameterAndAttribute.USER_NAME))) {
 			errorMessageList.add(MessageKey.ERROR_NAME_MESSAGE);
 		}

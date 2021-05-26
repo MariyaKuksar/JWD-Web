@@ -14,6 +14,8 @@ import javax.servlet.http.Part;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
+
 public final class RequestUtil {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String BUNDLE_NAME = "path";

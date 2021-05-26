@@ -5,9 +5,9 @@ import javax.servlet.http.HttpSession;
 
 import by.epam.store.controller.command.Command;
 import by.epam.store.controller.command.PagePath;
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
-import by.epam.store.util.ParameterAndAttribute;
 
 public class ChangeLocaleCommand implements Command {
 	

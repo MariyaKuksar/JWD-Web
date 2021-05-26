@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import by.epam.store.controller.command.PagePath;
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 import by.epam.store.entity.UserStatus;
@@ -24,7 +25,6 @@ import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.UserService;
 import by.epam.store.util.MailSender;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 import by.epam.store.util.PasswordEncryption;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.UserInfoValidator;
@@ -73,35 +73,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userActivated;
 	}
-
-	@Override
-	public boolean blockUser(String userId) throws ServiceException {
-		if (!IdValidator.isValidId(userId)) {
-			return false;
-		}
-		boolean userBlocked;
-		try {
-			userBlocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.ACTIVE, UserStatus.BLOCKED);
-		} catch (DaoException e) {
-			throw new ServiceException("user blocking error", e);
-		}
-		return userBlocked;
-	}
-
-	@Override
-	public boolean unblockUser(String userId) throws ServiceException {
-		if (!IdValidator.isValidId(userId)) {
-			return false;
-		}
-		boolean userUnblocked;
-		try {
-			userUnblocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.BLOCKED, UserStatus.ACTIVE);
-		} catch (DaoException e) {
-			throw new ServiceException("user unblocking error", e);
-		}
-		return userUnblocked;
-	}
-
+	
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login) || !UserInfoValidator.isValidPassword(password)) {
@@ -145,44 +117,29 @@ public class UserServiceImpl implements UserService {
 		}
 		return passwordChanged;
 	}
-
+	
 	@Override
-	public List<User> takeAllUsers() throws ServiceException {
-		List<User> users;
-		try {
-			users = userDao.findAll();
-		} catch (DaoException e) {
-			throw new ServiceException("users search error", e);
-		}
-		return users;
-	}
-
-	@Override
-	public Optional<User> takeUserByLogin(String login) throws ServiceException {
+	public boolean changePassword(String login, String currentPassword, String newPassword)
+			throws ServiceException, InvalidDataException {
 		if (!UserInfoValidator.isValidLogin(login)) {
-			return Optional.empty();
+			throw new InvalidDataException("incorrect login",
+					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
 		}
-		Optional<User> userOptional;
+		if (!UserInfoValidator.isValidPassword(newPassword)) {
+			throw new InvalidDataException("incorrect password", Arrays.asList(MessageKey.ERROR_PASSWORD_MESSAGE));
+		}
+		if (!UserInfoValidator.isValidPassword(currentPassword)) {
+			return false;
+		}
+		boolean passwordChanged;
 		try {
-			userOptional = userDao.findUserByLogin(login);
+			String encryptedPassword = PasswordEncryption.encrypt(currentPassword);
+			String encryptedNewPassword = PasswordEncryption.encrypt(newPassword);
+			passwordChanged = userDao.updatePassword(login, encryptedNewPassword, encryptedPassword);
 		} catch (DaoException e) {
-			throw new ServiceException("user search error", e);
+			throw new ServiceException("password change error", e);
 		}
-		return userOptional;
-	}
-
-	@Override
-	public Optional<User> takeUserById(String userId) throws ServiceException {
-		if (!IdValidator.isValidId(userId)) {
-			return Optional.empty();
-		}
-		Optional<User> userOptional;
-		try {
-			userOptional = userDao.findUserById(userId);
-		} catch (DaoException e) {
-			throw new ServiceException("user search error", e);
-		}
-		return userOptional;
+		return passwordChanged;
 	}
 	
 	@Override
@@ -214,29 +171,33 @@ public class UserServiceImpl implements UserService {
 		}
 		return userChanged;
 	}
-
+	
 	@Override
-	public boolean changePassword(String login, String currentPassword, String newPassword)
-			throws ServiceException, InvalidDataException {
-		if (!UserInfoValidator.isValidLogin(login)) {
-			throw new InvalidDataException("incorrect login",
-					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
-		}
-		if (!UserInfoValidator.isValidPassword(newPassword)) {
-			throw new InvalidDataException("incorrect password", Arrays.asList(MessageKey.ERROR_PASSWORD_MESSAGE));
-		}
-		if (!UserInfoValidator.isValidPassword(currentPassword)) {
+	public boolean blockUser(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
 			return false;
 		}
-		boolean passwordChanged;
+		boolean userBlocked;
 		try {
-			String encryptedPassword = PasswordEncryption.encrypt(currentPassword);
-			String encryptedNewPassword = PasswordEncryption.encrypt(newPassword);
-			passwordChanged = userDao.updatePassword(login, encryptedNewPassword, encryptedPassword);
+			userBlocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.ACTIVE, UserStatus.BLOCKED);
 		} catch (DaoException e) {
-			throw new ServiceException("password change error", e);
+			throw new ServiceException("user blocking error", e);
 		}
-		return passwordChanged;
+		return userBlocked;
+	}
+
+	@Override
+	public boolean unblockUser(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return false;
+		}
+		boolean userUnblocked;
+		try {
+			userUnblocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.BLOCKED, UserStatus.ACTIVE);
+		} catch (DaoException e) {
+			throw new ServiceException("user unblocking error", e);
+		}
+		return userUnblocked;
 	}
 
 	@Override
@@ -251,6 +212,45 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceException("message sending error", e);
 		}
 		return true;
+	}
+
+	@Override
+	public List<User> takeAllUsers() throws ServiceException {
+		List<User> users;
+		try {
+			users = userDao.findAll();
+		} catch (DaoException e) {
+			throw new ServiceException("users search error", e);
+		}
+		return users;
+	}
+	
+	@Override
+	public Optional<User> takeUserById(String userId) throws ServiceException {
+		if (!IdValidator.isValidId(userId)) {
+			return Optional.empty();
+		}
+		Optional<User> userOptional;
+		try {
+			userOptional = userDao.findUserById(userId);
+		} catch (DaoException e) {
+			throw new ServiceException("user search error", e);
+		}
+		return userOptional;
+	}
+	
+	@Override
+	public Optional<User> takeUserByLogin(String login) throws ServiceException {
+		if (!UserInfoValidator.isValidLogin(login)) {
+			return Optional.empty();
+		}
+		Optional<User> userOptional;
+		try {
+			userOptional = userDao.findUserByLogin(login);
+		} catch (DaoException e) {
+			throw new ServiceException("user search error", e);
+		}
+		return userOptional;
 	}
 
 	private boolean checkIfLoginFree(String login) throws ServiceException {

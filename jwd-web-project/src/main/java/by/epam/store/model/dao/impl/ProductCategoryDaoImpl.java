@@ -14,7 +14,6 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 
 public class ProductCategoryDaoImpl implements ProductCategoryDao {
-	//TODO private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_SELECT_ALL_PRODUCT_CATEGORIES = "SELECT ID, CATEGORY, IMAGE_NAME FROM PRODUCT_CATEGORIES";
 
 	@Override
@@ -35,13 +34,11 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao {
 
 	@Override
 	public void create(ProductCategory entity) throws DaoException {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("operation not supported for class ProductCategoryDaoImpl");
 	}
 
 	@Override
 	public boolean update(ProductCategory entity) throws DaoException {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("operation not supported for class ProductCategoryDaoImpl");
 	}
-
 }

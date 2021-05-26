@@ -2,10 +2,10 @@ package by.epam.store.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Map;
 
 public class Supply implements Serializable{
-
 	private static final long serialVersionUID = 1L;
 	private Long supplyId;
 	private LocalDateTime dateTime;
@@ -36,7 +36,7 @@ public class Supply implements Serializable{
 	}
 
 	public Map<Product, Integer> getSuppliedProducts() {
-		return suppliedProducts;
+		return Collections.unmodifiableMap(suppliedProducts);
 	}
 
 	public void setSuppliedProducts(Map<Product, Integer> suppliedProducts) {

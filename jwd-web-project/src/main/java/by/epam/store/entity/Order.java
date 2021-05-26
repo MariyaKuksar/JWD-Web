@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
-//TODO сделала внутренний класс, пересмотреть
+//TODO сделала внутренний класс Address, пересмотреть
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;

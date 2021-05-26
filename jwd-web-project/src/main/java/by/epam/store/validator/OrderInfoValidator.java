@@ -4,17 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.PaymentMethod;
 import by.epam.store.util.MessageKey;
-import by.epam.store.util.ParameterAndAttribute;
 
 public final class OrderInfoValidator {
-	private static final Logger logger = LogManager.getLogger();
 	private static final String COST_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
 	private static final String CITY_PATTERN = "^[a-zA-Zа-яА-Я-\\s\\.]{1,20}$";
 	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\\s\\.]{1,20}$";
@@ -26,6 +22,10 @@ public final class OrderInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> orderInfo) {
 		List<String> errorMessageList = new ArrayList<>();
+		if (orderInfo == null) {
+			errorMessageList.add(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+			return errorMessageList;
+		}
 		if (!OrderInfoValidator.isValidCost(orderInfo.get(ParameterAndAttribute.COST))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRICE_MESSAGE);
 		}
@@ -36,7 +36,7 @@ public final class OrderInfoValidator {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_DELVERY_METHOD_MESSAGE);
 		}
 		String deliveryMethod = orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD);
-		if (deliveryMethod!=null && DeliveryMethod.valueOf(deliveryMethod) == DeliveryMethod.DELIVERY) {
+		if (deliveryMethod!=null && DeliveryMethod.valueOf(deliveryMethod.toUpperCase()) == DeliveryMethod.DELIVERY) {
 			if (!isValidCity(orderInfo.get(ParameterAndAttribute.CITY))) {
 				errorMessageList.add(MessageKey.ERROR_INCORRECT_CITY_MESSAGE);
 			}
@@ -50,7 +50,6 @@ public final class OrderInfoValidator {
 				errorMessageList.add(MessageKey.ERROR_INCORRECT_APARTMENT_MESSAGE);
 			}
 		}
-		logger.debug(errorMessageList.toString());
 		return errorMessageList;
 	}
 
@@ -100,13 +99,11 @@ public final class OrderInfoValidator {
 	
 	public static boolean isValidOrderStatus(String orderStatus) {
 		if (orderStatus == null) {
-			logger.debug("null");
 			return false;
 		}
 		try {
 			OrderStatus.valueOf(orderStatus.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			logger.debug("IllegalArgumentException");
 			return false;
 		}
 		return true;

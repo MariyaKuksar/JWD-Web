@@ -17,18 +17,12 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderProductConnectionDao;
 
 public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao {
+	private static final String SQL_INSERT_ORDER_PRODUCT_CONNECTION = "INSERT INTO ORDER_PRODUCT_CONNECTION (ORDER_ID, PRODUCT_ID, AMOUNT_OF_PRODUCT) VALUES (?, ?, ?)";
 	private static final String SQL_UPDATE_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET AMOUNT_OF_PRODUCT=? WHERE ORDER_ID=? AND PRODUCT_ID=?";
 	private static final String SQL_UPDATE_INCREASE_AMOUNT_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET AMOUNT_OF_PRODUCT=AMOUNT_OF_PRODUCT+? WHERE ORDER_ID=? AND PRODUCT_ID=?";
-	private static final String SQL_INSERT_ORDER_PRODUCT_CONNECTION = "INSERT INTO ORDER_PRODUCT_CONNECTION (ORDER_ID, PRODUCT_ID, AMOUNT_OF_PRODUCT) VALUES (?, ?, ?)";
-	private static final String SQL_SELECT_ORDER_PRODUCT_CONNECTION_BY_ORDER_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT, AMOUNT_OF_PRODUCT FROM ORDER_PRODUCT_CONNECTION JOIN PRODUCTS ON ORDER_PRODUCT_CONNECTION.PRODUCT_ID=PRODUCTS.ID JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE ORDER_ID=?";
 	private static final String SQL_DELETE_ORDER_PRODUCT_CONNECTION = "DELETE FROM ORDER_PRODUCT_CONNECTION WHERE ORDER_ID=? AND PRODUCT_ID=?";
+	private static final String SQL_SELECT_ORDER_PRODUCT_CONNECTION_BY_ORDER_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT, AMOUNT_OF_PRODUCT FROM ORDER_PRODUCT_CONNECTION JOIN PRODUCTS ON ORDER_PRODUCT_CONNECTION.PRODUCT_ID=PRODUCTS.ID JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE ORDER_ID=?";
 	private static final int ONE_UPDATED_ROW = 1;
-
-	@Override
-	public List<OrderProductConnection> findAll() throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void create(OrderProductConnection orderProductConnection) throws DaoException {
@@ -57,12 +51,13 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 		}
 		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
-	
+
 	@Override
 	public boolean increaseAmountOfProduct(OrderProductConnection orderProductConnection) throws DaoException {
 		int numberUpdatedRows;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_AMOUNT_ORDER_PRODUCT_CONNECTION)) {
+				PreparedStatement statement = connection
+						.prepareStatement(SQL_UPDATE_INCREASE_AMOUNT_ORDER_PRODUCT_CONNECTION)) {
 			statement.setInt(1, orderProductConnection.getAmountProducts());
 			statement.setLong(2, orderProductConnection.getOrderId());
 			statement.setLong(3, orderProductConnection.getProductId());
@@ -72,7 +67,19 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 		}
 		return numberUpdatedRows == ONE_UPDATED_ROW;
 	}
-	
+
+	@Override
+	public void delete(OrderProductConnection orderProductConnection) throws DaoException {
+		try (Connection connection = ConnectionPool.getInstance().getConnection();
+				PreparedStatement statement = connection.prepareStatement(SQL_DELETE_ORDER_PRODUCT_CONNECTION)) {
+			statement.setLong(1, orderProductConnection.getOrderId());
+			statement.setLong(2, orderProductConnection.getProductId());
+			statement.executeUpdate();
+		} catch (ConnectionPoolException | SQLException e) {
+			throw new DaoException("database error", e);
+		}
+	}
+
 	@Override
 	public Map<Product, Integer> findByOrderId(Long orderId) throws DaoException {
 		Map<Product, Integer> products = new HashMap<>();
@@ -93,14 +100,7 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 	}
 
 	@Override
-	public void delete(OrderProductConnection orderProductConnection) throws DaoException {
-		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_DELETE_ORDER_PRODUCT_CONNECTION)) {
-			statement.setLong(1, orderProductConnection.getOrderId());
-			statement.setLong(2, orderProductConnection.getProductId());
-			statement.executeUpdate();
-		} catch (ConnectionPoolException | SQLException e) {
-			throw new DaoException("database error", e);
-		}
+	public List<OrderProductConnection> findAll() throws DaoException {
+		throw new UnsupportedOperationException("operation not supported for class OrderProductConnectionDaoImpl");
 	}
 }

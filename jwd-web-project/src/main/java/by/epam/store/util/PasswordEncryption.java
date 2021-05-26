@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,10 @@ public final class PasswordEncryption {
 	}
 
 	public static String encrypt(String password) {
-		//TODO нужно проверять password на null?
+		if (password == null) {
+			logger.error("password is null");
+			return StringUtils.EMPTY;
+		}
 		String encryptedPassword;
 		try {
 			MessageDigest messageDigest = MessageDigest.getInstance(MESSAGE_DIGEST_ALGORITHM);

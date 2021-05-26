@@ -10,21 +10,21 @@ import by.epam.store.entity.ProductList;
 
 public interface CatalogService {
 
+	void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
+
+	boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException;
+
+	boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
+
 	List<ProductCategory> takeAllProductCategories() throws ServiceException;
+
+	Optional<Product> takeProductById(String productId) throws ServiceException;
 
 	List<Product> takeProductsFromCategory(String categoryId, String sortingMethod) throws ServiceException;
 
 	List<Product> takeProductsWithName(String productName, String sortingMethod) throws ServiceException;
 
-	void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
-
-	boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException;
-
 	ProductList takeProductsInStock(String page) throws ServiceException;
 
 	ProductList takeProductsOnOrder(String page) throws ServiceException;
-
-	Optional<Product> takeProductById(String productId) throws ServiceException;
-
-	boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException;
 }

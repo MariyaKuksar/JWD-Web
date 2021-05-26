@@ -35,10 +35,11 @@ public class MailSender {
 
 	private MailSender() {
 	}
-
+	
 	public static void send(String email, String messageSubject, String messageText) throws MessagingException {
-		//TODO нужно проверять параметры на null????
+		//TODO проверять на null?
 		Session mailSession = Session.getDefaultInstance(properties, new Authenticator() {
+			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(properties.getProperty(MAIL_USER_NAME),
 						properties.getProperty(MAIL_USER_PASSWORD));

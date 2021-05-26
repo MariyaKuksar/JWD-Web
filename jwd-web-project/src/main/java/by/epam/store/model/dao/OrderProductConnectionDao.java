@@ -9,7 +9,7 @@ public interface OrderProductConnectionDao extends BaseDao<OrderProductConnectio
 
 	boolean increaseAmountOfProduct(OrderProductConnection orderProductConnection) throws DaoException;
 
-	Map<Product, Integer> findByOrderId(Long orderId) throws DaoException;
-
 	void delete(OrderProductConnection orderProductConnection) throws DaoException;
+	
+	Map<Product, Integer> findByOrderId(Long orderId) throws DaoException;
 }
