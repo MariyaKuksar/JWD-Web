@@ -26,7 +26,7 @@
 <body>
 <div class="wrapper">
 <%@ include file="/jsp/fragment/header.jsp" %>
-<div>
+<div class="main">
 	<div id="submit-form">
 	  <div>
 		<h1>${title}</h1>

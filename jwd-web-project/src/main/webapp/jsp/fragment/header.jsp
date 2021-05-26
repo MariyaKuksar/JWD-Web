@@ -55,9 +55,6 @@
                         <c:if test="${sessionScope.role == 'ADMIN'}">
                         <li><a href="${pageContext.request.contextPath}/controller?command=find_orders_by_status&status=placed">${orders}</a></li>
                         <li><a href="${pageContext.request.contextPath}/jsp/admin/supply.jsp">${supplies}</a>
-                            <ul class="menu2">
-                                <li><a href="${pageContext.request.contextPath}/jsp/admin/supply.jsp">${issue}</a></li>
-                            </ul>
                         </li>
                         </c:if>
                         <c:if test="${sessionScope.role == 'CLIENT'}">

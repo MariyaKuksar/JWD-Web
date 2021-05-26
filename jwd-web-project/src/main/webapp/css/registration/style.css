@@ -12,7 +12,7 @@ html {
 }
 /* ---------- REGISTRATION-FORM ---------- */
 
-body > div:first-child{
+.main {
 	margin: auto;
 	width: 70%;
 }
