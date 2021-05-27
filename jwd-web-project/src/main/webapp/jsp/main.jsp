@@ -26,7 +26,6 @@
 		<fmt:message key="local.save" var="save"/>
 		<fmt:message key="local.name" var="name"/>
 		<fmt:message key="local.price" var="price"/>
-		<fmt:message key="local.show" var="show"/>
 		<fmt:message key="local.cheap_first" var="cheap_first"/>
 		<fmt:message key="local.expensive_first" var="expensive_first"/>
 		<title>${title}</title>
@@ -44,8 +43,8 @@
     </c:if>
 	<div class="wrapper">
 	<%@ include file="/jsp/fragment/header.jsp" %>
-	<%@ include file="/jsp/fragment/error_info.jsp" %>
-	
+	<%@ include file="/jsp/fragment/error_info.jsp" %>	
+		
 	<div class="contant clearfix">
 		<div class="left">
 		    <c:if test="${sessionScope.login == null}">
@@ -88,10 +87,9 @@
 				</c:forEach>
 			</div>
 			</c:if>
-				
-			<c:if test="${requestScope.products != null}">
+	
+		<c:if test="${requestScope.products != null}">
 			<div class="menu3">
-				<p>${show}: </p>
 				<c:if test="${param.sortingMethod == 'increase_price'}">
 				<div class="filter filter_chosen">
 				</c:if>

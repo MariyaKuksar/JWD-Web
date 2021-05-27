@@ -32,6 +32,16 @@ public final class UserControl {
 		return true;
 	}
 
+	public static boolean isValidForRole(HttpServletRequest request, UserRole permissibleRole) {
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute(ParameterAndAttribute.ROLE) != permissibleRole) {
+			logger.info("impossible operation for user role");
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+			return false;
+		}
+		return true;
+	}
+
 	public static void userStatusControl(User user, HttpSession session) {
 		switch (user.getStatus()) {
 		case ACTIVE:
@@ -48,15 +58,5 @@ public final class UserControl {
 		default:
 			logger.error("unknown user status");
 		}
-	}
-
-	public static boolean isValidForRole(HttpServletRequest request, UserRole permissibleRole) {
-		HttpSession session = request.getSession(true);
-		if (session.getAttribute(ParameterAndAttribute.ROLE) != permissibleRole) {
-			logger.info("impossible operation for user role");
-			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
-			return false;
-		}
-		return true;
 	}
 }

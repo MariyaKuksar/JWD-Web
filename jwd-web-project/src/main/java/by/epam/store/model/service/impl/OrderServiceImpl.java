@@ -33,7 +33,7 @@ import by.epam.store.validator.UserInfoValidator;
 
 public class OrderServiceImpl implements OrderService {
 	private static final Logger logger = LogManager.getLogger();
-	private static final int AMOUNT_OF_PRODUCT = 1;
+	private static final int ONE_PRODUCT = 1;
 	private OrderDao orderDao = new OrderDaoImpl();
 	private OrderProductConnectionDao orderProductConnectionDao = new OrderProductConnectionDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
 				orderBasketId = takeOrderBasketId(userId);
 			}
 			OrderProductConnection orderProductConnection = new OrderProductConnection(orderBasketId,
-					Long.parseLong(productId), AMOUNT_OF_PRODUCT);
+					Long.parseLong(productId), ONE_PRODUCT);
 			if (!orderProductConnectionDao.increaseAmountOfProduct(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
@@ -264,7 +264,6 @@ public class OrderServiceImpl implements OrderService {
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);
 		if (orderBasketIdOptional.isPresent()) {
 			orderBasketId = orderBasketIdOptional.get();
-			logger.debug("order Basket Id = " + orderBasketId);
 		} else {
 			Order order = new Order(userId);
 			orderDao.create(order);
