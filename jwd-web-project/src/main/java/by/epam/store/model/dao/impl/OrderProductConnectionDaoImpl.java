@@ -22,7 +22,6 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 	private static final String SQL_UPDATE_INCREASE_AMOUNT_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET AMOUNT_OF_PRODUCT=AMOUNT_OF_PRODUCT+? WHERE ORDER_ID=? AND PRODUCT_ID=?";
 	private static final String SQL_DELETE_ORDER_PRODUCT_CONNECTION = "DELETE FROM ORDER_PRODUCT_CONNECTION WHERE ORDER_ID=? AND PRODUCT_ID=?";
 	private static final String SQL_SELECT_ORDER_PRODUCT_CONNECTION_BY_ORDER_ID = "SELECT PRODUCTS.ID, CATEGORY_ID, CATEGORY, NAME, PRODUCTS.IMAGE_NAME, PRICE, AMOUNT, AMOUNT_OF_PRODUCT FROM ORDER_PRODUCT_CONNECTION JOIN PRODUCTS ON ORDER_PRODUCT_CONNECTION.PRODUCT_ID=PRODUCTS.ID JOIN PRODUCT_CATEGORIES ON PRODUCTS.CATEGORY_ID=PRODUCT_CATEGORIES.ID WHERE ORDER_ID=?";
-	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
 	public void create(OrderProductConnection orderProductConnection) throws DaoException {
@@ -49,7 +48,7 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == ONE_UPDATED_ROW;
+		return numberUpdatedRows != 0;
 	}
 
 	@Override
@@ -65,7 +64,7 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == ONE_UPDATED_ROW;
+		return numberUpdatedRows != 0;
 	}
 
 	@Override
@@ -101,6 +100,6 @@ public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao 
 
 	@Override
 	public List<OrderProductConnection> findAll() throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class OrderProductConnectionDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
 }

@@ -35,9 +35,12 @@ public class MailSender {
 
 	private MailSender() {
 	}
-	
+
 	public static void send(String email, String messageSubject, String messageText) throws MessagingException {
-		//TODO проверять на null?
+		// TODO норм ли выбрасывать MessagingException при проверке на null
+		if (email == null || messageSubject == null || messageText == null) {
+			throw new MessagingException();
+		}
 		Session mailSession = Session.getDefaultInstance(properties, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {

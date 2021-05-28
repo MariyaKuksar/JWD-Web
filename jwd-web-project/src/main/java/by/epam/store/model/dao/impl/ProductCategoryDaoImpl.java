@@ -34,11 +34,11 @@ public class ProductCategoryDaoImpl implements ProductCategoryDao {
 
 	@Override
 	public void create(ProductCategory entity) throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class ProductCategoryDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
 
 	@Override
 	public boolean update(ProductCategory entity) throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class ProductCategoryDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
 }

@@ -29,7 +29,6 @@ public class ProductDaoImpl implements ProductDao {
 	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT SQL_CALC_FOUND_ROWS ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE AMOUNT <= 0 LIMIT ";
 	private static final String SQL_SELECT_FOUND_ROWS = "SELECT FOUND_ROWS()";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
-	private static final int ONE_UPDATED_ROW = 1;
 	private static final String SEPARATOR = ", ";
 
 	@Override
@@ -58,7 +57,7 @@ public class ProductDaoImpl implements ProductDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == ONE_UPDATED_ROW;
+		return numberUpdatedRows != 0;
 	}
 
 	@Override
@@ -194,6 +193,6 @@ public class ProductDaoImpl implements ProductDao {
 	
 	@Override
 	public List<Product> findAll() throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class ProductDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
 }

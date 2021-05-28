@@ -1,4 +1,4 @@
-package by.epam.store.entity.builder;
+package by.epam.store.entity.builder.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,6 +9,7 @@ import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.PaymentMethod;
+import by.epam.store.entity.builder.EntityBuilder;
 
 public class OrderBuilder implements EntityBuilder<Order> {
 	private static final OrderBuilder instance = new OrderBuilder();

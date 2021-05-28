@@ -9,10 +9,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderStatus;
 import by.epam.store.model.connection.ConnectionPool;
@@ -22,7 +18,6 @@ import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderDao;
 
 public class OrderDaoImpl implements OrderDao {
-	private static final Logger logger = LogManager.getLogger();
 	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, 'BASKET')";
 	private static final String SQL_UPDATE_ORDER = "UPDATE ORDERS SET DATE_TIME=?, STATUS=?, PAYMENT_METHOD=?, COST=?, DELIVERY_METHOD=?, CITY=?, STREET=?, HOUSE=?, APARTMENT=? WHERE ID=?";
 	private static final String SQL_UPDATE_ORDER_STATUS = "UPDATE ORDERS SET STATUS=? WHERE ID=? AND STATUS=?";
@@ -30,7 +25,6 @@ public class OrderDaoImpl implements OrderDao {
 	private static final String SQL_SELECT_ORDERS_BY_ID = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE ID=?";
 	private static final String SQL_SELECT_ORDERS_BY_LOGIN = "SELECT ORDERS.ID, USER_ID, DATE_TIME, ORDERS.STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS JOIN USERS ON ORDERS.USER_ID=USERS.ID WHERE LOGIN=? AND ORDERS.STATUS!='BASKET'";
 	private static final String SQL_SELECT_ORDERS_BY_STATUS = "SELECT ID, USER_ID, DATE_TIME, STATUS, PAYMENT_METHOD, COST, DELIVERY_METHOD, CITY, STREET, HOUSE, APARTMENT FROM ORDERS WHERE STATUS=?";
-	private static final int ONE_UPDATED_ROW = 1;
 
 	@Override
 	public void create(Order order) throws DaoException {
@@ -42,7 +36,6 @@ public class OrderDaoImpl implements OrderDao {
 			ResultSet resultSet = statement.getGeneratedKeys();
 			if (resultSet.next()) {
 				order.setOrderId(resultSet.getLong(1));
-				logger.debug("create order" + order.toString());
 			}
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
@@ -68,9 +61,9 @@ public class OrderDaoImpl implements OrderDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == ONE_UPDATED_ROW;
+		return numberUpdatedRows != 0;
 	}
-	
+
 	@Override
 	public boolean updateStatus(String orderId, OrderStatus statusFrom, OrderStatus statusTo) throws DaoException {
 		int numberUpdatedRows;
@@ -83,9 +76,9 @@ public class OrderDaoImpl implements OrderDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows == ONE_UPDATED_ROW;
+		return numberUpdatedRows != 0;
 	}
-	
+
 	@Override
 	public Optional<Long> findOrderBasketId(Long userId) throws DaoException {
 		Optional<Long> orderBasketIdOptional;
@@ -97,7 +90,6 @@ public class OrderDaoImpl implements OrderDao {
 				Long orderBasketId = resultSet.getLong(ColumnName.ORDERS_ID);
 				orderBasketIdOptional = Optional.of(orderBasketId);
 			} else {
-				logger.info("userId " + userId + "don't have order basket");
 				orderBasketIdOptional = Optional.empty();
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -105,7 +97,7 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		return orderBasketIdOptional;
 	}
-	
+
 	@Override
 	public Optional<Order> findOrderById(String orderId) throws DaoException {
 		Optional<Order> orderOptional;
@@ -124,7 +116,7 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		return orderOptional;
 	}
-	
+
 	@Override
 	public List<Order> findOrdersByLogin(String login) throws DaoException {
 		List<Order> orders = new ArrayList<>();
@@ -158,9 +150,9 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		return orders;
 	}
-	
+
 	@Override
 	public List<Order> findAll() throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class OrderDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
 }

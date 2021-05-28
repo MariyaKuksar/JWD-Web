@@ -16,7 +16,7 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 import by.epam.store.entity.UserStatus;
-import by.epam.store.entity.builder.UserBuilder;
+import by.epam.store.entity.builder.impl.UserBuilder;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.UserDao;
 import by.epam.store.model.dao.impl.UserDaoImpl;

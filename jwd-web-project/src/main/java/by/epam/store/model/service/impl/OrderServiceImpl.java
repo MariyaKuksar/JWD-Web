@@ -14,7 +14,7 @@ import by.epam.store.entity.OrderProductConnection;
 import by.epam.store.entity.OrderStatus;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.UserRole;
-import by.epam.store.entity.builder.OrderBuilder;
+import by.epam.store.entity.builder.impl.OrderBuilder;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderDao;
 import by.epam.store.model.dao.OrderProductConnectionDao;

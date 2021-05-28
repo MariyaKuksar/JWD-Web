@@ -1,12 +1,14 @@
 package by.epam.store.entity;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductList {
-	List<Product> products;
-	int currentPageNumber;
-	int numberOfPages;
+public class ProductList implements Serializable{
+	private static final long serialVersionUID = 1L;
+	private List<Product> products;
+	private int currentPageNumber;
+	private int numberOfPages;
 	
 	public ProductList() {
 	}

@@ -58,15 +58,4 @@ public class Controller extends HttpServlet {
 				break;
 			}
 	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		try {
-			ConnectionPool.getInstance().destroyPool();
-		} catch (ConnectionPoolException e) {
-			logger.fatal("error closing connection", e);
-			throw new RuntimeException("error closing connection", e);
-		}
-	}
 }

@@ -15,7 +15,7 @@ import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.ProductList;
 import by.epam.store.entity.Supply;
-import by.epam.store.entity.builder.ProductBuilder;
+import by.epam.store.entity.builder.impl.ProductBuilder;
 import by.epam.store.entity.comparator.ProductComparator;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;

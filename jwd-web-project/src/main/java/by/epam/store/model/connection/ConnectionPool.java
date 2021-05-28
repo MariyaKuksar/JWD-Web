@@ -23,6 +23,9 @@ public class ConnectionPool {
 	}
 
 	private ConnectionPool() {
+	}
+
+	public void initPool() throws ConnectionPoolException {
 		freeConnections = new ArrayBlockingQueue<ProxyConnection>(DEFAULT_POOL_SIZE);
 		givenAwayConnections = new ArrayBlockingQueue<ProxyConnection>(DEFAULT_POOL_SIZE);
 		for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
@@ -35,8 +38,7 @@ public class ConnectionPool {
 			}
 		}
 		if (freeConnections.isEmpty()) {
-			logger.fatal("database access error");
-			throw new RuntimeException("database access error");
+			throw new ConnectionPoolException("connection pool initialization error");
 		}
 	}
 

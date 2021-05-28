@@ -46,5 +46,4 @@ public class ChangeAmountOfProductInBasketCommand implements Command {
 		}
 		return router;
 	}
-
 }

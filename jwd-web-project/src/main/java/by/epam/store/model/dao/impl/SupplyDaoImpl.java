@@ -34,7 +34,7 @@ public class SupplyDaoImpl implements SupplyDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-	}	
+	}
 
 	@Override
 	public void createSupplyProductConnection(Supply supply) throws DaoException {
@@ -51,14 +51,14 @@ public class SupplyDaoImpl implements SupplyDao {
 			throw new DaoException("database error", e);
 		}
 	}
-	
+
 	@Override
 	public boolean update(Supply supply) throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class SupplyDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
-	
+
 	@Override
 	public List<Supply> findAll() throws DaoException {
-		throw new UnsupportedOperationException("operation not supported for class SupplyDaoImpl");
+		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());
 	}
 }

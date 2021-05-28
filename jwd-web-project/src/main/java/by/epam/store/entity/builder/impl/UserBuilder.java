@@ -1,9 +1,10 @@
-package by.epam.store.entity.builder;
+package by.epam.store.entity.builder.impl;
 
 import java.util.Map;
 
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.User;
+import by.epam.store.entity.builder.EntityBuilder;
 
 public class UserBuilder implements EntityBuilder<User> {
 	private static final UserBuilder instance = new UserBuilder();
