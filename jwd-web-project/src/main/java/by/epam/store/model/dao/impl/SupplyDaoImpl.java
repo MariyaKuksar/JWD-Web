@@ -18,7 +18,7 @@ import by.epam.store.model.dao.SupplyDao;
 
 public class SupplyDaoImpl implements SupplyDao {
 	private static final String SQL_INSERT_SUPPLY = "INSERT INTO SUPPLIES (DATA_TIME) VALUES (?)";
-	private static final String SQL_INSERT_SUPPLY_PRODUCT_CONNECTION = "INSERT INTO SUPPLY_PRODUCT_CONNECTION (SUPPLY_ID, PRODUCT_ID, AMOUNT_OF_PRODUCT) VALUES (?,?,?)";
+	private static final String SQL_INSERT_SUPPLY_PRODUCT_CONNECTION = "INSERT INTO SUPPLY_PRODUCT_CONNECTION (SUPPLY_ID, PRODUCT_ID, QUANTITY_OF_PRODUCT) VALUES (?,?,?)";
 
 	@Override
 	public void create(Supply supply) throws DaoException {
@@ -40,10 +40,10 @@ public class SupplyDaoImpl implements SupplyDao {
 	public void createSupplyProductConnection(Supply supply) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_INSERT_SUPPLY_PRODUCT_CONNECTION)) {
-			for (Map.Entry<Product, Integer> productAndAmount : supply.getSuppliedProducts().entrySet()) {
+			for (Map.Entry<Product, Integer> productAndQuantity : supply.getSuppliedProducts().entrySet()) {
 				statement.setLong(1, supply.getSupplyId());
-				statement.setLong(2, productAndAmount.getKey().getProductId());
-				statement.setInt(3, productAndAmount.getValue());
+				statement.setLong(2, productAndQuantity.getKey().getProductId());
+				statement.setInt(3, productAndQuantity.getValue());
 				statement.addBatch();
 			}
 			statement.executeBatch();

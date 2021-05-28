@@ -6,15 +6,15 @@ public class OrderProductConnection implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
 	private Long productId;
-	private int amountProducts;
+	private int quantityOfProducts;
 	
 	public OrderProductConnection() {
 	}
 
-	public OrderProductConnection(Long orderId, Long productId, int amountProducts) {
+	public OrderProductConnection(Long orderId, Long productId, int quantityOfProducts) {
 		this.orderId = orderId;
 		this.productId = productId;
-		this.amountProducts = amountProducts;
+		this.quantityOfProducts = quantityOfProducts;
 	}
 
 	public OrderProductConnection(Long orderId, Long productId) {
@@ -38,19 +38,19 @@ public class OrderProductConnection implements Serializable {
 		this.productId = productId;
 	}
 
-	public int getAmountProducts() {
-		return amountProducts;
+	public int getQuantityOfProducts() {
+		return quantityOfProducts;
 	}
 
-	public void setAmountProducts(int amountProducts) {
-		this.amountProducts = amountProducts;
+	public void setQuantityOfProducts(int quantityOfProducts) {
+		this.quantityOfProducts = quantityOfProducts;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + amountProducts;
+		result = prime * result + quantityOfProducts;
 		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
 		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
 		return result;
@@ -65,7 +65,7 @@ public class OrderProductConnection implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		OrderProductConnection other = (OrderProductConnection) obj;
-		if (amountProducts != other.amountProducts)
+		if (quantityOfProducts != other.quantityOfProducts)
 			return false;
 		if (orderId == null) {
 			if (other.orderId != null)
@@ -87,8 +87,8 @@ public class OrderProductConnection implements Serializable {
 		builder.append(orderId);
 		builder.append(", productId=");
 		builder.append(productId);
-		builder.append(", amountProducts=");
-		builder.append(amountProducts);
+		builder.append(", quantityOfProducts=");
+		builder.append(quantityOfProducts);
 		builder.append("]");
 		return builder.toString();
 	}

@@ -1,7 +1,7 @@
 package by.epam.store.controller.command;
 
 public final class ParameterAndAttribute {
-	public static final String AMOUNT_PRODUCT = "amountProduct";
+	public static final String QUANTITY_OF_PRODUCT = "quantityOfProduct";
 	public static final String APARTMENT = "apartment";
 	public static final String CATEGORY_ID = "categoryId";
 	public static final String CITY = "city";

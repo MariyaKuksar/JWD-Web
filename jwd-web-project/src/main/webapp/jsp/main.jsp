@@ -113,10 +113,10 @@
                         <div class="image"><img src="${pageContext.request.contextPath}/upload?imageName=${product.imageName}" alt="${product.productName}"></div>
                         <div class="name"><p>${product.productName}</p></div>
                         <div class="price"><p>${product.price}$</p></div>
-                        <c:if test="${product.amount > 0}">
+                        <c:if test="${product.quantity > 0}">
                         <div class="status"><p>${in_stock}</p></div>
                         </c:if>
-                        <c:if test="${product.amount < 1}">
+                        <c:if test="${product.quantity < 1}">
                         <div class="status"><p>${on_order}</p></div>
                         </c:if>
 						<c:if test="${sessionScope.role == 'CLIENT'}">

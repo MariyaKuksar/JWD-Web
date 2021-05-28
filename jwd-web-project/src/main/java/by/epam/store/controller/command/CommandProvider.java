@@ -12,7 +12,7 @@ import by.epam.store.controller.command.impl.AddProductToCatalogCommand;
 import by.epam.store.controller.command.impl.AddProductToSupplyCommand;
 import by.epam.store.controller.command.impl.BlockUserCommand;
 import by.epam.store.controller.command.impl.CancelOrderCommand;
-import by.epam.store.controller.command.impl.ChangeAmountOfProductInBasketCommand;
+import by.epam.store.controller.command.impl.ChangeQuantityOfProductInBasketCommand;
 import by.epam.store.controller.command.impl.ChangeLocaleCommand;
 import by.epam.store.controller.command.impl.ChangePasswordCommand;
 import by.epam.store.controller.command.impl.ChangeProductDataCommand;
@@ -54,7 +54,7 @@ public final class CommandProvider {
 		commands.put(CommandType.ADD_PRODUCT_TO_SUPPLY, new AddProductToSupplyCommand());
 		commands.put(CommandType.BLOCK_USER, new BlockUserCommand());
 		commands.put(CommandType.CANCEL_ORDER, new CancelOrderCommand());
-		commands.put(CommandType.CHANGE_AMOUNT_OF_PRODUCT_IN_BASKET, new ChangeAmountOfProductInBasketCommand());
+		commands.put(CommandType.CHANGE_QUANTITY_OF_PRODUCT_IN_BASKET, new ChangeQuantityOfProductInBasketCommand());
 		commands.put(CommandType.CHANGE_PASSWORD, new ChangePasswordCommand());
 		commands.put(CommandType.CHANGE_PRODUCT_DATA, new ChangeProductDataCommand());
 		commands.put(CommandType.CHANGE_USER_DATA, new ChangeUserDataCommand());

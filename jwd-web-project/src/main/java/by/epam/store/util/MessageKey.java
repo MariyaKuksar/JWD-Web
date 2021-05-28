@@ -31,7 +31,7 @@ public final class MessageKey {
 	public static final String ERROR_CONFIRMATION_MESSAGE = "local.error.confirmation";
 	public static final String ERROR_INCORRECT_PASSWORD_MESSAGE = "local.error.incorrect_password";
 	public static final String ERROR_NO_SUCH_PRODUCT_MESSAGE = "local.error.no_such_product";
-	public static final String ERROR_INCORRECT_AMOUNT_PRODUCTS = "local.error.incorrect_amount_products";
+	public static final String ERROR_INCORRECT_QUANTITY_OF_PRODUCTS = "local.error.incorrect_quantity_of_products";
 	
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";

@@ -20,13 +20,13 @@ import by.epam.store.model.dao.ProductDao;
 public class ProductDaoImpl implements ProductDao {
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";
-	private static final String SQL_UPDATE_REDUCE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT-? WHERE ID=?";
-	private static final String SQL_UPDATE_INCREASE_AMOUNT_PRODUCT = "UPDATE PRODUCTS SET AMOUNT=AMOUNT+? WHERE ID=?";
-	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE CATEGORY_ID=?";
-	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE NAME LIKE ?";
-	private static final String SQL_SELECT_PRODUCT_BY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE PRODUCTS.ID=?";
-	private static final String SQL_SELECT_PRODUCTS_IN_STOCK = "SELECT SQL_CALC_FOUND_ROWS ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE AMOUNT > 0 LIMIT ";
-	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT SQL_CALC_FOUND_ROWS ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, AMOUNT FROM PRODUCTS WHERE AMOUNT <= 0 LIMIT ";
+	private static final String SQL_UPDATE_REDUCE_QUANTITY_PRODUCT = "UPDATE PRODUCTS SET QUANTITY=QUANTITY-? WHERE ID=?";
+	private static final String SQL_UPDATE_INCREASE_QUANTITY_PRODUCT = "UPDATE PRODUCTS SET QUANTITY=QUANTITY+? WHERE ID=?";
+	private static final String SQL_SELECT_PRODUCTS_BY_CATEGORY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, QUANTITY FROM PRODUCTS WHERE CATEGORY_ID=?";
+	private static final String SQL_SELECT_PRODUCTS_BY_NAME = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, QUANTITY FROM PRODUCTS WHERE NAME LIKE ?";
+	private static final String SQL_SELECT_PRODUCT_BY_ID = "SELECT ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, QUANTITY FROM PRODUCTS WHERE PRODUCTS.ID=?";
+	private static final String SQL_SELECT_PRODUCTS_IN_STOCK = "SELECT SQL_CALC_FOUND_ROWS ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, QUANTITY FROM PRODUCTS WHERE QUANTITY > 0 LIMIT ";
+	private static final String SQL_SELECT_PRODUCTS_ON_ORDER = "SELECT SQL_CALC_FOUND_ROWS ID, CATEGORY_ID, NAME, IMAGE_NAME, PRICE, QUANTITY FROM PRODUCTS WHERE QUANTITY <= 0 LIMIT ";
 	private static final String SQL_SELECT_FOUND_ROWS = "SELECT FOUND_ROWS()";
 	private static final String ZERO_OR_MORE_CHARACTERS = "%";
 	private static final String SEPARATOR = ", ";
@@ -78,12 +78,12 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public void increaseAmount(Map<Product, Integer> products) throws DaoException {
+	public void increaseQuantity(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_AMOUNT_PRODUCT)) {
-			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
-				statement.setInt(1, productAndAmount.getValue());
-				statement.setLong(2, productAndAmount.getKey().getProductId());
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_QUANTITY_PRODUCT)) {
+			for (Map.Entry<Product, Integer> productAndQuantity : products.entrySet()) {
+				statement.setInt(1, productAndQuantity.getValue());
+				statement.setLong(2, productAndQuantity.getKey().getProductId());
 				statement.addBatch();
 			}
 			statement.executeBatch();
@@ -93,12 +93,12 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public void reduceAmount(Map<Product, Integer> products) throws DaoException {
+	public void reduceQuantity(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
-				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_REDUCE_AMOUNT_PRODUCT)) {
-			for (Map.Entry<Product, Integer> productAndAmount : products.entrySet()) {
-				statement.setInt(1, productAndAmount.getValue());
-				statement.setLong(2, productAndAmount.getKey().getProductId());
+				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_REDUCE_QUANTITY_PRODUCT)) {
+			for (Map.Entry<Product, Integer> productAndQuantity : products.entrySet()) {
+				statement.setInt(1, productAndQuantity.getValue());
+				statement.setLong(2, productAndQuantity.getKey().getProductId());
 				statement.addBatch();
 			}
 			statement.executeBatch();

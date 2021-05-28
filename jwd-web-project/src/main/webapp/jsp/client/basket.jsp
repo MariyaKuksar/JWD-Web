@@ -16,7 +16,7 @@
   <fmt:message key="local.in_total" var="in_total"/>
   <fmt:message key="local.product" var="product"/>
   <fmt:message key="local.price" var="price"/>
-  <fmt:message key="local.amount" var="amount"/>
+  <fmt:message key="local.quantity" var="quantity"/>
   <fmt:message key="local.availability" var="availability"/>
   <fmt:message key="local.cost" var="cost"/>
   <fmt:message key="local.delete" var="delete"/>
@@ -47,7 +47,7 @@
 				<tr>
 					<th colspan="2">${product}</th>
 					<th>${price}</th>
-					<th>${amount}</th>
+					<th>${quantity}</th>
 					<th>${availability}</th>
 					<th>${cost}</th>
 					<th>${delete}</th>
@@ -65,16 +65,16 @@
 				
 				<td>			
 					<form action="${pageContext.request.contextPath}/controller" method="post">
-						<input type="hidden" name="command" value="change_amount_of_product_in_basket"/>
+						<input type="hidden" name="command" value="change_quantity_of_product_in_basket"/>
 						<input type="hidden" name="productId" value="${product.key.productId}"/>
-						<input type="number" name="amountProduct" required placeholder="${product.value}" min="1" max="10"/>
+						<input type="number" name="quantityOfProduct" required placeholder="${product.value}" min="1" max="10"/>
 						<input type="submit" value="${save}"/>
 					</form>
 				</td>
 				
 				<td>
-					<c:if test="${product.key.amount-product.value >= 0}">${in_stock}</c:if>
-					<c:if test="${product.key.amount-product.value < 0}">${on_order}</c:if>
+					<c:if test="${product.key.quantity-product.value >= 0}">${in_stock}</c:if>
+					<c:if test="${product.key.quantity-product.value < 0}">${on_order}</c:if>
 				</td>
 				
 				<td><c:out value="${product.key.price * product.value}" />$</td>

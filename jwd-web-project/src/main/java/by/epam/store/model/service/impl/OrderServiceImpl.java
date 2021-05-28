@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 			OrderProductConnection orderProductConnection = new OrderProductConnection(orderBasketId,
 					Long.parseLong(productId), ONE_PRODUCT);
-			if (!orderProductConnectionDao.increaseAmountOfProduct(orderProductConnection)) {
+			if (!orderProductConnectionDao.increaseQuantityOfProduct(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
 			orderBasket = new Order(orderBasketId, userId);
@@ -62,21 +62,21 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct)
+	public boolean changeQuantityOfProductInOrder(Long orderId, String productId, String quantityOfProduct)
 			throws ServiceException {
 		if (orderId == null || !IdValidator.isValidId(productId)
-				|| !ProductInfoValidator.isValidAmount(amountProduct)) {
+				|| !ProductInfoValidator.isValidQuantity(quantityOfProduct)) {
 			return false;
 		}
-		boolean amountOfProductChanged;
+		boolean quantityOfProductChanged;
 		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId),
-				Integer.parseInt(amountProduct));
+				Integer.parseInt(quantityOfProduct));
 		try {
-			amountOfProductChanged = orderProductConnectionDao.update(orderProductConnection);
+			quantityOfProductChanged = orderProductConnectionDao.update(orderProductConnection);
 		} catch (DaoException e) {
-			throw new ServiceException("error changing amount of product in order", e);
+			throw new ServiceException("error changing quantity of product in order", e);
 		}
-		return amountOfProductChanged;
+		return quantityOfProductChanged;
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class OrderServiceImpl implements OrderService {
 			orderPlaced = orderDao.update(order);
 			if (orderPlaced) {
 				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(order.getOrderId());
-				productDao.reduceAmount(products);
+				productDao.reduceQuantity(products);
 			}
 		} catch (DaoException e) {
 			throw new ServiceException("order updating error", e);
@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
 			orderCanceled = orderDao.updateStatus(orderId, statusFrom, OrderStatus.CANCELED);
 			if (orderCanceled) {
 				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
-				productDao.increaseAmount(products);
+				productDao.increaseQuantity(products);
 			}
 		} catch (DaoException e) {
 			throw new ServiceException("orders changing status error", e);

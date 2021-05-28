@@ -18,7 +18,7 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
-public class ChangeAmountOfProductInBasketCommand implements Command {
+public class ChangeQuantityOfProductInBasketCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 	
 	@Override
@@ -32,16 +32,16 @@ public class ChangeAmountOfProductInBasketCommand implements Command {
 		OrderService orderService = ServiceFactory.getInstance().getOrderService();
 		Long orderBasketId = (Long) session.getAttribute(ParameterAndAttribute.ORDER_BASKET_ID);
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
-		String amountProduct = request.getParameter(ParameterAndAttribute.AMOUNT_PRODUCT);
+		String quantityOfProduct = request.getParameter(ParameterAndAttribute.QUANTITY_OF_PRODUCT);
 		try {
-			if(orderService.changeAmountOfProductInOrder(orderBasketId, productId, amountProduct)) {
+			if(orderService.changeQuantityOfProductInOrder(orderBasketId, productId, quantityOfProduct)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_SAVE_MESSAGE);
 			}
 			router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("error changing amount of product in basket", e);
+			logger.error("error changing quantity of product in basket", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

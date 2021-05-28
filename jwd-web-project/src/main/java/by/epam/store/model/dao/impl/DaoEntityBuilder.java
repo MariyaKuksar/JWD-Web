@@ -46,7 +46,7 @@ final class DaoEntityBuilder {
 		product.setProductName(resultSet.getString(ColumnName.PRODUCTS_NAME));
 		product.setImageName(resultSet.getString(ColumnName.PRODUCTS_IMAGE_NAME));
 		product.setPrice(resultSet.getBigDecimal(ColumnName.PRODUCTS_PRICE));
-		product.setAmount(resultSet.getInt(ColumnName.PRODUCTS_AMOUNT));
+		product.setQuantity(resultSet.getInt(ColumnName.PRODUCTS_QUANTITY));
 		return product;
 	}
 

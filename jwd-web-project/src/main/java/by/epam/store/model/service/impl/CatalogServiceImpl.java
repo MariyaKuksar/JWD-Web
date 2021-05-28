@@ -68,7 +68,7 @@ public class CatalogServiceImpl implements CatalogService {
 		try {
 			supplyDao.create(supply);
 			supplyDao.createSupplyProductConnection(supply);
-			productDao.increaseAmount(suppliedProducts);
+			productDao.increaseQuantity(suppliedProducts);
 		} catch (DaoException e) {
 			throw new ServiceException("product accepting error", e);
 		}
@@ -191,7 +191,7 @@ public class CatalogServiceImpl implements CatalogService {
 			productList.setCurrentPageNumber(pageNumber);
 			if (!productList.getProducts().isEmpty()) {
 				for (Product product : productList.getProducts()) {
-					product.setAmount(Math.abs(product.getAmount()));
+					product.setQuantity(Math.abs(product.getQuantity()));
 				}
 			}
 		} catch (DaoException e) {

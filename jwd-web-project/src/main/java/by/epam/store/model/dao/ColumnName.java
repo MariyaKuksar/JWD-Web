@@ -18,7 +18,7 @@ public final class ColumnName {
 	public static final String PRODUCTS_NAME = "name";
 	public static final String PRODUCTS_IMAGE_NAME = "image_name";
 	public static final String PRODUCTS_PRICE = "price";
-	public static final String PRODUCTS_AMOUNT = "amount";
+	public static final String PRODUCTS_QUANTITY = "quantity";
 	
 	public static final String ORDERS_ID = "id";
 	public static final String ORDERS_USER_ID = "user_id";
@@ -32,7 +32,7 @@ public final class ColumnName {
 	public static final String ORDERS_HOUSE = "house";
 	public static final String ORDERS_APARTMENT = "apartment";
 	
-	public static final String ORDER_PRODUCT_CONNECTION_AMOUNT_OF_PRODUCT = "amount_of_product";
+	public static final String ORDER_PRODUCT_CONNECTION_QUANTITY_OF_PRODUCT = "quantity_of_product";
 	
 	private ColumnName() {
 	}

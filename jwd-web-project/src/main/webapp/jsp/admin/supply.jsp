@@ -10,7 +10,7 @@
   <fmt:setLocale value="${sessionScope.locale}"/>
   <fmt:setBundle basename="local"/>
   <fmt:message key="local.title.supply" var="title"/>
-  <fmt:message key="local.amount" var="amount"/>
+  <fmt:message key="local.quantity" var="quantity"/>
   <fmt:message key="local.accept" var="accept"/>
   <fmt:message key="local.pc" var="pc"/>
   <fmt:message key="local.add" var="add"/>
@@ -36,8 +36,8 @@
 		<input type="hidden" name="command" value="add_product_to_supply"/>
 		<label>${article}:</label>
 		<input type="number" name="productId" required placeholder="" min="1" max="9223372036854775807"/>
-		<label>${amount}:</label>
-		<input type="number" name="amountProduct" required placeholder="" min="1" max="99"/>
+		<label>${quantity}:</label>
+		<input type="number" name="quantityOfProduct" required placeholder="" min="1" max="99"/>
 		<input type="submit" value="${add}">
     </form>
 	
@@ -50,7 +50,7 @@
 			<tr>
 				<th>${article}</th>
 				<th colspan="2">${product}</th>
-				<th>${amount}</th>
+				<th>${quantity}</th>
 			</tr>
 		</thead>
 	<c:forEach var="product" items="${sessionScope.suppliedProducts}">

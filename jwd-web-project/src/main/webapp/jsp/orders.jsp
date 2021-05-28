@@ -26,7 +26,7 @@
   <fmt:message key="local.email" var="email"/>
   <fmt:message key="local.process" var="process"/>
   <fmt:message key="local.price" var="price"/>
-  <fmt:message key="local.amount" var="amount"/>
+  <fmt:message key="local.quantity" var="quantity"/>
   <fmt:message key="local.cost" var="cost"/>
   <fmt:message key="local.payment_method" var="payment_method"/>
   <fmt:message key="local.delivery_method" var="delivery_method"/>
@@ -167,7 +167,7 @@
 						<tr>
 							<th colspan="2"><fmt:message key="local.product"/></th>
 							<th>${price}</th>
-							<th>${amount}</th>
+							<th>${quantity}</th>
 							<th>${cost}</th>
 						</tr>
 					</thead>

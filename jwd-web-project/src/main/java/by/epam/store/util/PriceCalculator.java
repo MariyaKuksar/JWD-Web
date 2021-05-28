@@ -15,10 +15,10 @@ public final class PriceCalculator {
 		if (products == null) {
 			return totalCost;
 		}
-		for (Map.Entry<Product, Integer> productAndAmount: products.entrySet()) {
-			BigDecimal price = productAndAmount.getKey().getPrice();
-			BigDecimal amount = new BigDecimal(productAndAmount.getValue());
-			BigDecimal productCost = price.multiply(amount);
+		for (Map.Entry<Product, Integer> productAndQuantity: products.entrySet()) {
+			BigDecimal price = productAndQuantity.getKey().getPrice();
+			BigDecimal quantity = new BigDecimal(productAndQuantity.getValue());
+			BigDecimal productCost = price.multiply(quantity);
 			totalCost = totalCost.add(productCost);
 		}
 		return totalCost;		

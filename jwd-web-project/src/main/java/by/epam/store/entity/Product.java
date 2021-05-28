@@ -10,7 +10,7 @@ public class Product implements Serializable {
 	private String productName;
 	private String imageName;
 	private BigDecimal price;
-	private int amount;
+	private int quantity;
 
 	public Product() {
 	}
@@ -55,19 +55,19 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public int getAmount() {
-		return amount;
+	public int getQuantity() {
+		return quantity;
 	}
 
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + amount;
+		result = prime * result + quantity;
 		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
 		result = prime * result + ((imageName == null) ? 0 : imageName.hashCode());
 		result = prime * result + ((price == null) ? 0 : price.hashCode());
@@ -85,7 +85,7 @@ public class Product implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		if (amount != other.amount)
+		if (quantity != other.quantity)
 			return false;
 		if (categoryId == null) {
 			if (other.categoryId != null)
@@ -128,8 +128,8 @@ public class Product implements Serializable {
 		builder.append(imageName);
 		builder.append(", price=");
 		builder.append(price);
-		builder.append(", amount=");
-		builder.append(amount);
+		builder.append(", quantity=");
+		builder.append(quantity);
 		builder.append("]");
 		return builder.toString();
 	}

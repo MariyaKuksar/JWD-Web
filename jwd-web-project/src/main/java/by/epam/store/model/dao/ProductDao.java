@@ -9,9 +9,9 @@ import by.epam.store.entity.ProductList;
 
 public interface ProductDao extends BaseDao<Product> {
 
-	void increaseAmount(Map<Product, Integer> products) throws DaoException;
+	void increaseQuantity(Map<Product, Integer> products) throws DaoException;
 
-	void reduceAmount(Map<Product, Integer> products) throws DaoException;
+	void reduceQuantity(Map<Product, Integer> products) throws DaoException;
 
 	List<Product> findProductsByCategoryId(String categoryId) throws DaoException;
 	

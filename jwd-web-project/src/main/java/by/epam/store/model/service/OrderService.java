@@ -11,7 +11,7 @@ public interface OrderService {
 
 	Optional<Order> addProductToBasket(Long userId, Long orderBasketId, String productId) throws ServiceException;
 
-	boolean changeAmountOfProductInOrder(Long orderId, String productId, String amountProduct) throws ServiceException;
+	boolean changeQuantityOfProductInOrder(Long orderId, String productId, String quantityOfProduct) throws ServiceException;
 	
 	boolean removeProductFromOrder(Long orderId, String productId) throws ServiceException;
 	

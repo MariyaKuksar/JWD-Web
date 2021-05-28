@@ -13,7 +13,7 @@
   <fmt:message key="local.article" var="article"/>
   <fmt:message key="local.product" var="product"/>
   <fmt:message key="local.price" var="price"/>
-  <fmt:message key="local.amount" var="amount"/>
+  <fmt:message key="local.quantity" var="quantity"/>
   <fmt:message key="local.in_stock" var="in_stock"/>
   <fmt:message key="local.on_order" var="on_order"/>
   <fmt:message key="local.pc" var="pc"/>
@@ -41,7 +41,7 @@
 				    <th>${article}</th>
 					<th colspan="2">${product}</th>
 					<th>${price}</th>
-					<th>${amount}</th>
+					<th>${quantity}</th>
 				</tr>
 			</thead>
 			<c:forEach var="product" items="${requestScope.products}">
@@ -56,7 +56,7 @@
 
 				<td>${product.price}$</td>
 
-				<td>${product.amount} ${pc}</td>
+				<td>${product.quantity} ${pc}</td>
 			</tr>
 			</c:forEach>
 		</table>
