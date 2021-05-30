@@ -35,10 +35,11 @@ public class AddProductToSupplyCommand implements Command {
 		}
 		HttpSession session = request.getSession(true);
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
-		@SuppressWarnings("unchecked") // TODO компилятор предупреждает что непроверенное привидение и требует эту аннотацию, как тут быть?
-		Map<Product, Integer> suppliedProducts = (Map<Product, Integer>) session.getAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS);
+		@SuppressWarnings("unchecked")
+		Map<Product, Integer> suppliedProducts = (Map<Product, Integer>) session
+				.getAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS);
 		if (suppliedProducts == null) {
-			suppliedProducts = new HashMap<Product, Integer>();
+			suppliedProducts = new HashMap<>();
 		}
 		String productId = request.getParameter(ParameterAndAttribute.PRODUCT_ID);
 		String quantityOfProduct = request.getParameter(ParameterAndAttribute.QUANTITY_OF_PRODUCT);
@@ -50,16 +51,14 @@ public class AddProductToSupplyCommand implements Command {
 				if (suppliedProducts.computeIfPresent(product, (key, val) -> val + numberOfProducts) == null) {
 					suppliedProducts.put(product, numberOfProducts);
 				}
-				session.setAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS, suppliedProducts);	
+				session.setAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS, suppliedProducts);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
-						MessageKey.ERROR_NO_SUCH_PRODUCT_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_NO_SUCH_PRODUCT_MESSAGE);
 			}
 			router = new Router(PagePath.SUPPLY, RouteType.REDIRECT);
 		} catch (NumberFormatException e) {
 			logger.error("invalid number of products", e);
-			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
-					MessageKey.ERROR_INCORRECT_QUANTITY_OF_PRODUCTS);
+			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_INCORRECT_QUANTITY_OF_PRODUCTS);
 			router = new Router(PagePath.SUPPLY, RouteType.REDIRECT);
 		} catch (ServiceException e) {
 			logger.error("error adding product to supply", e);

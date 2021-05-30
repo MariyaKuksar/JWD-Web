@@ -33,8 +33,7 @@ public class AcceptProductsCommand implements Command {
 		}
 		HttpSession session = request.getSession(true);
 		CatalogService catalogService = ServiceFactory.getInstance().getCatalogService();
-		@SuppressWarnings("unchecked") // TODO компилятор предупреждает что непроверенное привидение и требует эту
-										// аннотацию, как тут быть?
+		@SuppressWarnings("unchecked")
 		Map<Product, Integer> suppliedProducts = (Map<Product, Integer>) session
 				.getAttribute(ParameterAndAttribute.SUPPLIED_PRODUCTS);
 		try {
