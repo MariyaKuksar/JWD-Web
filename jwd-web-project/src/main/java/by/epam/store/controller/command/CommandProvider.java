@@ -99,7 +99,7 @@ public final class CommandProvider {
 		try {
 			commandType = CommandType.valueOf(commandName.toUpperCase());
 		} catch (IllegalArgumentException e) {
-			logger.error("no such command name " + commandName);
+			logger.error("no such command name " + commandName, e);
 			commandType = CommandType.DEFAULT;
 		}
 		return commands.get(commandType);

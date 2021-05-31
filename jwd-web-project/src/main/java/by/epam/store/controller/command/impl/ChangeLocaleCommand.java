@@ -10,7 +10,7 @@ import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 
 public class ChangeLocaleCommand implements Command {
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -20,7 +20,7 @@ public class ChangeLocaleCommand implements Command {
 		if (page != null) {
 			router = new Router(page, RouteType.REDIRECT);
 		} else {
-			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
+			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);	
 		}
 		return router;
 	}

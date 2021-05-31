@@ -44,7 +44,6 @@ public class SignInCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_LOGIN_MESSAGE);
 			}
 			String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
-			logger.debug(page);
 			router = new Router(page, RouteType.REDIRECT);
 		} catch (ServiceException e) {
 			logger.error("user search error", e);

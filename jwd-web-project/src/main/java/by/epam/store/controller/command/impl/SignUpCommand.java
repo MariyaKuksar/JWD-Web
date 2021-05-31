@@ -35,7 +35,7 @@ public class SignUpCommand implements Command {
 					MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
 			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
-			logger.error("invalid data " + userInfo.toString(), e);
+			logger.error("invalid data", e);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
 			router = new Router(PagePath.REGISTRATION, RouteType.REDIRECT);
 		} catch (ServiceException e) {

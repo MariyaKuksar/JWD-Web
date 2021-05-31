@@ -5,8 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Order;
@@ -32,7 +30,6 @@ import by.epam.store.validator.ProductInfoValidator;
 import by.epam.store.validator.UserInfoValidator;
 
 public class OrderServiceImpl implements OrderService {
-	private static final Logger logger = LogManager.getLogger();
 	private static final int ONE_PRODUCT = 1;
 	private OrderDao orderDao = new OrderDaoImpl();
 	private OrderProductConnectionDao orderProductConnectionDao = new OrderProductConnectionDaoImpl();
@@ -235,9 +232,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public List<Order> takeOrdersByStatus(String orderStatus) throws ServiceException {
-		logger.debug(orderStatus);
 		if (!OrderInfoValidator.isValidOrderStatus(orderStatus)) {
-			logger.debug(false);
 			return Collections.emptyList();
 		}
 		List<Order> orders;

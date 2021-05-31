@@ -47,11 +47,11 @@ public class ChangeUserDataCommand implements Command {
 			}		
 			router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
-			logger.error("invalid data " + userInfo.toString(), e);
+			logger.error("invalid data", e);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
 			router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("user changing error", e);
+			logger.error("user data changing error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

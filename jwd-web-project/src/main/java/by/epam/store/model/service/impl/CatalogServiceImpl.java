@@ -38,7 +38,7 @@ public class CatalogServiceImpl implements CatalogService {
 	private ProductCategoryDao productCategoryDao = new ProductCategoryDaoImpl();
 	private ProductDao productDao = new ProductDaoImpl();
 	private SupplyDao supplyDao = new SupplyDaoImpl();
-	
+
 	@Override
 	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
@@ -58,7 +58,7 @@ public class CatalogServiceImpl implements CatalogService {
 			throw new ServiceException("product creation error", e);
 		}
 	}
-	
+
 	@Override
 	public boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException {
 		if (suppliedProducts == null || suppliedProducts.isEmpty()) {
@@ -74,7 +74,7 @@ public class CatalogServiceImpl implements CatalogService {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
@@ -93,7 +93,7 @@ public class CatalogServiceImpl implements CatalogService {
 		}
 		return productChanged;
 	}
-	
+
 	@Override
 	public List<ProductCategory> takeAllProductCategories() throws ServiceException {
 		List<ProductCategory> productCategoties;
@@ -118,7 +118,7 @@ public class CatalogServiceImpl implements CatalogService {
 		}
 		return productOptional;
 	}
-	
+
 	@Override
 	public List<Product> takeProductsFromCategory(String categoryId, String sortingMethod) throws ServiceException {
 		if (!IdValidator.isValidId(categoryId)) {
@@ -133,7 +133,7 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (DaoException e) {
 			throw new ServiceException("products from category search error", e);
 		} catch (IllegalArgumentException e) {
-			logger.error("impossible sorting method");
+			logger.error("impossible sorting method", e);
 		}
 		return products;
 	}
@@ -152,7 +152,7 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
 		} catch (IllegalArgumentException e) {
-			logger.error("impossible sorting method");
+			logger.error("impossible sorting method", e);
 		}
 		return products;
 	}
@@ -198,5 +198,5 @@ public class CatalogServiceImpl implements CatalogService {
 			throw new ServiceException("products search error", e);
 		}
 		return productList;
-	}	
+	}
 }

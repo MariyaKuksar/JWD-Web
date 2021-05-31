@@ -19,13 +19,11 @@ public final class UserControl {
 	public static boolean isLoggedInUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
-			logger.info("session timed out");
 			session = request.getSession(true);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_SESSION_TIMED_OUT_MESSAGE);
 			return false;
 		}
 		if (session.getAttribute(ParameterAndAttribute.LOGIN) == null) {
-			logger.info("not logged in user");
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_NEED_TO_LOGIN_MESSAGE);
 			return false;
 		}
@@ -35,7 +33,6 @@ public final class UserControl {
 	public static boolean isValidForRole(HttpServletRequest request, UserRole permissibleRole) {
 		HttpSession session = request.getSession(true);
 		if (session.getAttribute(ParameterAndAttribute.ROLE) != permissibleRole) {
-			logger.info("impossible operation for user role");
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 			return false;
 		}
@@ -56,7 +53,7 @@ public final class UserControl {
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_BLOCKED_USER_MESSAGE);
 			break;
 		default:
-			logger.error("unknown user status");
+			logger.error("unknown user status: " + user.getStatus());
 		}
 	}
 }

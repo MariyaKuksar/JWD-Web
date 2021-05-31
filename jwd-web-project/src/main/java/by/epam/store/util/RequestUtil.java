@@ -11,13 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.Part;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import by.epam.store.controller.command.ParameterAndAttribute;
 
 public final class RequestUtil {
-	private static final Logger logger = LogManager.getLogger();
 	private static final String BUNDLE_NAME = "path";
 	private static final String PATH_IMG = "path.img";
 
@@ -31,7 +27,6 @@ public final class RequestUtil {
 		for (String name : Collections.list(parameterNames)) {
 			parameters.put(name, request.getParameter(name));
 		}
-		logger.debug(parameters);
 		for (Part part : request.getParts()) {
 			if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
 				String imageName = FileUtil.generateName(part.getSubmittedFileName());
@@ -50,7 +45,6 @@ public final class RequestUtil {
 		for (String name : Collections.list(parameterNames)) {
 			parameters.put(name, request.getParameter(name));
 		}
-		logger.debug(parameters);
 		return parameters;
 	}
 }

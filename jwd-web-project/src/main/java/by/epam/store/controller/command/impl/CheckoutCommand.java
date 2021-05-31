@@ -47,7 +47,7 @@ public class CheckoutCommand implements Command {
 				router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
 			}
 		} catch (InvalidDataException e) {
-			logger.error("invalid data " + orderInfo.toString(), e);
+			logger.error("invalid data", e);
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
 			router = new Router(PagePath.GO_TO_BASKET_PAGE, RouteType.REDIRECT);
 		} catch (ServiceException e) {

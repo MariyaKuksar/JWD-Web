@@ -45,7 +45,6 @@ public class AddProductToBasketCommand implements Command {
 				String page = (String) session.getAttribute(ParameterAndAttribute.CURRENT_PAGE);
 				router = new Router(page, RouteType.REDIRECT);
 			} else {
-				logger.error("impossible operation, invalid data");
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
 						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);

@@ -48,21 +48,18 @@ public class FileUploadingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String commandName = request.getParameter(ParameterAndAttribute.COMMAND);
-		logger.debug("command = " + commandName);
 		Command command = CommandProvider.defineCommand(commandName);
 		Router router = command.execute(request);
 		switch (router.getRouteType()) {
 		case REDIRECT:
-			logger.debug("redirect " + router.getPagePath());
 			response.sendRedirect(router.getPagePath());
 			break;
 		case FORWARD:
-			logger.debug("forward " + router.getPagePath());
 			RequestDispatcher dispatcher = request.getRequestDispatcher(router.getPagePath());
 			dispatcher.forward(request, response);
 			break;
 		default:
-			logger.error("incorrect route type");
+			logger.error("incorrect route type " + router.getRouteType());
 			response.sendRedirect(PagePath.ERROR);
 			break;
 		}

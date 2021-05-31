@@ -30,11 +30,11 @@ import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.UserInfoValidator;
 
 public class UserServiceImpl implements UserService {
-	private UserDao userDao = new UserDaoImpl();
 	private static final String BUNDLE_NAME = "path";
 	private static final String PATH_APP = "path.app";
 	private static final int NUMBER_PASSWORD_CHARACTERS = 8;
-
+	private UserDao userDao = new UserDaoImpl();
+	
 	@Override
 	public void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = UserInfoValidator.findInvalidData(userInfo);

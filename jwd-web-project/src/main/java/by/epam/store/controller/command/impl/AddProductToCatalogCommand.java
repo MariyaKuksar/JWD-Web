@@ -46,7 +46,7 @@ public class AddProductToCatalogCommand implements Command {
 			String categoryId = request.getParameter(ParameterAndAttribute.CATEGORY_ID);
 			router = new Router(PagePath.SHOW_PRODUCTS_FROM_CATEGORY + categoryId, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
-			logger.error("invalid data: " + productInfo, e);
+			logger.error("invalid data", e);
 			FileUtil.deleteFile(
 					productInfo.get(ParameterAndAttribute.PATH) + productInfo.get(ParameterAndAttribute.IMAGE_NAME));
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
