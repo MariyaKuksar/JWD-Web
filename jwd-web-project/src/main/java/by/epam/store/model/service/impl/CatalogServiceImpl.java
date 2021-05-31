@@ -189,10 +189,9 @@ public class CatalogServiceImpl implements CatalogService {
 		try {
 			productList = productDao.findProductsOnOrder(start, RECORDS_PER_PAGES);
 			productList.setCurrentPageNumber(pageNumber);
-			if (!productList.getProducts().isEmpty()) {
-				for (Product product : productList.getProducts()) {
-					product.setQuantity(Math.abs(product.getQuantity()));
-				}
+			List<Product> products = productList.getProducts();
+			if (!products.isEmpty()) {
+				products.forEach(product -> product.setQuantity(Math.abs(product.getQuantity())));
 			}
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
