@@ -11,10 +11,10 @@ import by.epam.store.entity.PaymentMethod;
 import by.epam.store.util.MessageKey;
 
 public final class OrderInfoValidator {
-	private static final String COST_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
-	private static final String CITY_PATTERN = "^[a-zA-Zа-яА-Я-\\s\\.]{1,20}$";
-	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\\s\\.]{1,20}$";
-	private static final String HOUSE_PATTERN = "^\\d{1,3}[\\s-/]?[абвгд\\d]?$";
+	private static final String COST_PATTERN = "^[1-9]\\d{0,8}(\\.\\d{2})?$";
+	private static final String CITY_PATTERN = "^[a-zA-Zа-яА-Я-\\s\\.]{1,45}$";
+	private static final String STREET_PATTERN = "^[\\da-zA-Zа-яА-Я-\\s\\.]{1,45}$";
+	private static final String HOUSE_PATTERN = "^\\d{1,3}[\\s-/]?[абвгдАБВГД\\d]?$";
 	private static final String APARTMENT_PATTERN = "[\\d]{0,4}";
 
 	private OrderInfoValidator() {

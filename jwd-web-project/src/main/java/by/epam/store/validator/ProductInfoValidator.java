@@ -9,7 +9,7 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.XssProtectUtil;
 
 public final class ProductInfoValidator {
-	private static final String PRICE_PATTERN = "^\\d{1,8}(\\.\\d{2})?$";
+	private static final String PRICE_PATTERN = "^[1-9]\\d{0,8}(\\.\\d{2})?$";
 	private static final String IMAGE_NAME_PATTERN = "^.{1,40}\\.jpg$";
 	private static final String NAME_PATTERN = "^.{1,45}$";
 	private static final String QUANTITY_PATTERN = "^\\d{1,2}$";

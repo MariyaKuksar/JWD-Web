@@ -113,9 +113,9 @@
                         <div id="DELIVERY_method_info">
                             <label>${address}:</label>
                             <br/>
-                            <label>${city}:<input type="text" name="city" placeholder="${city}" pattern="[a-zA-Zа-яА-Я-\s\.]{1,20}"/></label>
-                            <label>${street}:<input type="text" name="street" placeholder="${street}" pattern="[\da-zA-Zа-яА-Я-\s\.]{1,20}"/></label>
-                            <label>${house}:<input type="text" name="house" placeholder="${house}" pattern="\d{1,3}[\s-\/]?[абвгд\d]?"/></label>
+                            <label>${city}:<input type="text" name="city" placeholder="${city}" pattern="[a-zA-Zа-яА-Я-\s\.]{1,45}"/></label>
+                            <label>${street}:<input type="text" name="street" placeholder="${street}" pattern="[\da-zA-Zа-яА-Я-\s\.]{1,45}"/></label>
+                            <label>${house}:<input type="text" name="house" placeholder="${house}" pattern="\d{1,3}[\s-\/]?[абвгдАБВГД\d]?"/></label>
                             <label>${apartment}:<input type="number" name="apartment" placeholder="${apartment}" min="1" max="9999"/></label>
                         </div>
                     </div>
