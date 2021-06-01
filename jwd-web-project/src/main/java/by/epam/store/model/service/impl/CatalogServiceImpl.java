@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -61,7 +62,7 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public boolean acceptProducts(Map<Product, Integer> suppliedProducts) throws ServiceException {
-		if (suppliedProducts == null || suppliedProducts.isEmpty()) {
+		if (MapUtils.isEmpty(suppliedProducts)) {
 			return false;
 		}
 		Supply supply = new Supply(LocalDateTime.now(), suppliedProducts);

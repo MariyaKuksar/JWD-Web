@@ -48,7 +48,6 @@ public class Controller extends HttpServlet {
 		default:
 			logger.error("incorrect route type " + router.getRouteType());
 			response.sendRedirect(PagePath.ERROR);
-			break;
 		}
 	}
 }
