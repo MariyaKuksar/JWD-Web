@@ -127,4 +127,57 @@ public class CatalogServiceImplTest {
 		Mockito.when(productDao.findProductById(Mockito.anyString())).thenThrow(DaoException.class);
 		catalogService.takeProductById("1");
 	}
+	
+	@Test 
+	public void takeProductsFromCategoryTest01() throws DaoException, ServiceException{
+		List<Product> expected = new ArrayList<>();
+		expected.add(product);
+		Mockito.when(productDao.findProductsByCategoryId(Mockito.anyString())).thenReturn(expected);
+		List<Product> actual = catalogService.takeProductsFromCategory("1", null);
+		Assert.assertEquals(actual, expected);
+	}
+	
+	@Test 
+	public void takeProductsFromCategoryTest02() throws DaoException, ServiceException{
+		List<Product> expected = Collections.emptyList();
+		Mockito.when(productDao.findProductsByCategoryId(Mockito.anyString())).thenReturn(expected);
+		List<Product> actual = catalogService.takeProductsFromCategory("f", null);
+		Assert.assertEquals(actual, expected);
+	}
+	
+	@Test (expectedExceptions = ServiceException.class)
+	public void takeProductsFromCategoryTest03() throws DaoException, ServiceException{
+		Mockito.when(productDao.findProductsByCategoryId(Mockito.anyString())).thenThrow(DaoException.class);
+		catalogService.takeProductsFromCategory("1", null);
+	}
+	
+	@Test 
+	public void takeProductsWithNameTest01() throws DaoException, ServiceException{
+		List<Product> expected = new ArrayList<>();
+		expected.add(product);
+		Mockito.when(productDao.findProductsByName(Mockito.anyString())).thenReturn(expected);
+		List<Product> actual = catalogService.takeProductsWithName("desk", null);
+		Assert.assertEquals(actual, expected);
+	}
+	
+	@Test 
+	public void takeProductsWithNameTest02() throws DaoException, ServiceException{
+		List<Product> expected = Collections.emptyList();
+		Mockito.when(productDao.findProductsByName(Mockito.anyString())).thenReturn(expected);
+		List<Product> actual = catalogService.takeProductsWithName("kitchen", null);
+		Assert.assertEquals(actual, expected);
+	}
+	
+	@Test 
+	public void takeProductsWithNameTest03() throws DaoException, ServiceException{
+		List<Product> expected = Collections.emptyList();
+		List<Product> actual = catalogService.takeProductsWithName(null, null);
+		Assert.assertEquals(actual, expected);
+	}
+	
+	@Test (expectedExceptions = ServiceException.class)
+	public void takeProductsWithNameTest04() throws DaoException, ServiceException{
+		Mockito.when(productDao.findProductsByName(Mockito.anyString())).thenThrow(DaoException.class);
+		catalogService.takeProductsWithName("desk", null);
+	}
 }
