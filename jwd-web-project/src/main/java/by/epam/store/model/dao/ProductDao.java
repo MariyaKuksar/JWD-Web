@@ -19,7 +19,7 @@ public interface ProductDao extends BaseDao<Product> {
 
 	List<Product> findProductsByName(String productName) throws DaoException;
 
-	ProductList findProductsInStock(int start, int recordsPerPages) throws DaoException;
+	ProductList findProductsInStock(int startPozition, int recordsPerPages) throws DaoException;
 
-	ProductList findProductsOnOrder(int start, int recordsPerPages) throws DaoException;
+	ProductList findProductsOnOrder(int startPozition, int recordsPerPages) throws DaoException;
 }

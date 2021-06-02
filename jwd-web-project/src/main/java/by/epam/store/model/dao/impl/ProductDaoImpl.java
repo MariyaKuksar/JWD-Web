@@ -106,13 +106,13 @@ public class ProductDaoImpl implements ProductDao {
 			throw new DaoException("database error", e);
 		}
 	}
-	
+
 	@Override
 	public Optional<Product> findProductById(String productId) throws DaoException {
 		Optional<Product> productOptional;
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_SELECT_PRODUCT_BY_ID)) {
-			statement.setString(1,productId);
+			statement.setString(1, productId);
 			ResultSet resultSet = statement.executeQuery();
 			if (resultSet.next()) {
 				Product product = DaoEntityBuilder.buildProduct(resultSet);
@@ -125,7 +125,7 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		return productOptional;
 	}
-	
+
 	@Override
 	public List<Product> findProductsByName(String productName) throws DaoException {
 		List<Product> products = new ArrayList<>();
@@ -144,11 +144,12 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public ProductList findProductsInStock(int start, int recordsPerPages) throws DaoException {
+	public ProductList findProductsInStock(int startPozition, int recordsPerPages) throws DaoException {
 		ProductList productList = new ProductList();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_IN_STOCK + start + SEPARATOR + recordsPerPages);
+			ResultSet resultSet = statement
+					.executeQuery(SQL_SELECT_PRODUCTS_IN_STOCK + startPozition + SEPARATOR + recordsPerPages);
 			List<Product> products = new ArrayList<>();
 			while (resultSet.next()) {
 				Product product = DaoEntityBuilder.buildProduct(resultSet);
@@ -158,7 +159,7 @@ public class ProductDaoImpl implements ProductDao {
 			resultSet = statement.executeQuery(SQL_SELECT_FOUND_ROWS);
 			if (resultSet.next()) {
 				int numberOfRows = resultSet.getInt(1);
-				int numberOfPages = (int) Math.ceil((double)numberOfRows / recordsPerPages);
+				int numberOfPages = (int) Math.ceil((double) numberOfRows / recordsPerPages);
 				productList.setNumberOfPages(numberOfPages);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -168,11 +169,12 @@ public class ProductDaoImpl implements ProductDao {
 	}
 
 	@Override
-	public ProductList findProductsOnOrder(int start, int recordsPerPages) throws DaoException {
+	public ProductList findProductsOnOrder(int startPozition, int recordsPerPages) throws DaoException {
 		ProductList productList = new ProductList();
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				Statement statement = connection.createStatement()) {
-			ResultSet resultSet = statement.executeQuery(SQL_SELECT_PRODUCTS_ON_ORDER + start + SEPARATOR + recordsPerPages);
+			ResultSet resultSet = statement
+					.executeQuery(SQL_SELECT_PRODUCTS_ON_ORDER + startPozition + SEPARATOR + recordsPerPages);
 			List<Product> products = new ArrayList<>();
 			while (resultSet.next()) {
 				Product product = DaoEntityBuilder.buildProduct(resultSet);
@@ -182,7 +184,7 @@ public class ProductDaoImpl implements ProductDao {
 			resultSet = statement.executeQuery(SQL_SELECT_FOUND_ROWS);
 			if (resultSet.next()) {
 				int numberOfRows = resultSet.getInt(1);
-				int numberOfPages = (int) Math.ceil((double)numberOfRows / recordsPerPages);
+				int numberOfPages = (int) Math.ceil((double) numberOfRows / recordsPerPages);
 				productList.setNumberOfPages(numberOfPages);
 			}
 		} catch (ConnectionPoolException | SQLException e) {
@@ -190,7 +192,7 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		return productList;
 	}
-	
+
 	@Override
 	public List<Product> findAll() throws DaoException {
 		throw new UnsupportedOperationException("operation not supported for class " + this.getClass().getName());

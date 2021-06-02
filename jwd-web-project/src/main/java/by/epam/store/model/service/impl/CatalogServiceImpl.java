@@ -97,13 +97,13 @@ public class CatalogServiceImpl implements CatalogService {
 
 	@Override
 	public List<ProductCategory> takeAllProductCategories() throws ServiceException {
-		List<ProductCategory> productCategoties;
+		List<ProductCategory> productCategories;
 		try {
-			productCategoties = productCategoryDao.findAll();
+			productCategories = productCategoryDao.findAll();
 		} catch (DaoException e) {
 			throw new ServiceException("product categories search error", e);
 		}
-		return productCategoties;
+		return productCategories;
 	}
 
 	@Override
@@ -166,10 +166,10 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (NumberFormatException e) {
 			pageNumber = DEFAULT_PAGE_NUMBER;
 		}
-		int start = pageNumber * RECORDS_PER_PAGES - RECORDS_PER_PAGES;
+		int startPozition = pageNumber * RECORDS_PER_PAGES - RECORDS_PER_PAGES;
 		ProductList productList;
 		try {
-			productList = productDao.findProductsInStock(start, RECORDS_PER_PAGES);
+			productList = productDao.findProductsInStock(startPozition, RECORDS_PER_PAGES);
 			productList.setCurrentPageNumber(pageNumber);
 		} catch (DaoException e) {
 			throw new ServiceException("products search error", e);
@@ -185,10 +185,10 @@ public class CatalogServiceImpl implements CatalogService {
 		} catch (NumberFormatException e) {
 			pageNumber = DEFAULT_PAGE_NUMBER;
 		}
-		int start = pageNumber * RECORDS_PER_PAGES - RECORDS_PER_PAGES;
+		int startPozition = pageNumber * RECORDS_PER_PAGES - RECORDS_PER_PAGES;
 		ProductList productList;
 		try {
-			productList = productDao.findProductsOnOrder(start, RECORDS_PER_PAGES);
+			productList = productDao.findProductsOnOrder(startPozition, RECORDS_PER_PAGES);
 			productList.setCurrentPageNumber(pageNumber);
 			List<Product> products = productList.getProducts();
 			if (!products.isEmpty()) {
