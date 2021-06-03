@@ -12,7 +12,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validCost")
-	public void isValidCostTest01(String cost) {
+	public void isValidCostPositiveTest(String cost) {
 		Assert.assertTrue(OrderInfoValidator.isValidCost(cost));
 	}
 
@@ -22,7 +22,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidCost")
-	public void isValidCostTest02(String cost) {
+	public void isValidCostNegativeTest(String cost) {
 		Assert.assertFalse(OrderInfoValidator.isValidCost(cost));
 	}
 
@@ -32,7 +32,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validPaymentMethod")
-	public void isValidPaymentMethodTest01(String paymentMethod) {
+	public void isValidPaymentMethodPositiveTest(String paymentMethod) {
 		Assert.assertTrue(OrderInfoValidator.isValidPaymentMethod(paymentMethod));
 	}
 
@@ -42,7 +42,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidPaymentMethod")
-	public void isValidPaymentMethodTest02(String paymentMethod) {
+	public void isValidPaymentMethodNegativeTest(String paymentMethod) {
 		Assert.assertFalse(OrderInfoValidator.isValidPaymentMethod(paymentMethod));
 	}
 
@@ -52,7 +52,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validDeliveryMethod")
-	public void isValidDeliveryMethodTest01(String deliveryMethod) {
+	public void isValidDeliveryMethodPositiveTest(String deliveryMethod) {
 		Assert.assertTrue(OrderInfoValidator.isValidDeliveryMethod(deliveryMethod));
 	}
 
@@ -62,7 +62,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidDeliveryMethod")
-	public void isValidDeliveryMethodTest02(String deliveryMethod) {
+	public void isValidDeliveryMethodNegativeTest(String deliveryMethod) {
 		Assert.assertFalse(OrderInfoValidator.isValidDeliveryMethod(deliveryMethod));
 	}
 
@@ -72,7 +72,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validCity")
-	public void isValidCityTest01(String city) {
+	public void isValidCityPositiveTest(String city) {
 		Assert.assertTrue(OrderInfoValidator.isValidCity(city));
 	}
 
@@ -82,7 +82,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidCity")
-	public void isValidCityTest02(String city) {
+	public void isValidCityNegativeTest(String city) {
 		Assert.assertFalse(OrderInfoValidator.isValidCity(city));
 	}
 
@@ -92,7 +92,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validStreet")
-	public void isValidStreetTest01(String street) {
+	public void isValidStreetPositiveTest(String street) {
 		Assert.assertTrue(OrderInfoValidator.isValidStreet(street));
 	}
 
@@ -102,7 +102,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidStreet")
-	public void isValidStreetTest02(String street) {
+	public void isValidStreetNegativeTest(String street) {
 		Assert.assertFalse(OrderInfoValidator.isValidStreet(street));
 	}
 
@@ -112,7 +112,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validHouse")
-	public void isValidHouseTest01(String house) {
+	public void isValidHousePositiveTest(String house) {
 		Assert.assertTrue(OrderInfoValidator.isValidHouse(house));
 	}
 
@@ -122,7 +122,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidHouse")
-	public void isValidHouseTest02(String house) {
+	public void isValidHouseNegativeTest(String house) {
 		Assert.assertFalse(OrderInfoValidator.isValidHouse(house));
 	}
 
@@ -132,7 +132,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validApartment")
-	public void isValidApartmentTest01(String apartment) {
+	public void isValidApartmentPositiveTest(String apartment) {
 		Assert.assertTrue(OrderInfoValidator.isValidApartment(apartment));
 	}
 
@@ -142,7 +142,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidApartment")
-	public void isValidApartmentTest02(String apartment) {
+	public void isValidApartmentNegativeTest(String apartment) {
 		Assert.assertFalse(OrderInfoValidator.isValidApartment(apartment));
 	}
 
@@ -152,7 +152,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validOrderStatus")
-	public void isValidOrderStatusTest01(String orderStatus) {
+	public void isValidOrderStatusPositiveTest(String orderStatus) {
 		Assert.assertTrue(OrderInfoValidator.isValidOrderStatus(orderStatus));
 	}
 
@@ -162,7 +162,7 @@ public class OrderInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidOrderStatus")
-	public void isValidOrderStatusTest02(String orderStatus) {
+	public void isValidOrderStatusNegativeTest(String orderStatus) {
 		Assert.assertFalse(OrderInfoValidator.isValidOrderStatus(orderStatus));
 	}
 }

@@ -12,7 +12,7 @@ public class ProductInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validPrice")
-	public void isValidPriceTest01(String price) {
+	public void isValidPricePositiveTest(String price) {
 		Assert.assertTrue(ProductInfoValidator.isValidPrice(price));
 	}
 
@@ -22,7 +22,7 @@ public class ProductInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidPrice")
-	public void isValidPriceTest02(String price) {
+	public void isValidPriceNegativeTest(String price) {
 		Assert.assertFalse(ProductInfoValidator.isValidPrice(price));
 	}
 
@@ -32,7 +32,7 @@ public class ProductInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validImageName")
-	public void isValidImageNameTest01(String imageName) {
+	public void isValidImageNamePositiveTest(String imageName) {
 		Assert.assertTrue(ProductInfoValidator.isValidImageName(imageName));
 	}
 
@@ -42,47 +42,47 @@ public class ProductInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidImageName")
-	public void isValidImageNameTest02(String imageName) {
+	public void isValidImageNameNegativeTest(String imageName) {
 		Assert.assertFalse(ProductInfoValidator.isValidImageName(imageName));
 	}
-	
+
 	@DataProvider(name = "validName")
 	public static Object[][] validName() {
 		return new Object[][] { { "Desk BLACK" }, { "Стол Натуральный" }, { "Cupboard <MONTESSORI>" } };
 	}
 
 	@Test(dataProvider = "validName")
-	public void isValidNameTest01(String name) {
+	public void isValidNamePositiveTest(String name) {
 		Assert.assertTrue(ProductInfoValidator.isValidName(name));
 	}
-	
+
 	@DataProvider(name = "invalidName")
 	public static Object[][] invalidName() {
 		return new Object[][] { { "" }, { null }, { "dfdgfgfgtfhg htfgyfh fghgfhrshr tyrdstytryyh  ghthtrhthth" } };
 	}
 
 	@Test(dataProvider = "invalidName")
-	public void isValidNameTest02(String name) {
+	public void isValidNameNegativeTest(String name) {
 		Assert.assertFalse(ProductInfoValidator.isValidName(name));
 	}
-	
+
 	@DataProvider(name = "validQuantity")
 	public static Object[][] validQuantity() {
 		return new Object[][] { { "1" }, { "0" }, { "99" } };
 	}
 
 	@Test(dataProvider = "validQuantity")
-	public void isValidQuantityTest01(String quantity) {
+	public void isValidQuantityPositiveTest(String quantity) {
 		Assert.assertTrue(ProductInfoValidator.isValidQuantity(quantity));
 	}
-	
+
 	@DataProvider(name = "invalidQuantity")
 	public static Object[][] invalidQuantity() {
 		return new Object[][] { { null }, { "f" }, { "257527" } };
 	}
 
 	@Test(dataProvider = "invalidQuantity")
-	public void isValidQuantityTest02(String quantity) {
+	public void isValidQuantityNegativeTest(String quantity) {
 		Assert.assertFalse(ProductInfoValidator.isValidQuantity(quantity));
 	}
 }

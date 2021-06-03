@@ -59,11 +59,11 @@ final class DaoEntityBuilder {
 		}
 		order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));
 		if (resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD) != null) {
-			order.setPaymentMethod(PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD)));
+			order.setPaymentMethod(PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD).toUpperCase()));
 		}
 		order.setCost(resultSet.getBigDecimal(ColumnName.ORDERS_COST));
 		if (resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD) != null) {
-			order.setDeliveryMethod(DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD)));
+			order.setDeliveryMethod(DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD).toUpperCase()));
 		}
 		order.getAddress().setCity(resultSet.getString(ColumnName.ORDERS_CITY));
 		order.getAddress().setStreet(resultSet.getString(ColumnName.ORDERS_STREET));

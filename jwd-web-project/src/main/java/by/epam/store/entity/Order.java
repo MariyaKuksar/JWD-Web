@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
-//TODO сделала внутренний класс Address, пересмотреть
+//TODO сделала внутренний класс Address, пересмотреть как переопределяю equals hashCode
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
@@ -103,13 +103,6 @@ public class Order implements Serializable {
 	}
 
 	@Override
-	public String toString() {
-		return "Order [orderId=" + orderId + ", userId=" + userId + ", orderStatus=" + orderStatus + ", products="
-				+ products + ", cost=" + cost + ", dateTime=" + dateTime + ", paymentMethod=" + paymentMethod
-				+ ", deliveryMethod=" + deliveryMethod + ", address=" + address + "]";
-	}
-
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -173,6 +166,33 @@ public class Order implements Serializable {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Order [orderId=");
+		builder.append(orderId);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", orderStatus=");
+		builder.append(orderStatus);
+		builder.append(", products=");
+		builder.append(products);
+		builder.append(", cost=");
+		builder.append(cost);
+		builder.append(", dateTime=");
+		builder.append(dateTime);
+		builder.append(", paymentMethod=");
+		builder.append(paymentMethod);
+		builder.append(", deliveryMethod=");
+		builder.append(deliveryMethod);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append("]");
+		return builder.toString();
+	}
+
+
+
 	public class Address {
 		private String city;
 		private String street;
@@ -218,7 +238,6 @@ public class Order implements Serializable {
 		public int hashCode() {
 			final int prime = 31;
 			int result = 1;
-			result = prime * result + getEnclosingInstance().hashCode();
 			result = prime * result + ((apartment == null) ? 0 : apartment.hashCode());
 			result = prime * result + ((city == null) ? 0 : city.hashCode());
 			result = prime * result + ((house == null) ? 0 : house.hashCode());
@@ -235,8 +254,6 @@ public class Order implements Serializable {
 			if (getClass() != obj.getClass())
 				return false;
 			Address other = (Address) obj;
-			if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
-				return false;
 			if (apartment == null) {
 				if (other.apartment != null)
 					return false;
@@ -260,10 +277,6 @@ public class Order implements Serializable {
 			return true;
 		}
 
-		private Order getEnclosingInstance() {
-			return Order.this;
-		}
-
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
@@ -277,6 +290,6 @@ public class Order implements Serializable {
 			builder.append(apartment);
 			builder.append("]");
 			return builder.toString();
-		}
+		}	
 	}
 }

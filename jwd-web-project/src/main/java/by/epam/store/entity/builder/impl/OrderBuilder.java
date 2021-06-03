@@ -28,8 +28,8 @@ public class OrderBuilder implements EntityBuilder<Order> {
 		order.setOrderStatus(OrderStatus.PLACED);
 		order.setCost(new BigDecimal(orderInfo.get(ParameterAndAttribute.COST)));
 		order.setDateTime(LocalDateTime.now());
-		order.setPaymentMethod(PaymentMethod.valueOf(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD)));
-		order.setDeliveryMethod(DeliveryMethod.valueOf(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD)));
+		order.setPaymentMethod(PaymentMethod.valueOf(orderInfo.get(ParameterAndAttribute.PAYMENT_METHOD).toUpperCase()));
+		order.setDeliveryMethod(DeliveryMethod.valueOf(orderInfo.get(ParameterAndAttribute.DELIVERY_METHOD).toUpperCase()));
 		if (order.getDeliveryMethod()==DeliveryMethod.DELIVERY) {
 			order.getAddress().setCity(orderInfo.get(ParameterAndAttribute.CITY));
 			order.getAddress().setStreet(orderInfo.get(ParameterAndAttribute.STREET));

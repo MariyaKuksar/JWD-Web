@@ -12,7 +12,7 @@ public class IdValidatorTest {
 	}
 
 	@Test(dataProvider = "validId")
-	public void isValidIdTest01(String id) {
+	public void isValidIdPositiveTest(String id) {
 		Assert.assertTrue(IdValidator.isValidId(id));
 	}
 
@@ -22,7 +22,7 @@ public class IdValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidId")
-	public void isValidIdTest02(String id) {
+	public void isValidIdNegativeTest(String id) {
 		Assert.assertFalse(IdValidator.isValidId(id));
 	}
 }

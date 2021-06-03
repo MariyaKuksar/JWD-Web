@@ -12,7 +12,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validLogin")
-	public void isValidLoginTest01(String login) {
+	public void isValidLoginPositiveTest(String login) {
 		Assert.assertTrue(UserInfoValidator.isValidLogin(login));
 	}
 
@@ -22,7 +22,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidLogin")
-	public void isValidLoginTest02(String login) {
+	public void isValidLoginNegativeTest(String login) {
 		Assert.assertFalse(UserInfoValidator.isValidLogin(login));
 	}
 
@@ -32,7 +32,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validPassword")
-	public void isValidPasswordTest01(String password) {
+	public void isValidPasswordPositiveTest(String password) {
 		Assert.assertTrue(UserInfoValidator.isValidPassword(password));
 	}
 
@@ -42,7 +42,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidPassword")
-	public void isValidPasswordTest02(String password) {
+	public void isValidPasswordNegativeTest(String password) {
 		Assert.assertFalse(UserInfoValidator.isValidPassword(password));
 	}
 
@@ -52,7 +52,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validName")
-	public void isValidNameTest01(String name) {
+	public void isValidNamePositiveTest(String name) {
 		Assert.assertTrue(UserInfoValidator.isValidName(name));
 	}
 
@@ -62,7 +62,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidName")
-	public void isValidNameTest02(String name) {
+	public void isValidNameNegativeTest(String name) {
 		Assert.assertFalse(UserInfoValidator.isValidName(name));
 	}
 
@@ -72,7 +72,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "validPhone")
-	public void isValidPhoneTest01(String phone) {
+	public void isValidPhonePositiveTest(String phone) {
 		Assert.assertTrue(UserInfoValidator.isValidPhone(phone));
 	}
 
@@ -82,7 +82,7 @@ public class UserInfoValidatorTest {
 	}
 
 	@Test(dataProvider = "invalidPhone")
-	public void isValidPhoneTest02(String phone) {
+	public void isValidPhoneNegativeTest(String phone) {
 		Assert.assertFalse(UserInfoValidator.isValidPhone(phone));
 	}
 }
