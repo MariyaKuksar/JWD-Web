@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
+
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.XssProtectUtil;
@@ -19,7 +21,7 @@ public final class ProductInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> productInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		if (productInfo == null) {
+		if (MapUtils.isEmpty(productInfo)) {
 			errorMessageList.add(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 			return errorMessageList;
 		}

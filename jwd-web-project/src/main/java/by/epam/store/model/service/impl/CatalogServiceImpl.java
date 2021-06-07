@@ -43,10 +43,10 @@ public class CatalogServiceImpl implements CatalogService {
 	@Override
 	public void addProduct(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
+		if (productInfo!=null && !IdValidator.isValidId(productInfo.get(ParameterAndAttribute.CATEGORY_ID))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_CATEGORY_MESSAGE);
 		}
-		if (!ProductInfoValidator.isValidImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME))) {
+		if (productInfo!=null && !ProductInfoValidator.isValidImageName(productInfo.get(ParameterAndAttribute.IMAGE_NAME))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_IMAGE_NAME_MESSAGE);
 		}
 		if (!errorMessageList.isEmpty()) {
@@ -79,7 +79,7 @@ public class CatalogServiceImpl implements CatalogService {
 	@Override
 	public boolean changeProductData(Map<String, String> productInfo) throws ServiceException, InvalidDataException {
 		List<String> errorMessageList = ProductInfoValidator.findInvalidData(productInfo);
-		if (!IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
+		if (productInfo!=null && !IdValidator.isValidId(productInfo.get(ParameterAndAttribute.PRODUCT_ID))) {
 			errorMessageList.add(MessageKey.ERROR_INCORRECT_PRODUCT_ID_MESSAGE);
 		}
 		if (!errorMessageList.isEmpty()) {

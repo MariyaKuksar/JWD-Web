@@ -15,8 +15,9 @@ import java.util.Optional;
 
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import by.epam.store.entity.DeliveryMethod;
@@ -40,17 +41,15 @@ public class OrderServiceImplTest {
 	private OrderProductConnectionDao orderProductConnectionDao;
 	@Mock
 	private ProductDao productDao;
-	private AutoCloseable autoCloseable;
 	private Map<String, String> orderInfo;
 	private Map<Product, Integer> products;
-	Order order;
-
+	private Order order;
+	private AutoCloseable autoCloseable;
 	@InjectMocks
 	OrderServiceImpl orderService;
 
 	@BeforeClass
 	public void setUp() {
-		autoCloseable = MockitoAnnotations.openMocks(this);
 		orderInfo = new HashMap<>();
 		orderInfo.put("orderBasketId", "1");
 		orderInfo.put("cost", "100");
@@ -74,7 +73,12 @@ public class OrderServiceImplTest {
 		order.setProducts(products);
 	}
 
-	@AfterClass
+	@BeforeMethod
+	public void init() {
+		autoCloseable = MockitoAnnotations.openMocks(this);
+	}
+
+	@AfterMethod
 	public void tierDown() throws Exception {
 		autoCloseable.close();
 	}

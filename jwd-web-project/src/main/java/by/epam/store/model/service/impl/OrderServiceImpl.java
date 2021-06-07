@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.commons.collections4.MapUtils;
+
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderProductConnection;
@@ -92,7 +94,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException {
-		if (!IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))) {
+		if (MapUtils.isEmpty(orderInfo) || !IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))) {
 			return false;
 		}
 		List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);

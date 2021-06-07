@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
 
 import javax.mail.MessagingException;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -34,9 +35,13 @@ public class UserServiceImpl implements UserService {
 	private static final String PATH_APP = "path.app";
 	private static final int NUMBER_PASSWORD_CHARACTERS = 8;
 	private UserDao userDao = new UserDaoImpl();
-	
+
 	@Override
 	public void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
+		if (MapUtils.isEmpty(userInfo)) {
+			throw new InvalidDataException("invalid data",
+					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
+		}
 		List<String> errorMessageList = UserInfoValidator.findInvalidData(userInfo);
 		String login = userInfo.get(ParameterAndAttribute.LOGIN);
 		if (UserInfoValidator.isValidLogin(login) && !checkIfLoginFree(login)) {
@@ -73,7 +78,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userActivated;
 	}
-	
+
 	@Override
 	public Optional<User> authorization(String login, String password) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login) || !UserInfoValidator.isValidPassword(password)) {
@@ -117,7 +122,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return passwordChanged;
 	}
-	
+
 	@Override
 	public boolean changePassword(String login, String currentPassword, String newPassword)
 			throws ServiceException, InvalidDataException {
@@ -141,9 +146,13 @@ public class UserServiceImpl implements UserService {
 		}
 		return passwordChanged;
 	}
-	
+
 	@Override
 	public boolean changeUserData(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
+		if (MapUtils.isEmpty(userInfo)) {
+			throw new InvalidDataException("invalid data",
+					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
+		}
 		String userId = userInfo.get(ParameterAndAttribute.USER_ID);
 		String currentLogin = userInfo.get(ParameterAndAttribute.CURRENT_LOGIN);
 		if (!IdValidator.isValidId(userId) || !UserInfoValidator.isValidLogin(currentLogin)) {
@@ -171,7 +180,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userChanged;
 	}
-	
+
 	@Override
 	public boolean blockUser(String userId) throws ServiceException {
 		if (!IdValidator.isValidId(userId)) {
@@ -206,8 +215,7 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		try {
-			MailSender.send(email, MessageKey.INFO_MESSAGE_SUBJECT,
-					message);
+			MailSender.send(email, MessageKey.INFO_MESSAGE_SUBJECT, message);
 		} catch (MessagingException e) {
 			throw new ServiceException("message sending error", e);
 		}
@@ -224,7 +232,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return users;
 	}
-	
+
 	@Override
 	public Optional<User> takeUserById(String userId) throws ServiceException {
 		if (!IdValidator.isValidId(userId)) {
@@ -238,7 +246,7 @@ public class UserServiceImpl implements UserService {
 		}
 		return userOptional;
 	}
-	
+
 	@Override
 	public Optional<User> takeUserByLogin(String login) throws ServiceException {
 		if (!UserInfoValidator.isValidLogin(login)) {

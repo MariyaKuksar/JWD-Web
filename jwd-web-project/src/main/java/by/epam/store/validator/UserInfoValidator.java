@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
+
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.util.MessageKey;
 
@@ -18,7 +20,7 @@ public final class UserInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> userInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		if(userInfo == null) {
+		if(MapUtils.isEmpty(userInfo)) {
 			errorMessageList.add(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 			return errorMessageList;
 		}

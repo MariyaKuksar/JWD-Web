@@ -13,8 +13,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
@@ -34,16 +35,14 @@ public class CatalogServiceImplTest {
 	private ProductDao productDao;
 	@Mock
 	private SupplyDao supplyDao;
-	private AutoCloseable autoCloseable;
 	private Map<String, String> productInfo;
 	private Product product;
-
+	private AutoCloseable autoCloseable;
 	@InjectMocks
 	CatalogServiceImpl catalogService;
 
 	@BeforeClass
 	public void setUp() {
-		autoCloseable = MockitoAnnotations.openMocks(this);
 		productInfo = new HashMap<>();
 		productInfo.put("productId", "1");
 		productInfo.put("categoryId", "1");
@@ -59,16 +58,21 @@ public class CatalogServiceImplTest {
 		product.setQuantity(10);
 	}
 
-	@AfterClass
+	@BeforeMethod
+	public void init() {
+		autoCloseable = MockitoAnnotations.openMocks(this);
+	}
+
+	@AfterMethod
 	public void tierDown() throws Exception {
 		autoCloseable.close();
 	}
-
+	
 	@Test
 	public void addProductPositiveTest() throws DaoException, ServiceException, InvalidDataException {
 		doNothing().when(productDao).create(isA(Product.class));
 		catalogService.addProduct(productInfo);
-		verify(productDao,times(1)).create(isA(Product.class));
+		verify(productDao, times(1)).create(isA(Product.class));
 	}
 
 	@Test(expectedExceptions = InvalidDataException.class)
@@ -225,13 +229,13 @@ public class CatalogServiceImplTest {
 		ProductList actual = catalogService.takeProductsInStock("1");
 		Assert.assertEquals(actual, expected);
 	}
-	
-	@Test (expectedExceptions = ServiceException.class)
+
+	@Test(expectedExceptions = ServiceException.class)
 	public void takeProductsInStockServiceExceptionTest() throws DaoException, ServiceException {
 		when(productDao.findProductsInStock(anyInt(), anyInt())).thenThrow(DaoException.class);
 		catalogService.takeProductsInStock("1");
 	}
-	
+
 	@Test
 	public void takeProductsOnOrderPositiveTest() throws DaoException, ServiceException {
 		ProductList expected = new ProductList();
@@ -240,8 +244,8 @@ public class CatalogServiceImplTest {
 		ProductList actual = catalogService.takeProductsOnOrder("1");
 		Assert.assertEquals(actual, expected);
 	}
-	
-	@Test (expectedExceptions = ServiceException.class)
+
+	@Test(expectedExceptions = ServiceException.class)
 	public void takeProductsOnOrderServiceExceptionTest() throws DaoException, ServiceException {
 		when(productDao.findProductsOnOrder(anyInt(), anyInt())).thenThrow(DaoException.class);
 		catalogService.takeProductsOnOrder("1");

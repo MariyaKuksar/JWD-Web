@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
+
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.OrderStatus;
@@ -22,7 +24,7 @@ public final class OrderInfoValidator {
 
 	public static List<String> findInvalidData(Map<String, String> orderInfo) {
 		List<String> errorMessageList = new ArrayList<>();
-		if (orderInfo == null) {
+		if (MapUtils.isEmpty(orderInfo)) {
 			errorMessageList.add(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 			return errorMessageList;
 		}
