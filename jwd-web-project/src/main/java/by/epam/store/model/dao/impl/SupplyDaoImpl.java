@@ -16,6 +16,12 @@ import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.SupplyDao;
 
+/**
+ * Works with database table supplies
+ * 
+ * @author Mariya Kuksar
+ * @see SupplyDao
+ */
 public class SupplyDaoImpl implements SupplyDao {
 	private static final String SQL_INSERT_SUPPLY = "INSERT INTO SUPPLIES (DATA_TIME) VALUES (?)";
 	private static final String SQL_INSERT_SUPPLY_PRODUCT_CONNECTION = "INSERT INTO SUPPLY_PRODUCT_CONNECTION (SUPPLY_ID, PRODUCT_ID, QUANTITY_OF_PRODUCT) VALUES (?,?,?)";

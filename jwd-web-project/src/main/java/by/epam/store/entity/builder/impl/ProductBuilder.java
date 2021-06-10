@@ -7,12 +7,22 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.builder.EntityBuilder;
 
+/**
+ * The builder is responsible for building product
+ * 
+ * @author Mariya Kuksar
+ */
 public class ProductBuilder implements EntityBuilder<Product> {
 	private static final ProductBuilder instance = new ProductBuilder();
 
 	private ProductBuilder() {
 	}
 
+	/**
+	 * Get instance of this class
+	 * 
+	 * @return {@link ProductBuilder} instance
+	 */
 	public static ProductBuilder getInstance() {
 		return instance;
 	}

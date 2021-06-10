@@ -15,6 +15,12 @@ import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.UserDao;
 
+/**
+ * Works with database table users
+ * 
+ * @author Mariya Kuksar
+ * @see UserDao
+ */
 public class UserDaoImpl implements UserDao {
 	private static final String SQL_INSERT_USER = "INSERT INTO USERS (LOGIN, PASSWORD, ROLE, NAME, PHONE, STATUS) VALUES (?, ?, ?, ?, ?, ?)";
 	private static final String SQL_UPDATE_STATUS = "UPDATE USERS SET STATUS=? WHERE ID=? AND STATUS=?";

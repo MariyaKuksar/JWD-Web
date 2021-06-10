@@ -16,6 +16,12 @@ import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderProductConnectionDao;
 
+/**
+ * Works with database table order_product_connections
+ * 
+ * @author Mariya Kuksar
+ * @see OrderProductConnectionDao
+ */
 public class OrderProductConnectionDaoImpl implements OrderProductConnectionDao {
 	private static final String SQL_INSERT_ORDER_PRODUCT_CONNECTION = "INSERT INTO ORDER_PRODUCT_CONNECTION (ORDER_ID, PRODUCT_ID, QUANTITY_OF_PRODUCT) VALUES (?, ?, ?)";
 	private static final String SQL_UPDATE_ORDER_PRODUCT_CONNECTION = "UPDATE ORDER_PRODUCT_CONNECTION SET QUANTITY_OF_PRODUCT=? WHERE ORDER_ID=? AND PRODUCT_ID=?";

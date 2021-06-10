@@ -9,6 +9,12 @@ import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Custom tag copyright
+ * 
+ * @author Mariya Kuksar
+ * @see TagSupport
+ */
 public class CopyrightTag extends TagSupport {
 	private static final Logger logger = LogManager.getLogger();
 	private static final long serialVersionUID = 1L;

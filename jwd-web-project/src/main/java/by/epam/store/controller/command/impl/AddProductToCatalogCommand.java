@@ -26,6 +26,12 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.RequestUtil;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for adding a product to the catalog
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class AddProductToCatalogCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

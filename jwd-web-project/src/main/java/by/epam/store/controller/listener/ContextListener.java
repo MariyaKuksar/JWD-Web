@@ -10,6 +10,12 @@ import org.apache.logging.log4j.Logger;
 import by.epam.store.model.connection.ConnectionPool;
 import by.epam.store.model.connection.ConnectionPoolException;
 
+/**
+ * Application listener
+ * 
+ * @author Mariya Kuksar
+ * @see ServletContextListener
+ */
 @WebListener
 public class ContextListener implements ServletContextListener {
 	private static final Logger logger = LogManager.getLogger();

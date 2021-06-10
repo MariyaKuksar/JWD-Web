@@ -24,6 +24,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for going to the basket page
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class GoToBasketPageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -48,7 +54,8 @@ public class GoToBasketPageCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasket.getOrderId());
 				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);
 				request.setAttribute(ParameterAndAttribute.ORDER, orderBasket);
-				request.setAttribute(ParameterAndAttribute.DELIVERY_METHOD_LIST, Arrays.asList(DeliveryMethod.values()));
+				request.setAttribute(ParameterAndAttribute.DELIVERY_METHOD_LIST,
+						Arrays.asList(DeliveryMethod.values()));
 				request.setAttribute(ParameterAndAttribute.PAYMENT_METHOD_LIST, Arrays.asList(PaymentMethod.values()));
 				router = new Router(PagePath.BASKET, RouteType.FORWARD);
 			} else {

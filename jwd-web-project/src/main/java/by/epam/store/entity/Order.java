@@ -5,7 +5,12 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
-//TODO сделала внутренний класс Address, пересмотреть как переопределяю equals hashCode
+
+/**
+ * Describes the entity Order
+ * 
+ * @author Mariya Kuksar
+ */
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
@@ -18,13 +23,27 @@ public class Order implements Serializable {
 	private DeliveryMethod deliveryMethod;
 	private Address address = new Address();
 
+	/**
+	 * Constructs a new Order
+	 */
 	public Order() {
 	}
 
+	/**
+	 * Constructs a new Order with the specified user id
+	 * 
+	 * @param userId {@link Long} user id
+	 */
 	public Order(Long userId) {
 		this.userId = userId;
 	}
 
+	/**
+	 * Constructs a new Order with the specified order id and user id
+	 * 
+	 * @param orderId {@link Long} order id
+	 * @param userId  {@link Long} user id
+	 */
 	public Order(Long orderId, Long userId) {
 		this.orderId = orderId;
 		this.userId = userId;
@@ -191,8 +210,11 @@ public class Order implements Serializable {
 		return builder.toString();
 	}
 
-
-
+	/**
+	 * Describes the entity Address
+	 * 
+	 * @author Mariya Kuksar
+	 */
 	public class Address {
 		private String city;
 		private String street;
@@ -290,6 +312,6 @@ public class Order implements Serializable {
 			builder.append(apartment);
 			builder.append("]");
 			return builder.toString();
-		}	
+		}
 	}
 }

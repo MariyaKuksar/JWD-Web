@@ -18,6 +18,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserStatus;
 import by.epam.store.model.dao.DaoException;
@@ -28,22 +29,21 @@ import by.epam.store.model.service.ServiceException;
 public class UserServiceImplTest {
 	@Mock
 	private UserDao userDao;
-	@Mock
-	private AutoCloseable autoCloseable;
 	private Map<String, String> userInfo;
 	private User user;
+	private AutoCloseable autoCloseable;
 	@InjectMocks
-	UserServiceImpl userService;
+	private UserServiceImpl userService;
 
 	@BeforeClass
 	public void setUp() {
 		userInfo = new HashMap<>();
-		userInfo.put("login", "web.project.online.store@gmail.com");
-		userInfo.put("password", "241992");
-		userInfo.put("userName", "Mariya");
-		userInfo.put("phone", "+375298136629");
-		userInfo.put("userId", "1");
-		userInfo.put("currentLogin", "mistwins@tut.by");
+		userInfo.put(ParameterAndAttribute.LOGIN, "web.project.online.store@gmail.com");
+		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
+		userInfo.put(ParameterAndAttribute.USER_NAME, "Mariya");
+		userInfo.put(ParameterAndAttribute.PHONE, "+375298136629");
+		userInfo.put(ParameterAndAttribute.USER_ID, "1");
+		userInfo.put(ParameterAndAttribute.CURRENT_LOGIN, "mistwins@tut.by");
 		user = new User();
 		user.setLogin("mistwins@tut.by");
 		user.setPassword("4e1d7924d1f1b89770d7992a4efca1058e8ad51b");
@@ -64,7 +64,7 @@ public class UserServiceImplTest {
 
 /*	@Test
 	public void registrationPositiveTest() throws DaoException, ServiceException, InvalidDataException {
-		userInfo.put("password", "241992");
+		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
 		doNothing().when(userDao).create(isA(User.class));
 		userService.registration(userInfo);
@@ -80,8 +80,9 @@ public class UserServiceImplTest {
 
 	@Test(expectedExceptions = ServiceException.class)
 	public void registrationServiceExceptionTest() throws ServiceException, InvalidDataException, DaoException {
-		userInfo.put("password", "241992");
-		when(userDao.findUserByLogin(anyString())).thenThrow(DaoException.class);
+		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
+		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
+		doThrow(DaoException.class).when(userDao).create(isA(User.class));
 		userService.registration(userInfo);
 	}
 
@@ -173,7 +174,7 @@ public class UserServiceImplTest {
 
 	@Test
 	public void changeUserDataPositiveTest() throws DaoException, ServiceException, InvalidDataException {
-		userInfo.put("password", "241992");
+		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
 		when(userDao.update(isA(User.class))).thenReturn(true);
 		Assert.assertTrue(userService.changeUserData(userInfo));
@@ -181,7 +182,7 @@ public class UserServiceImplTest {
 
 	@Test
 	public void changeUserDataNegativeTest() throws DaoException, ServiceException, InvalidDataException {
-		userInfo.put("password", "241992");
+		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
 		when(userDao.update(isA(User.class))).thenReturn(false);
 		Assert.assertFalse(userService.changeUserData(userInfo));
@@ -194,7 +195,7 @@ public class UserServiceImplTest {
 
 	@Test(expectedExceptions = ServiceException.class)
 	public void changeUserDataServiceExceptionTest() throws DaoException, ServiceException, InvalidDataException {
-		userInfo.put("password", "241992");
+		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
 		when(userDao.update(isA(User.class))).thenThrow(DaoException.class);
 		userService.changeUserData(userInfo);

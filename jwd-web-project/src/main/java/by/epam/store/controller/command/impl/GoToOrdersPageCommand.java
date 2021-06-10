@@ -21,6 +21,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for going to the orders page
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class GoToOrdersPageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

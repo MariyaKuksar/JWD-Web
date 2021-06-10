@@ -18,6 +18,12 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.UserRole;
 import by.epam.store.util.MessageKey;
 
+/**
+ * Filter to control access to admin pages
+ * 
+ * @author Mariya Kuksar
+ * @see Filter
+ */
 @WebFilter(urlPatterns = { "/jsp/admin/*" })
 public class AdminAccessFilter implements Filter {
 

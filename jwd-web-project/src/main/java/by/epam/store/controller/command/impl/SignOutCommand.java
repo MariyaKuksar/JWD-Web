@@ -8,6 +8,12 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 
+/**
+ * The command is responsible for the logout
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class SignOutCommand implements Command {
 
 	@Override

@@ -30,6 +30,12 @@ import by.epam.store.util.PasswordEncryption;
 import by.epam.store.validator.IdValidator;
 import by.epam.store.validator.UserInfoValidator;
 
+/**
+ * The service is responsible for user operations
+ * 
+ * @author Mariya Kuksar
+ * @see UserService
+ */
 public class UserServiceImpl implements UserService {
 	private static final String BUNDLE_NAME = "path";
 	private static final String PATH_APP = "path.app";
@@ -261,6 +267,13 @@ public class UserServiceImpl implements UserService {
 		return userOptional;
 	}
 
+	/**
+	 * Checks the existence of a user with the given login
+	 * 
+	 * @param login {@link String} user login
+	 * @return boolean true if login is free, else false
+	 * @throws ServiceException if {@link DaoException} occurs
+	 */
 	private boolean checkIfLoginFree(String login) throws ServiceException {
 		Optional<User> userOptional;
 		try {
@@ -271,6 +284,11 @@ public class UserServiceImpl implements UserService {
 		return userOptional.isEmpty();
 	}
 
+	/**
+	 * Generates password
+	 * 
+	 * @return {@link String} generated new password for the user
+	 */
 	private String generatePassword() {
 		return RandomStringUtils.randomAlphanumeric(NUMBER_PASSWORD_CHARACTERS);
 	}

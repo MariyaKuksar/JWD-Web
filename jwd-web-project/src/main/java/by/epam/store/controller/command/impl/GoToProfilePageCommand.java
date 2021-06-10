@@ -21,6 +21,12 @@ import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for going to the profile page
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class GoToProfilePageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -38,10 +44,11 @@ public class GoToProfilePageCommand implements Command {
 			Optional<User> userOptional = userService.takeUserByLogin(login);
 			if (userOptional.isPresent()) {
 				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_PROFILE_PAGE);
-			request.setAttribute(ParameterAndAttribute.USER, userOptional.get());
-			router = new Router(PagePath.PROFILE, RouteType.FORWARD);
+				request.setAttribute(ParameterAndAttribute.USER, userOptional.get());
+				router = new Router(PagePath.PROFILE, RouteType.FORWARD);
 			} else {
-				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
+				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
+						MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE);
 				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {

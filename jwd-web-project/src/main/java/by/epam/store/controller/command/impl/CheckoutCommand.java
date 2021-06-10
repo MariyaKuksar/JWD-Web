@@ -22,6 +22,12 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.RequestUtil;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for checkout
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class CheckoutCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

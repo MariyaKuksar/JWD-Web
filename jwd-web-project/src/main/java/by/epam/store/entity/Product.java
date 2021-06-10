@@ -3,6 +3,11 @@ package by.epam.store.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * Describes the entity Product
+ * 
+ * @author Mariya Kuksar
+ */
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long productId;
@@ -12,6 +17,9 @@ public class Product implements Serializable {
 	private BigDecimal price;
 	private int quantity;
 
+	/**
+	 * Constructs a new Product
+	 */
 	public Product() {
 	}
 

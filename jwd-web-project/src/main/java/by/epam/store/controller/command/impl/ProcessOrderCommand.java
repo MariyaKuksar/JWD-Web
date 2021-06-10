@@ -18,9 +18,15 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for processing order
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ProcessOrderCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;

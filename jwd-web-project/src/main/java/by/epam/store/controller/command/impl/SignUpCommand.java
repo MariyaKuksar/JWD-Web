@@ -20,6 +20,12 @@ import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.RequestUtil;
 
+/**
+ * The command is responsible for user registration
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class SignUpCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

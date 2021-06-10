@@ -1,5 +1,10 @@
 package by.epam.store.controller.command;
 
+/**
+ * Describes all page paths
+ * 
+ * @author Mariya Kuksar
+ */
 public final class PagePath {
 	public static final String ADDED_PRODUCT = "jsp/admin/adding_product.jsp";
 	public static final String BASKET = "jsp/client/basket.jsp";
@@ -13,7 +18,7 @@ public final class PagePath {
 	public static final String PROFILE = "jsp/client/profile.jsp";
 	public static final String REGISTRATION = "jsp/registration.jsp";
 	public static final String SUPPLY = "jsp/admin/supply.jsp";
-	
+
 	public static final String CONFIRM_REGISTRATION = "controller?command=confirm_registration&userId=";
 	public static final String FIND_ORDERS_BY_STATUS = "controller?command=find_orders_by_status&status=";
 	public static final String FIND_ORDER_BY_ID = "controller?command=find_order_by_id&orderId=";

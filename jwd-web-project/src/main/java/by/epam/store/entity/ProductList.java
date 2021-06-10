@@ -4,12 +4,20 @@ import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
-public class ProductList implements Serializable{
+/**
+ * Describes the entity ProductList
+ * 
+ * @author Mariya Kuksar
+ */
+public class ProductList implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<Product> products;
 	private int currentPageNumber;
 	private int numberOfPages;
-	
+
+	/**
+	 * Constructs a new ProductList
+	 */
 	public ProductList() {
 	}
 

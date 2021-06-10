@@ -2,6 +2,11 @@ package by.epam.store.entity;
 
 import java.io.Serializable;
 
+/**
+ * Describes the entity User
+ * 
+ * @author Mariya Kuksar
+ */
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long userId;
@@ -12,6 +17,9 @@ public class User implements Serializable {
 	private String phone;
 	private UserStatus status;
 
+	/**
+	 * Constructs a new User
+	 */
 	public User() {
 	}
 

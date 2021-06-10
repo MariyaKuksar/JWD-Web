@@ -17,6 +17,12 @@ import by.epam.store.model.dao.ColumnName;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.OrderDao;
 
+/**
+ * Works with database table orders
+ * 
+ * @author Mariya Kuksar
+ * @see OrderDao
+ */
 public class OrderDaoImpl implements OrderDao {
 	private static final String SQL_INSERT_ORDER = "INSERT INTO ORDERS (USER_ID, STATUS) VALUES (?, 'BASKET')";
 	private static final String SQL_UPDATE_ORDER = "UPDATE ORDERS SET DATE_TIME=?, STATUS=?, PAYMENT_METHOD=?, COST=?, DELIVERY_METHOD=?, CITY=?, STREET=?, HOUSE=?, APARTMENT=? WHERE ID=?";

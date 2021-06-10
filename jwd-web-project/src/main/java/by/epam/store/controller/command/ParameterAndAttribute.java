@@ -1,5 +1,10 @@
 package by.epam.store.controller.command;
 
+/**
+ * Describes all parameters and attributes
+ * 
+ * @author Mariya Kuksar
+ */
 public final class ParameterAndAttribute {
 	public static final String QUANTITY_OF_PRODUCT = "quantityOfProduct";
 	public static final String APARTMENT = "apartment";

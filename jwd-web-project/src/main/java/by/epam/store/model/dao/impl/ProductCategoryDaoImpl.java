@@ -13,6 +13,12 @@ import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductCategoryDao;
 
+/**
+ * Works with database table product_categories
+ * 
+ * @author Mariya Kuksar
+ * @see ProductCategoryDao
+ */
 public class ProductCategoryDaoImpl implements ProductCategoryDao {
 	private static final String SQL_SELECT_ALL_PRODUCT_CATEGORIES = "SELECT ID, CATEGORY, IMAGE_NAME FROM PRODUCT_CATEGORIES";
 

@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.DeliveryMethod;
 import by.epam.store.entity.Order;
 import by.epam.store.entity.OrderProductConnection;
@@ -46,15 +47,15 @@ public class OrderServiceImplTest {
 	private Order order;
 	private AutoCloseable autoCloseable;
 	@InjectMocks
-	OrderServiceImpl orderService;
+	private OrderServiceImpl orderService;
 
 	@BeforeClass
 	public void setUp() {
 		orderInfo = new HashMap<>();
-		orderInfo.put("orderBasketId", "1");
-		orderInfo.put("cost", "100");
-		orderInfo.put("paymentMethod", "online");
-		orderInfo.put("deliveryMethod", "pickup");
+		orderInfo.put(ParameterAndAttribute.ORDER_BASKET_ID, "1");
+		orderInfo.put(ParameterAndAttribute.COST, "100");
+		orderInfo.put(ParameterAndAttribute.PAYMENT_METHOD, "online");
+		orderInfo.put(ParameterAndAttribute.DELIVERY_METHOD, "pickup");
 		products = new HashMap<>();
 		Product product = new Product();
 		product.setProductId(1L);

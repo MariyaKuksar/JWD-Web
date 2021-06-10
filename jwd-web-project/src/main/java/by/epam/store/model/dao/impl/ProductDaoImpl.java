@@ -17,6 +17,12 @@ import by.epam.store.model.connection.ConnectionPoolException;
 import by.epam.store.model.dao.DaoException;
 import by.epam.store.model.dao.ProductDao;
 
+/**
+ * Works with database table products
+ * 
+ * @author Mariya Kuksar
+ * @see ProductDao
+ */
 public class ProductDaoImpl implements ProductDao {
 	private static final String SQL_INSERT_PRODUCT = "INSERT INTO PRODUCTS (CATEGORY_ID, NAME, IMAGE_NAME, PRICE) VALUES (?, ?, ?, ?)";
 	private static final String SQL_UPDATE_PRODUCT = "UPDATE PRODUCTS SET NAME=?, PRICE=? WHERE ID=?";

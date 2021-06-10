@@ -19,6 +19,12 @@ import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for changing password
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ChangePasswordCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -46,7 +52,7 @@ public class ChangePasswordCommand implements Command {
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, e.getErrorDescription());
 			router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("change password error", e);
+			logger.error("changing password error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

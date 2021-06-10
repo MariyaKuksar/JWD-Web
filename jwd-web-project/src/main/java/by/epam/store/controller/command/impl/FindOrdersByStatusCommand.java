@@ -23,6 +23,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for search orders by status
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class FindOrdersByStatusCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -43,7 +49,7 @@ public class FindOrdersByStatusCommand implements Command {
 			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NO_ORDERS_MESSAGE);
 			}
-			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_ORDERS_BY_STATUS + orderStatus);	
+			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_ORDERS_BY_STATUS + orderStatus);
 			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, Arrays.asList(OrderStatus.values()));
 			router = new Router(PagePath.ORDERS, RouteType.FORWARD);
 		} catch (ServiceException e) {

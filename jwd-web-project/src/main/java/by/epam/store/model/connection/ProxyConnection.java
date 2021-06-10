@@ -19,13 +19,30 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
+/**
+ * Class wrapper for connection, changed the body of method close of class
+ * Connection, add method reallyClose
+ * 
+ * @author Mariya Kuksar
+ * @see Connection
+ */
 class ProxyConnection implements Connection {
 	private Connection connection;
 
+	/**
+	 * Constructs a new ProxyConnection with the specified connection
+	 * 
+	 * @param connection {@link Connection} connection to the database
+	 */
 	ProxyConnection(Connection connection) {
 		this.connection = connection;
 	}
 
+	/**
+	 * Closes the connection to the database
+	 * 
+	 * @throws SQLException
+	 */
 	void reallyClose() throws SQLException {
 		connection.close();
 	}

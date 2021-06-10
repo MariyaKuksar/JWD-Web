@@ -2,19 +2,39 @@ package by.epam.store.entity;
 
 import java.io.Serializable;
 
-public class ProductCategory implements Serializable{
+/**
+ * Describes the entity ProductCategory
+ * 
+ * @author Mariya Kuksar
+ */
+public class ProductCategory implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long categoryId;
 	private String categoryName;
 	private String imageName;
-	
+
+	/**
+	 * Constructs a new ProductCategory
+	 */
 	public ProductCategory() {
 	}
 
+	/**
+	 * Constructs a new ProductCategory with the specified category id
+	 * 
+	 * @param categoryId {@link Long} category id
+	 */
 	public ProductCategory(Long categoryId) {
 		this.categoryId = categoryId;
 	}
 
+	/**
+	 * Constructs a new ProductCategory with the specified category id and category
+	 * name
+	 * 
+	 * @param categoryId   {@link Long} category id
+	 * @param categoryName {@link String} category name
+	 */
 	public ProductCategory(Long categoryId, String categoryName) {
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;

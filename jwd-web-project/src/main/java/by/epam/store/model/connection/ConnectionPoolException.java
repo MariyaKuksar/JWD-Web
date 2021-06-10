@@ -1,5 +1,11 @@
 package by.epam.store.model.connection;
 
+/**
+ * Describes exception in ConnectionPool
+ * 
+ * @author Mariya Kuksar
+ * @see Exception
+ */
 public class ConnectionPoolException extends Exception {
 	private static final long serialVersionUID = 1L;
 
@@ -17,5 +23,5 @@ public class ConnectionPoolException extends Exception {
 
 	public ConnectionPoolException(Throwable cause) {
 		super(cause);
-	}	
+	}
 }

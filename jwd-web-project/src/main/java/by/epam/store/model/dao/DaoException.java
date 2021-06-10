@@ -1,5 +1,11 @@
 package by.epam.store.model.dao;
 
+/**
+ * Describes exception in Dao
+ * 
+ * @author Mariya Kuksar
+ * @see Exception
+ */
 public class DaoException extends Exception {
 	private static final long serialVersionUID = 1L;
 

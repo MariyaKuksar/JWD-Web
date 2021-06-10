@@ -14,11 +14,23 @@ import by.epam.store.entity.UserRole;
 import by.epam.store.entity.UserStatus;
 import by.epam.store.model.dao.ColumnName;
 
+/**
+ * The builder is responsible for building different entities
+ * 
+ * @author Mariya Kuksar
+ */
 final class DaoEntityBuilder {
 
 	private DaoEntityBuilder() {
 	}
 
+	/**
+	 * Builds new User
+	 * 
+	 * @param resultSet {@link ResultSet} database result set
+	 * @return {@link User}
+	 * @throws SQLException
+	 */
 	static User buildUser(ResultSet resultSet) throws SQLException {
 		User user = new User();
 		user.setUserId(resultSet.getLong(ColumnName.USERS_ID));
@@ -31,6 +43,13 @@ final class DaoEntityBuilder {
 		return user;
 	}
 
+	/**
+	 * Builds new ProductCategory
+	 * 
+	 * @param resultSet {@link ResultSet} database result set
+	 * @return {@link ProductCategory}
+	 * @throws SQLException
+	 */
 	static ProductCategory buildProductCategory(ResultSet resultSet) throws SQLException {
 		ProductCategory category = new ProductCategory();
 		category.setCategoryId(resultSet.getLong(ColumnName.PRODUCT_CATEGORIES_ID));
@@ -39,6 +58,13 @@ final class DaoEntityBuilder {
 		return category;
 	}
 
+	/**
+	 * Builds new Product
+	 * 
+	 * @param resultSet {@link ResultSet} database result set
+	 * @return {@link Product}
+	 * @throws SQLException
+	 */
 	static Product buildProduct(ResultSet resultSet) throws SQLException {
 		Product product = new Product();
 		product.setProductId(resultSet.getLong(ColumnName.PRODUCTS_ID));
@@ -50,6 +76,13 @@ final class DaoEntityBuilder {
 		return product;
 	}
 
+	/**
+	 * Builds new Order
+	 * 
+	 * @param resultSet {@link ResultSet} database result set
+	 * @return {@link Order}
+	 * @throws SQLException
+	 */
 	static Order buildOrder(ResultSet resultSet) throws SQLException {
 		Order order = new Order();
 		order.setOrderId(resultSet.getLong(ColumnName.ORDERS_ID));
@@ -59,11 +92,13 @@ final class DaoEntityBuilder {
 		}
 		order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));
 		if (resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD) != null) {
-			order.setPaymentMethod(PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD).toUpperCase()));
+			order.setPaymentMethod(
+					PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD).toUpperCase()));
 		}
 		order.setCost(resultSet.getBigDecimal(ColumnName.ORDERS_COST));
 		if (resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD) != null) {
-			order.setDeliveryMethod(DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD).toUpperCase()));
+			order.setDeliveryMethod(
+					DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD).toUpperCase()));
 		}
 		order.getAddress().setCity(resultSet.getString(ColumnName.ORDERS_CITY));
 		order.getAddress().setStreet(resultSet.getString(ColumnName.ORDERS_STREET));

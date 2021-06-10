@@ -19,9 +19,15 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for search products in stock
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ShowProductsInStockCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -37,7 +43,7 @@ public class ShowProductsInStockCommand implements Command {
 			if (!productList.getProducts().isEmpty()) {
 				request.setAttribute(ParameterAndAttribute.PRODUCTS, productList.getProducts());
 				request.setAttribute(ParameterAndAttribute.PAGE, productList.getCurrentPageNumber());
-			    request.setAttribute(ParameterAndAttribute.NUMBER_OF_PAGES, productList.getNumberOfPages());
+				request.setAttribute(ParameterAndAttribute.NUMBER_OF_PAGES, productList.getNumberOfPages());
 			} else {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}

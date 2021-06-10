@@ -31,6 +31,12 @@ import by.epam.store.validator.OrderInfoValidator;
 import by.epam.store.validator.ProductInfoValidator;
 import by.epam.store.validator.UserInfoValidator;
 
+/**
+ * The service is responsible for operations with the orders
+ * 
+ * @author Mariya Kuksar
+ * @see OrderService
+ */
 public class OrderServiceImpl implements OrderService {
 	private static final int ONE_PRODUCT = 1;
 	private OrderDao orderDao = new OrderDaoImpl();
@@ -94,7 +100,8 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public boolean checkout(Map<String, String> orderInfo) throws ServiceException, InvalidDataException {
-		if (MapUtils.isEmpty(orderInfo) || !IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))) {
+		if (MapUtils.isEmpty(orderInfo)
+				|| !IdValidator.isValidId(orderInfo.get(ParameterAndAttribute.ORDER_BASKET_ID))) {
 			return false;
 		}
 		List<String> errorMessageList = OrderInfoValidator.findInvalidData(orderInfo);
@@ -256,6 +263,13 @@ public class OrderServiceImpl implements OrderService {
 		return orders;
 	}
 
+	/**
+	 * Gives order id with basket status
+	 * 
+	 * @param userId {@link Long} user id
+	 * @return {@link Long}
+	 * @throws DaoException
+	 */
 	private Long takeOrderBasketId(Long userId) throws DaoException {
 		Long orderBasketId;
 		Optional<Long> orderBasketIdOptional = orderDao.findOrderBasketId(userId);

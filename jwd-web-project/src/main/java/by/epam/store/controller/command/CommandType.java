@@ -1,5 +1,10 @@
 package by.epam.store.controller.command;
 
+/**
+ * Describes all command types
+ * 
+ * @author Mariya Kuksar
+ */
 public enum CommandType {
 	ACCEPT_PRODUCTS,
 	ADD_PRODUCT_TO_BASKET,

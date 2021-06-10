@@ -11,6 +11,11 @@ import java.util.concurrent.BlockingQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * Pool of connections used while the system is running
+ * 
+ * @author Mariya Kuksar
+ */
 public class ConnectionPool {
 	private static final Logger logger = LogManager.getLogger();
 	private static final int DEFAULT_POOL_SIZE = 8;
@@ -18,6 +23,11 @@ public class ConnectionPool {
 	private BlockingQueue<ProxyConnection> freeConnections;
 	private BlockingQueue<ProxyConnection> givenAwayConnections;
 
+	/**
+	 * Gets instance of this class
+	 * 
+	 * @return {@link ConnectionPool} instance
+	 */
 	public static ConnectionPool getInstance() {
 		return instance;
 	}
@@ -25,6 +35,11 @@ public class ConnectionPool {
 	private ConnectionPool() {
 	}
 
+	/**
+	 * Initialize connection pool
+	 * 
+	 * @throws ConnectionPoolException if no connection created
+	 */
 	public void initPool() throws ConnectionPoolException {
 		freeConnections = new ArrayBlockingQueue<ProxyConnection>(DEFAULT_POOL_SIZE);
 		givenAwayConnections = new ArrayBlockingQueue<ProxyConnection>(DEFAULT_POOL_SIZE);
@@ -42,6 +57,12 @@ public class ConnectionPool {
 		}
 	}
 
+	/**
+	 * Gets a connection from the connection pool
+	 * 
+	 * @return {@link Connection} connection to the database
+	 * @throws ConnectionPoolException if {@link InterruptedException} occurs
+	 */
 	public Connection getConnection() throws ConnectionPoolException {
 		ProxyConnection connection;
 		try {
@@ -54,6 +75,12 @@ public class ConnectionPool {
 		return connection;
 	}
 
+	/**
+	 * Returns the connection to the connection pool
+	 * 
+	 * @param connection {@link Connection} connection to the database
+	 * @return boolean
+	 */
 	public boolean releaseConnection(Connection connection) {
 		boolean isReleased = false;
 		if (givenAwayConnections.remove(connection)) {
@@ -62,6 +89,12 @@ public class ConnectionPool {
 		return isReleased;
 	}
 
+	/**
+	 * Destroy connection pool
+	 * 
+	 * @throws ConnectionPoolException if {@link InterruptedException} or
+	 *                                 {@link SQLException} occurs
+	 */
 	public void destroyPool() throws ConnectionPoolException {
 		for (int i = 0; i < DEFAULT_POOL_SIZE; i++) {
 			try {
@@ -76,6 +109,11 @@ public class ConnectionPool {
 		deregisterDrivers();
 	}
 
+	/**
+	 * Unregisters drivers
+	 * 
+	 * @throws ConnectionPoolException if {@link SQLException} occurs
+	 */
 	private void deregisterDrivers() throws ConnectionPoolException {
 		Enumeration<Driver> drivers = DriverManager.getDrivers();
 		while (drivers.hasMoreElements()) {

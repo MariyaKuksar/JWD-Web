@@ -18,6 +18,12 @@ import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 
+/**
+ * The command is responsible for going to the main page
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class GoToMainPageCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

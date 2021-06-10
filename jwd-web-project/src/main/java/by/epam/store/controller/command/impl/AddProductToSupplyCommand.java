@@ -23,6 +23,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for adding a product to the supply
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class AddProductToSupplyCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -61,7 +67,7 @@ public class AddProductToSupplyCommand implements Command {
 			session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_INCORRECT_QUANTITY_OF_PRODUCTS);
 			router = new Router(PagePath.SUPPLY, RouteType.REDIRECT);
 		} catch (ServiceException e) {
-			logger.error("error adding product to supply", e);
+			logger.error("error adding a product to the supply", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

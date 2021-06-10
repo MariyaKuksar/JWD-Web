@@ -43,6 +43,11 @@ import by.epam.store.controller.command.impl.UnblockUserCommand;
 import by.epam.store.controller.command.impl.FindProductsByNameCommand;
 import by.epam.store.controller.command.impl.FindUserByIdCommand;
 
+/**
+ * CommandProvider is used for defining command
+ * 
+ * @author Mariya Kuksar
+ */
 public final class CommandProvider {
 	private static final Logger logger = LogManager.getLogger();
 	private static Map<CommandType, Command> commands = new EnumMap<>(CommandType.class);
@@ -90,6 +95,12 @@ public final class CommandProvider {
 	private CommandProvider() {
 	}
 
+	/**
+	 * Defines command
+	 * 
+	 * @param commandName {@link String} command name
+	 * @return {@link Command}
+	 */
 	public static Command defineCommand(String commandName) {
 		if (commandName == null) {
 			logger.error("null command");

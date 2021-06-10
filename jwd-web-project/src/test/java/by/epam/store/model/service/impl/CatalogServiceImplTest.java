@@ -17,6 +17,8 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.Product;
 import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.ProductList;
@@ -39,16 +41,16 @@ public class CatalogServiceImplTest {
 	private Product product;
 	private AutoCloseable autoCloseable;
 	@InjectMocks
-	CatalogServiceImpl catalogService;
+	private CatalogServiceImpl catalogService;
 
 	@BeforeClass
 	public void setUp() {
 		productInfo = new HashMap<>();
-		productInfo.put("productId", "1");
-		productInfo.put("categoryId", "1");
-		productInfo.put("price", "320");
-		productInfo.put("productName", "Desk TRIO");
-		productInfo.put("imageName", "desk.jpg");
+		productInfo.put(ParameterAndAttribute.PRODUCT_ID, "1");
+		productInfo.put(ParameterAndAttribute.CATEGORY_ID, "1");
+		productInfo.put(ParameterAndAttribute.PRICE, "320");
+		productInfo.put(ParameterAndAttribute.PRODUCT_NAME, "Desk TRIO");
+		productInfo.put(ParameterAndAttribute.IMAGE_NAME, "desk.jpg");
 		product = new Product();
 		product.setProductId(1L);
 		product.setCategoryId(1L);
@@ -67,7 +69,7 @@ public class CatalogServiceImplTest {
 	public void tierDown() throws Exception {
 		autoCloseable.close();
 	}
-	
+
 	@Test
 	public void addProductPositiveTest() throws DaoException, ServiceException, InvalidDataException {
 		doNothing().when(productDao).create(isA(Product.class));

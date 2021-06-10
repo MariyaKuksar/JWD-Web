@@ -18,6 +18,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for order cancelation
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class CancelOrderCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

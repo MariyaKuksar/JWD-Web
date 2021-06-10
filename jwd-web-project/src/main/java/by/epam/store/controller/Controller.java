@@ -18,6 +18,12 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 
+/**
+ * Controller receive request from client (get or post)
+ * 
+ * @author Mariya Kuksar
+ * @see HttpServlet
+ */
 @WebServlet(name = "controller", urlPatterns = { "/controller" })
 public class Controller extends HttpServlet {
 	private static final Logger logger = LogManager.getLogger();
@@ -32,6 +38,14 @@ public class Controller extends HttpServlet {
 		processRequest(req, resp);
 	}
 
+	/**
+	 * Processes get and post requests
+	 * 
+	 * @param request  {@link HttpServletRequest}
+	 * @param response {@link HttpServletResponse}
+	 * @throws ServletException
+	 * @throws IOException
+	 */
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String commandName = request.getParameter(ParameterAndAttribute.COMMAND);

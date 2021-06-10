@@ -19,6 +19,12 @@ import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 
+/**
+ * The command is responsible for search products from category
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ShowProductsFromCategoryCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

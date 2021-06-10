@@ -16,6 +16,11 @@ import javax.mail.internet.MimeMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The utility is responsible for sending messages
+ * 
+ * @author Mariya Kuksar
+ */
 public class MailSender {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String MAIL_PROPERTIES = "mail.properties";
@@ -36,8 +41,15 @@ public class MailSender {
 	private MailSender() {
 	}
 
+	/**
+	 * Sends message
+	 * 
+	 * @param email          {@link String} recipient email
+	 * @param messageSubject {@link String} message subject
+	 * @param messageText    {@link String} message text
+	 * @throws MessagingException
+	 */
 	public static void send(String email, String messageSubject, String messageText) throws MessagingException {
-		// TODO норм ли выбрасывать MessagingException при проверке на null
 		if (email == null || messageSubject == null || messageText == null) {
 			throw new MessagingException();
 		}

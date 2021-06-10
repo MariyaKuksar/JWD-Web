@@ -16,6 +16,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 
+/**
+ * The command is responsible for changing forgotten password
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ForgotPasswordCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -24,7 +30,7 @@ public class ForgotPasswordCommand implements Command {
 		Router router;
 		HttpSession session = request.getSession(true);
 		UserService userService = ServiceFactory.getInstance().getUserService();
-		String login = request.getParameter(ParameterAndAttribute.LOGIN);		
+		String login = request.getParameter(ParameterAndAttribute.LOGIN);
 		try {
 			if (userService.changeForgottenPassword(login)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_PASSWORD_SENT_MESSAGE);
@@ -34,7 +40,7 @@ public class ForgotPasswordCommand implements Command {
 				router = new Router(PagePath.FORGOT_PASSWORD, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {
-			logger.error("change password error", e);
+			logger.error("changing password error", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

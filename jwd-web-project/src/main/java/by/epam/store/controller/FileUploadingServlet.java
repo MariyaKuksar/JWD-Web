@@ -24,6 +24,12 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.controller.command.Router;
 
+/**
+ * File uploading servlet receive multipart/form-data request from client
+ * 
+ * @author Mariya Kuksar
+ * @see HttpServlet
+ */
 @WebServlet(name = "upload", urlPatterns = { "/upload" })
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadingServlet extends HttpServlet {

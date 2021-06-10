@@ -7,6 +7,12 @@ import by.epam.store.controller.command.PagePath;
 import by.epam.store.controller.command.Router;
 import by.epam.store.controller.command.Router.RouteType;
 
+/**
+ * The command is responsible for incorrect command name
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class DefaultCommand implements Command {
 
 	@Override

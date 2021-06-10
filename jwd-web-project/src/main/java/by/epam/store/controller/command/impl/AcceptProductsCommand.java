@@ -21,6 +21,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for accepting products
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class AcceptProductsCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

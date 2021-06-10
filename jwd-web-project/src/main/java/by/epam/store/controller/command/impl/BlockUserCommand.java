@@ -1,4 +1,5 @@
 package by.epam.store.controller.command.impl;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -17,9 +18,15 @@ import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for blocking a user
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class BlockUserCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
-	
+
 	@Override
 	public Router execute(HttpServletRequest request) {
 		Router router;
@@ -31,7 +38,7 @@ public class BlockUserCommand implements Command {
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		String userId = request.getParameter(ParameterAndAttribute.USER_ID);
 		try {
-			if (userService.blockUser (userId)) {
+			if (userService.blockUser(userId)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_USER_BLOCKED_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,

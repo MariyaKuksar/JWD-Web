@@ -16,6 +16,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.model.service.UserService;
 import by.epam.store.util.MessageKey;
 
+/**
+ * The command is responsible for confirmation of registration
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ConfirmRegistrationCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 

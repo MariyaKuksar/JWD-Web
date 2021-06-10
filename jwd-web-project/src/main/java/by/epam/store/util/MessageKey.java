@@ -1,5 +1,10 @@
 package by.epam.store.util;
 
+/**
+ * Describes all error and info message key
+ * 
+ * @author Mariya Kuksar
+ */
 public final class MessageKey {
 	public static final String ERROR_LOGIN_MESSAGE = "local.error.login";
 	public static final String ERROR_ACCESS_MESSAGE = "local.error.access";
@@ -32,7 +37,7 @@ public final class MessageKey {
 	public static final String ERROR_INCORRECT_PASSWORD_MESSAGE = "local.error.incorrect_password";
 	public static final String ERROR_NO_SUCH_PRODUCT_MESSAGE = "local.error.no_such_product";
 	public static final String ERROR_INCORRECT_QUANTITY_OF_PRODUCTS = "local.error.incorrect_quantity_of_products";
-	
+
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";
 	public static final String INFO_PASSWORD_SENT_MESSAGE = "local.message.password_sent";
@@ -49,16 +54,16 @@ public final class MessageKey {
 	public static final String INFO_ORDER_PROCESSED_MESSAGE = "local.message.order_processed";
 	public static final String INFO_MESSAGE_SENT_MESSAGE = "local.message.message_sent";
 	public static final String INFO_PRODUCT_ACCEPTED_MESSAGE = "local.message.product_accepted";
-	
+
 	public static final String REGISTRATION_MESSAGE_SUBJECT = "Confirmation of registration";
 	public static final String REGISTRATION_MESSAGE_TEXT = "To confirm registration, follow the link ";
 	public static final String CHANGE_PASSWORD_MESSAGE_SUBJECT = "Change password";
 	public static final String CHANGE_PASSWORD_MESSAGE_TEXT = "Your new login password is ";
 	public static final String INFO_MESSAGE_SUBJECT = "Info message";
-	
+
 	public static final String TITLE_PRODUCTS_IN_STOCK = "local.products_in_stock";
 	public static final String TITLE_PRODUCTS_ON_ORDER = "local.products_on_order";
-	
+
 	private MessageKey() {
 	}
 }

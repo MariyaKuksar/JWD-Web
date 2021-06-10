@@ -22,6 +22,12 @@ import by.epam.store.util.MessageKey;
 import by.epam.store.util.RequestUtil;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for changing user data
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class ChangeUserDataCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -40,11 +46,11 @@ public class ChangeUserDataCommand implements Command {
 		userInfo.put(ParameterAndAttribute.CURRENT_LOGIN, currentLogin);
 		userInfo.put(ParameterAndAttribute.USER_ID, String.valueOf(userId));
 		try {
-			if(userService.changeUserData(userInfo)) {
+			if (userService.changeUserData(userInfo)) {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_SAVED_SUCCESSFULLY_MESSAGE);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE, MessageKey.ERROR_INCORRECT_PASSWORD_MESSAGE);
-			}		
+			}
 			router = new Router(PagePath.GO_TO_PROFILE_PAGE, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
 			logger.error("invalid data", e);

@@ -8,6 +8,11 @@ import java.util.ResourceBundle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The ConnectionCreator is responsible for for creating connections
+ * 
+ * @author Mariya Kuksar
+ */
 final class ConnectionCreator {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String BUNDLE_NAME = "db";
@@ -36,6 +41,12 @@ final class ConnectionCreator {
 	private ConnectionCreator() {
 	}
 
+	/**
+	 * Creates a connection to the database
+	 * 
+	 * @return {@link Connection} connection to the database
+	 * @throws SQLException
+	 */
 	static Connection createConnection() throws SQLException {
 		return DriverManager.getConnection(DATABASE_URL, DATABASE_USER_NAME, DATABASE_PASSWORD);
 	}

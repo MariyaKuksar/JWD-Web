@@ -2,21 +2,44 @@ package by.epam.store.entity;
 
 import java.io.Serializable;
 
+/**
+ * Describes the entity OrderProductConnection
+ * 
+ * @author Mariya Kuksar
+ */
 public class OrderProductConnection implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long orderId;
 	private Long productId;
 	private int quantityOfProducts;
-	
+
+	/**
+	 * Constructs a new OrderProductConnection
+	 */
 	public OrderProductConnection() {
 	}
 
+	/**
+	 * Constructs a new OrderProductConnection with the specified order id, product
+	 * id and quantity of products
+	 * 
+	 * @param orderId            {@link Long} order id
+	 * @param productId          {@link Long} product id
+	 * @param quantityOfProducts quantity of products
+	 */
 	public OrderProductConnection(Long orderId, Long productId, int quantityOfProducts) {
 		this.orderId = orderId;
 		this.productId = productId;
 		this.quantityOfProducts = quantityOfProducts;
 	}
 
+	/**
+	 * Constructs a new OrderProductConnection with the specified order id and
+	 * product id
+	 * 
+	 * @param orderId   {@link Long} order id
+	 * @param productId {@link Long} product id
+	 */
 	public OrderProductConnection(Long orderId, Long productId) {
 		this.orderId = orderId;
 		this.productId = productId;

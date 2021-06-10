@@ -10,12 +10,23 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 
+/**
+ * The utility is responsible for controlling the user
+ * 
+ * @author Mariya Kuksar
+ */
 public final class UserControl {
 	private static final Logger logger = LogManager.getLogger();
 
 	private UserControl() {
 	}
 
+	/**
+	 * Checks if there is a logged in user
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @return boolean true if there is a logged in user, else false
+	 */
 	public static boolean isLoggedInUser(HttpServletRequest request) {
 		HttpSession session = request.getSession(false);
 		if (session == null) {
@@ -30,6 +41,14 @@ public final class UserControl {
 		return true;
 	}
 
+	/**
+	 * Checks if the role of the logged in user is appropriate
+	 * 
+	 * @param request         {@link HttpServletRequest}
+	 * @param permissibleRole {@link UserRole} permissible user role
+	 * @return boolean true if the role of the logged in user is appropriate, else
+	 *         false
+	 */
 	public static boolean isValidForRole(HttpServletRequest request, UserRole permissibleRole) {
 		HttpSession session = request.getSession(true);
 		if (session.getAttribute(ParameterAndAttribute.ROLE) != permissibleRole) {
@@ -39,6 +58,12 @@ public final class UserControl {
 		return true;
 	}
 
+	/**
+	 * Controls the status of the user who logs in
+	 * 
+	 * @param user    {@link User} who logs in
+	 * @param session {@link HttpSession}
+	 */
 	public static void userStatusControl(User user, HttpSession session) {
 		switch (user.getStatus()) {
 		case ACTIVE:

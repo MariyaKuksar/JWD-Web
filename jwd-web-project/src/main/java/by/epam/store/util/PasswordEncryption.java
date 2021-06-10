@@ -9,6 +9,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * The utility is responsible for encrypting passwords
+ * 
+ * @author Mariya Kuksar
+ */
 public final class PasswordEncryption {
 	private static final Logger logger = LogManager.getLogger();
 	private static final String MESSAGE_DIGEST_ALGORITHM = "SHA-1";
@@ -17,6 +22,12 @@ public final class PasswordEncryption {
 	private PasswordEncryption() {
 	}
 
+	/**
+	 * Encrypts password
+	 * 
+	 * @param password {@link String} password
+	 * @return {@link String} encrypted password
+	 */
 	public static String encrypt(String password) {
 		if (password == null) {
 			logger.error("password is null");

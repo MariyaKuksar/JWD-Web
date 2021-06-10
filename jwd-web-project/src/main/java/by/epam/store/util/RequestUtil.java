@@ -13,6 +13,12 @@ import javax.servlet.http.Part;
 
 import by.epam.store.controller.command.ParameterAndAttribute;
 
+/**
+ * The utility is responsible for working with request
+ * 
+ * @author Mariya Kuksar
+ *
+ */
 public final class RequestUtil {
 	private static final String BUNDLE_NAME = "path";
 	private static final String PATH_IMG = "path.img";
@@ -20,6 +26,15 @@ public final class RequestUtil {
 	private RequestUtil() {
 	}
 
+	/**
+	 * Gets parameters from multipart request
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @return {@link Map} of {@link String} and {@link String} the names of the
+	 *         parameters and its values
+	 * @throws IOException
+	 * @throws ServletException
+	 */
 	public static Map<String, String> getParametersFromMultipartRequest(HttpServletRequest request)
 			throws IOException, ServletException {
 		Enumeration<String> parameterNames = request.getParameterNames();
@@ -39,6 +54,13 @@ public final class RequestUtil {
 		return parameters;
 	}
 
+	/**
+	 * Gets request parameters
+	 * 
+	 * @param request {@link HttpServletRequest}
+	 * @return {@link Map} of {@link String} and {@link String} the names of the
+	 *         parameters and its values
+	 */
 	public static Map<String, String> getRequestParameters(HttpServletRequest request) {
 		Enumeration<String> parameterNames = request.getParameterNames();
 		Map<String, String> parameters = new HashMap<>();

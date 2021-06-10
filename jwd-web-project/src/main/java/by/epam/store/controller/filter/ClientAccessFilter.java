@@ -18,9 +18,15 @@ import by.epam.store.controller.command.ParameterAndAttribute;
 import by.epam.store.entity.UserRole;
 import by.epam.store.util.MessageKey;
 
+/**
+ * Filter to control access to client pages
+ * 
+ * @author Mariya Kuksar
+ * @see Filter
+ */
 @WebFilter(urlPatterns = { "/jsp/client/*" })
 public class ClientAccessFilter implements Filter {
-	
+
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {

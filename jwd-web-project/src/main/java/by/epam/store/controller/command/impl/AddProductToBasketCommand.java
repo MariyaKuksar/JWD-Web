@@ -21,6 +21,12 @@ import by.epam.store.model.service.ServiceFactory;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.UserControl;
 
+/**
+ * The command is responsible for adding a product to the basket
+ * 
+ * @author Mariya Kuksar
+ * @see Command
+ */
 public class AddProductToBasketCommand implements Command {
 	private static final Logger logger = LogManager.getLogger();
 
@@ -50,7 +56,7 @@ public class AddProductToBasketCommand implements Command {
 				router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 			}
 		} catch (ServiceException e) {
-			logger.error("error adding product to basket", e);
+			logger.error("error adding a product to the basket", e);
 			router = new Router(PagePath.ERROR, RouteType.REDIRECT);
 		}
 		return router;

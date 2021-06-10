@@ -10,10 +10,16 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Filter to control caching
+ * 
+ * @author Mariya Kuksar
+ * @see Filter
+ */
 @WebFilter(urlPatterns = { "/*" })
 public class CacheControlFilter implements Filter{
-	public static final String HTTP_HEADER_CACHE_CONTROL = "Cache-Control";
-	public static final String CACHING_INSTRUCTIONS = "no-store, no-cache, must-revalidate";
+	private static final String HTTP_HEADER_CACHE_CONTROL = "Cache-Control";
+	private static final String CACHING_INSTRUCTIONS = "no-store, no-cache, must-revalidate";
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

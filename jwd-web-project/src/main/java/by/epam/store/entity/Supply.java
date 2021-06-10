@@ -5,15 +5,30 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Map;
 
-public class Supply implements Serializable{
+/**
+ * Describes the entity Supply
+ * 
+ * @author Mariya Kuksar
+ */
+public class Supply implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Long supplyId;
 	private LocalDateTime dateTime;
 	private Map<Product, Integer> suppliedProducts;
-	
+
+	/**
+	 * Constructs a new Supply
+	 */
 	public Supply() {
 	}
 
+	/**
+	 * Constructs a new Supply with the specified date and time, supplied products
+	 * 
+	 * @param dateTime         {@link LocalDateTime} date and time of supply
+	 * @param suppliedProducts {@link Map} of {@link Product} and {@link Integer}
+	 *                         supplied products and its quantity
+	 */
 	public Supply(LocalDateTime dateTime, Map<Product, Integer> suppliedProducts) {
 		this.dateTime = dateTime;
 		this.suppliedProducts = suppliedProducts;
