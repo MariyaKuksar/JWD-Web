@@ -62,7 +62,7 @@ public class UserServiceImplTest {
 		autoCloseable.close();
 	}
 
-/*	@Test
+	@Test
 	public void registrationPositiveTest() throws DaoException, ServiceException, InvalidDataException {
 		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
@@ -71,7 +71,6 @@ public class UserServiceImplTest {
 		verify(userDao, times(1)).create(isA(User.class));
 		verify(userDao, times(1)).findUserByLogin(anyString());
 	}
-*/	// TODO раскомитить
 
 	@Test(expectedExceptions = InvalidDataException.class)
 	public void registrationInvalidDataExceptionTest() throws ServiceException, InvalidDataException {
@@ -127,13 +126,12 @@ public class UserServiceImplTest {
 		userService.authorization("mistwins@tut.by", "241992");
 	}
 
-/*	@Test
+	@Test
 	public void changeForgottenPasswordPositiveTest() throws ServiceException, DaoException {
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.of(user));
 		when(userDao.updatePassword(anyString(), anyString())).thenReturn(true);
 		Assert.assertTrue(userService.changeForgottenPassword("web.project.online.store@gmail.com"));
 	}
-*/	// TODO раскомитить
 
 	@Test
 	public void changeForgottenPasswordNegativeTest() throws DaoException, ServiceException {
@@ -239,12 +237,11 @@ public class UserServiceImplTest {
 		Assert.assertTrue(userService.unblockUser("1"));
 	}
 
-/*	@Test
+	@Test
 	public void sendMessagePositiveTest() throws ServiceException, DaoException {
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.of(user));
 		Assert.assertTrue(userService.sendMessage("web.project.online.store@gmail.com", "Hello"));
 	}
-*/	// TODO раскомитить
 
 	@Test
 	public void sendMessageNegativeTest() throws ServiceException, DaoException {
