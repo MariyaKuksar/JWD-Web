@@ -55,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
 				orderBasketId = takeOrderBasketId(userId);
 			}
 			OrderProductConnection orderProductConnection = new OrderProductConnection(orderBasketId,
-					Long.parseLong(productId), ONE_PRODUCT);
+					Long.valueOf(productId), ONE_PRODUCT);
 			if (!orderProductConnectionDao.increaseQuantityOfProduct(orderProductConnection)) {
 				orderProductConnectionDao.create(orderProductConnection);
 			}
@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
 			return false;
 		}
 		boolean quantityOfProductChanged;
-		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId),
+		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.valueOf(productId),
 				Integer.parseInt(quantityOfProduct));
 		try {
 			quantityOfProductChanged = orderProductConnectionDao.update(orderProductConnection);
@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
 		if (orderId == null || !IdValidator.isValidId(productId)) {
 			return false;
 		}
-		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.parseLong(productId));
+		OrderProductConnection orderProductConnection = new OrderProductConnection(orderId, Long.valueOf(productId));
 		try {
 			orderProductConnectionDao.delete(orderProductConnection);
 		} catch (DaoException e) {
@@ -137,7 +137,7 @@ public class OrderServiceImpl implements OrderService {
 		try {
 			orderCanceled = orderDao.updateStatus(orderId, statusFrom, OrderStatus.CANCELED);
 			if (orderCanceled) {
-				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
+				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.valueOf(orderId));
 				productDao.increaseQuantity(products);
 			}
 		} catch (DaoException e) {
@@ -206,7 +206,7 @@ public class OrderServiceImpl implements OrderService {
 			orderOptional = orderDao.findOrderById(orderId);
 			if (orderOptional.isPresent()) {
 				Order order = orderOptional.get();
-				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.parseLong(orderId));
+				Map<Product, Integer> products = orderProductConnectionDao.findByOrderId(Long.valueOf(orderId));
 				order.setProducts(products);
 				if (order.getOrderStatus() == OrderStatus.BASKET) {
 					order.setCost(PriceCalculator.calculateTotalCost(products));

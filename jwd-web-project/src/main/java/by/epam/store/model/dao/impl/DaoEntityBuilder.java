@@ -12,7 +12,7 @@ import by.epam.store.entity.ProductCategory;
 import by.epam.store.entity.User;
 import by.epam.store.entity.UserRole;
 import by.epam.store.entity.UserStatus;
-import by.epam.store.model.dao.ColumnName;
+import static by.epam.store.model.dao.ColumnName.*;
 
 /**
  * The builder is responsible for building different entities
@@ -33,13 +33,13 @@ final class DaoEntityBuilder {
 	 */
 	static User buildUser(ResultSet resultSet) throws SQLException {
 		User user = new User();
-		user.setUserId(resultSet.getLong(ColumnName.USERS_ID));
-		user.setLogin(resultSet.getString(ColumnName.USERS_LOGIN));
-		user.setPassword(resultSet.getString(ColumnName.USERS_PASSWORD));
-		user.setRole(UserRole.valueOf(resultSet.getString(ColumnName.USERS_ROLE).toUpperCase()));
-		user.setName(resultSet.getString(ColumnName.USERS_NAME));
-		user.setPhone(resultSet.getString(ColumnName.USERS_PHONE));
-		user.setStatus(UserStatus.valueOf(resultSet.getString(ColumnName.USERS_STATUS.toUpperCase())));
+		user.setUserId(resultSet.getLong(USERS_ID));
+		user.setLogin(resultSet.getString(USERS_LOGIN));
+		user.setPassword(resultSet.getString(USERS_PASSWORD));
+		user.setRole(UserRole.valueOf(resultSet.getString(USERS_ROLE).toUpperCase()));
+		user.setName(resultSet.getString(USERS_NAME));
+		user.setPhone(resultSet.getString(USERS_PHONE));
+		user.setStatus(UserStatus.valueOf(resultSet.getString(USERS_STATUS.toUpperCase())));
 		return user;
 	}
 
@@ -52,9 +52,9 @@ final class DaoEntityBuilder {
 	 */
 	static ProductCategory buildProductCategory(ResultSet resultSet) throws SQLException {
 		ProductCategory category = new ProductCategory();
-		category.setCategoryId(resultSet.getLong(ColumnName.PRODUCT_CATEGORIES_ID));
-		category.setCategoryName(resultSet.getString(ColumnName.PRODUCT_CATEGORIES_CATEGORY));
-		category.setImageName(resultSet.getString(ColumnName.PRODUCT_CATEGORIES_IMAGE_NAME));
+		category.setCategoryId(resultSet.getLong(PRODUCT_CATEGORIES_ID));
+		category.setCategoryName(resultSet.getString(PRODUCT_CATEGORIES_CATEGORY));
+		category.setImageName(resultSet.getString(PRODUCT_CATEGORIES_IMAGE_NAME));
 		return category;
 	}
 
@@ -67,12 +67,12 @@ final class DaoEntityBuilder {
 	 */
 	static Product buildProduct(ResultSet resultSet) throws SQLException {
 		Product product = new Product();
-		product.setProductId(resultSet.getLong(ColumnName.PRODUCTS_ID));
-		product.setCategoryId(resultSet.getLong(ColumnName.PRODUCTS_CATEGORY_ID));
-		product.setProductName(resultSet.getString(ColumnName.PRODUCTS_NAME));
-		product.setImageName(resultSet.getString(ColumnName.PRODUCTS_IMAGE_NAME));
-		product.setPrice(resultSet.getBigDecimal(ColumnName.PRODUCTS_PRICE));
-		product.setQuantity(resultSet.getInt(ColumnName.PRODUCTS_QUANTITY));
+		product.setProductId(resultSet.getLong(PRODUCTS_ID));
+		product.setCategoryId(resultSet.getLong(PRODUCTS_CATEGORY_ID));
+		product.setProductName(resultSet.getString(PRODUCTS_NAME));
+		product.setImageName(resultSet.getString(PRODUCTS_IMAGE_NAME));
+		product.setPrice(resultSet.getBigDecimal(PRODUCTS_PRICE));
+		product.setQuantity(resultSet.getInt(PRODUCTS_QUANTITY));
 		return product;
 	}
 
@@ -85,25 +85,25 @@ final class DaoEntityBuilder {
 	 */
 	static Order buildOrder(ResultSet resultSet) throws SQLException {
 		Order order = new Order();
-		order.setOrderId(resultSet.getLong(ColumnName.ORDERS_ID));
-		order.setUserId(resultSet.getLong(ColumnName.ORDERS_USER_ID));
-		if (resultSet.getTimestamp(ColumnName.ORDERS_DATE_TIME) != null) {
-			order.setDateTime(resultSet.getTimestamp(ColumnName.ORDERS_DATE_TIME).toLocalDateTime());
+		order.setOrderId(resultSet.getLong(ORDERS_ID));
+		order.setUserId(resultSet.getLong(ORDERS_USER_ID));
+		if (resultSet.getTimestamp(ORDERS_DATE_TIME) != null) {
+			order.setDateTime(resultSet.getTimestamp(ORDERS_DATE_TIME).toLocalDateTime());
 		}
-		order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ColumnName.ORDERS_STATUS)));
-		if (resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD) != null) {
+		order.setOrderStatus(OrderStatus.valueOf(resultSet.getString(ORDERS_STATUS)));
+		if (resultSet.getString(ORDERS_PAYMENT_METHOD) != null) {
 			order.setPaymentMethod(
-					PaymentMethod.valueOf(resultSet.getString(ColumnName.ORDERS_PAYMENT_METHOD).toUpperCase()));
+					PaymentMethod.valueOf(resultSet.getString(ORDERS_PAYMENT_METHOD).toUpperCase()));
 		}
-		order.setCost(resultSet.getBigDecimal(ColumnName.ORDERS_COST));
-		if (resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD) != null) {
+		order.setCost(resultSet.getBigDecimal(ORDERS_COST));
+		if (resultSet.getString(ORDERS_DELIVERY_METHOD) != null) {
 			order.setDeliveryMethod(
-					DeliveryMethod.valueOf(resultSet.getString(ColumnName.ORDERS_DELIVERY_METHOD).toUpperCase()));
+					DeliveryMethod.valueOf(resultSet.getString(ORDERS_DELIVERY_METHOD).toUpperCase()));
 		}
-		order.getAddress().setCity(resultSet.getString(ColumnName.ORDERS_CITY));
-		order.getAddress().setStreet(resultSet.getString(ColumnName.ORDERS_STREET));
-		order.getAddress().setHouse(resultSet.getString(ColumnName.ORDERS_HOUSE));
-		order.getAddress().setApartment(resultSet.getString(ColumnName.ORDERS_APARTMENT));
+		order.getAddress().setCity(resultSet.getString(ORDERS_CITY));
+		order.getAddress().setStreet(resultSet.getString(ORDERS_STREET));
+		order.getAddress().setHouse(resultSet.getString(ORDERS_HOUSE));
+		order.getAddress().setApartment(resultSet.getString(ORDERS_APARTMENT));
 		return order;
 	}
 }

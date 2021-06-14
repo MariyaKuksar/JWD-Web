@@ -2,7 +2,7 @@ package by.epam.store.entity.builder.impl;
 
 import java.util.Map;
 
-import by.epam.store.controller.command.ParameterAndAttribute;
+import static by.epam.store.controller.command.ParameterAndAttribute.*;
 import by.epam.store.entity.User;
 import by.epam.store.entity.builder.EntityBuilder;
 
@@ -29,10 +29,10 @@ public class UserBuilder implements EntityBuilder<User> {
 	@Override
 	public User build(Map<String, String> userInfo) {
 		User user = new User();
-		user.setLogin(userInfo.get(ParameterAndAttribute.LOGIN));
-		user.setPassword(userInfo.get(ParameterAndAttribute.PASSWORD));
-		user.setName(userInfo.get(ParameterAndAttribute.USER_NAME));
-		user.setPhone(userInfo.get(ParameterAndAttribute.PHONE));
+		user.setLogin(userInfo.get(LOGIN));
+		user.setPassword(userInfo.get(PASSWORD));
+		user.setName(userInfo.get(USER_NAME));
+		user.setPhone(userInfo.get(PHONE));
 		return user;
 	}
 }

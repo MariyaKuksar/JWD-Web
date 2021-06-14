@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
 		}
 		boolean userActivated;
 		try {
-			userActivated = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.INACTIVE, UserStatus.ACTIVE);
+			userActivated = userDao.changeUserStatus(Long.valueOf(userId), UserStatus.INACTIVE, UserStatus.ACTIVE);
 		} catch (DaoException e) {
 			throw new ServiceException("user activation error", e);
 		}
@@ -179,7 +179,7 @@ public class UserServiceImpl implements UserService {
 			String encryptedPassword = PasswordEncryption.encrypt(userInfo.get(ParameterAndAttribute.PASSWORD));
 			userInfo.put(ParameterAndAttribute.PASSWORD, encryptedPassword);
 			User user = UserBuilder.getInstance().build(userInfo);
-			user.setUserId(Long.parseLong(userId));
+			user.setUserId(Long.valueOf(userId));
 			userChanged = userDao.update(user);
 		} catch (DaoException e) {
 			throw new ServiceException("user chanding error", e);
@@ -194,7 +194,7 @@ public class UserServiceImpl implements UserService {
 		}
 		boolean userBlocked;
 		try {
-			userBlocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.ACTIVE, UserStatus.BLOCKED);
+			userBlocked = userDao.changeUserStatus(Long.valueOf(userId), UserStatus.ACTIVE, UserStatus.BLOCKED);
 		} catch (DaoException e) {
 			throw new ServiceException("user blocking error", e);
 		}
@@ -208,7 +208,7 @@ public class UserServiceImpl implements UserService {
 		}
 		boolean userUnblocked;
 		try {
-			userUnblocked = userDao.changeUserStatus(Long.parseLong(userId), UserStatus.BLOCKED, UserStatus.ACTIVE);
+			userUnblocked = userDao.changeUserStatus(Long.valueOf(userId), UserStatus.BLOCKED, UserStatus.ACTIVE);
 		} catch (DaoException e) {
 			throw new ServiceException("user unblocking error", e);
 		}
