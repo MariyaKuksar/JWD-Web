@@ -19,10 +19,12 @@ public interface UserService {
 	 * 
 	 * @param userInfo {@link Map} of {@link String} and {@link String} the names of
 	 *                 the {@link User} fields and its values
+	 * @return boolean true if the user is registered and a registration
+	 *         confirmation message has been sent, else false
 	 * @throws ServiceException     if {@link DaoException} occurs
 	 * @throws InvalidDataException if user info is invalid
 	 */
-	void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException;
+	boolean registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException;
 
 	/**
 	 * Activates an inactive user

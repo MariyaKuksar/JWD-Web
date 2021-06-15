@@ -40,6 +40,7 @@ public final class MessageKey {
 
 	public static final String INFO_REGISTRATION_OK_MESSAGE = "local.message.registration_ok";
 	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE = "local.message.confirmation_of_registration";
+	public static final String INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE_NOT_SENT = "local.message.confirmation_of_registration_message_not_sent";
 	public static final String INFO_PASSWORD_SENT_MESSAGE = "local.message.password_sent";
 	public static final String INFO_NOTHING_FOUND_MESSAGE = "local.message.nothing_found";
 	public static final String INFO_PRODUCT_ADDED_TO_BASKET_MESSAGE = "local.message.product_added_to_basket";

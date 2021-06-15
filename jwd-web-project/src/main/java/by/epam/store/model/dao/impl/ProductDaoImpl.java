@@ -63,7 +63,7 @@ public class ProductDaoImpl implements ProductDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override

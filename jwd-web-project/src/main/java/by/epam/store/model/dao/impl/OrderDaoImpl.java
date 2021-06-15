@@ -67,7 +67,7 @@ public class OrderDaoImpl implements OrderDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class OrderDaoImpl implements OrderDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override

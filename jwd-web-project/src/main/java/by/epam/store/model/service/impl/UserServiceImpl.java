@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-import javax.mail.MessagingException;
-
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -43,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao = new UserDaoImpl();
 
 	@Override
-	public void registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
+	public boolean registration(Map<String, String> userInfo) throws ServiceException, InvalidDataException {
 		if (MapUtils.isEmpty(userInfo)) {
 			throw new InvalidDataException("invalid data",
 					Arrays.asList(MessageKey.ERROR_IMPOSSIBLE_OPERATION_MESSAGE));
@@ -56,6 +54,7 @@ public class UserServiceImpl implements UserService {
 		if (!errorMessageList.isEmpty()) {
 			throw new InvalidDataException("invalid data", errorMessageList);
 		}
+		boolean result;
 		try {
 			String encryptedPassword = PasswordEncryption.encrypt(userInfo.get(ParameterAndAttribute.PASSWORD));
 			userInfo.put(ParameterAndAttribute.PASSWORD, encryptedPassword);
@@ -64,11 +63,12 @@ public class UserServiceImpl implements UserService {
 			user.setStatus(UserStatus.INACTIVE);
 			userDao.create(user);
 			String link = ResourceBundle.getBundle(BUNDLE_NAME).getString(PATH_APP) + PagePath.CONFIRM_REGISTRATION;
-			MailSender.send(user.getLogin(), MessageKey.REGISTRATION_MESSAGE_SUBJECT,
+			result = MailSender.send(user.getLogin(), MessageKey.REGISTRATION_MESSAGE_SUBJECT,
 					MessageKey.REGISTRATION_MESSAGE_TEXT + link + user.getUserId());
-		} catch (MessagingException | DaoException e) {
+		} catch (DaoException e) {
 			throw new ServiceException("user creation error", e);
 		}
+		return result;
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
 				MailSender.send(login, MessageKey.CHANGE_PASSWORD_MESSAGE_SUBJECT,
 						MessageKey.CHANGE_PASSWORD_MESSAGE_TEXT + newPassword);
 			}
-		} catch (MessagingException | DaoException e) {
+		} catch (DaoException e) {
 			throw new ServiceException("password change error", e);
 		}
 		return passwordChanged;
@@ -220,12 +220,7 @@ public class UserServiceImpl implements UserService {
 		if ((UserInfoValidator.isValidLogin(email) && checkIfLoginFree(email))) {
 			return false;
 		}
-		try {
-			MailSender.send(email, MessageKey.INFO_MESSAGE_SUBJECT, message);
-		} catch (MessagingException e) {
-			throw new ServiceException("message sending error", e);
-		}
-		return true;
+		return MailSender.send(email, MessageKey.INFO_MESSAGE_SUBJECT, message);
 	}
 
 	@Override

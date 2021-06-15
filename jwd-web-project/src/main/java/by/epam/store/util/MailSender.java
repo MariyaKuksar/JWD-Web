@@ -47,12 +47,13 @@ public class MailSender {
 	 * @param email          {@link String} recipient email
 	 * @param messageSubject {@link String} message subject
 	 * @param messageText    {@link String} message text
-	 * @throws MessagingException
+	 * @return boolean true if if the message is sent, else false
 	 */
-	public static void send(String email, String messageSubject, String messageText) throws MessagingException {
+	public static boolean send(String email, String messageSubject, String messageText) {
 		if (email == null || messageSubject == null || messageText == null) {
-			throw new MessagingException();
+			return false;
 		}
+		boolean result;
 		Session mailSession = Session.getDefaultInstance(properties, new Authenticator() {
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
@@ -60,10 +61,17 @@ public class MailSender {
 						properties.getProperty(MAIL_USER_PASSWORD));
 			}
 		});
-		MimeMessage message = new MimeMessage(mailSession);
-		message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
-		message.setSubject(messageSubject);
-		message.setText(messageText);
-		Transport.send(message);
+		try {
+			MimeMessage message = new MimeMessage(mailSession);
+			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
+			message.setSubject(messageSubject);
+			message.setText(messageText);
+			Transport.send(message);
+			result = true;
+		} catch (MessagingException e) {
+			logger.error("error sending message", e);
+			result = false;
+		}
+		return result;
 	}
 }

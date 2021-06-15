@@ -36,9 +36,13 @@ public class SignUpCommand implements Command {
 		UserService userService = ServiceFactory.getInstance().getUserService();
 		Map<String, String> userInfo = RequestUtil.getRequestParameters(request);
 		try {
-			userService.registration(userInfo);
-			session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
-					MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
+			if (userService.registration(userInfo)) {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
+						MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE);
+			} else {
+				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE,
+						MessageKey.INFO_CONFIRMATION_OF_REGISTRATION_MESSAGE_NOT_SENT);
+			}
 			router = new Router(PagePath.GO_TO_MAIN_PAGE, RouteType.REDIRECT);
 		} catch (InvalidDataException e) {
 			logger.error("invalid data", e);

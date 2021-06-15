@@ -66,7 +66,7 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class UserDaoImpl implements UserDao {
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
-		return numberUpdatedRows != 0;
+		return (numberUpdatedRows != 0);
 	}
 
 	@Override
