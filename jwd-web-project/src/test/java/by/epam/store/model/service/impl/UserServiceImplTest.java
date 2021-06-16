@@ -67,7 +67,7 @@ public class UserServiceImplTest {
 		userInfo.put(ParameterAndAttribute.PASSWORD, "241992");
 		when(userDao.findUserByLogin(anyString())).thenReturn(Optional.empty());
 		doNothing().when(userDao).create(isA(User.class));
-		userService.registration(userInfo);
+		Assert.assertTrue(userService.registration(userInfo));
 		verify(userDao, times(1)).create(isA(User.class));
 		verify(userDao, times(1)).findUserByLogin(anyString());
 	}
