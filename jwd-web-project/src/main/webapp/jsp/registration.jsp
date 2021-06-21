@@ -38,7 +38,7 @@
 		<form action="${pageContext.request.contextPath}/controller" method="post">
 		  <input type="hidden" name="command" value="sign_up"/>
 		  <input type="text" name="userName" required placeholder="${name}" pattern="[a-zA-Zа-яА-Я-\s]{1,45}"/>
-		  <input type="tel" name="phone" required placeholder="${phone} +375*********" pattern="\+375[\d]{9}"/>
+		  <input type="tel" name="phone" required placeholder="${phone} +375*********" pattern="\+375\d{9}"/>
 		  <input type="email" name="login" required placeholder="${email}" maxlength="45"/>
 		  <input type="password" name="password" required placeholder="${password} ${password_rules}" pattern="[A-Za-z\d]{5,15}"/>  
 		  <input type="submit" value="${sign_up}"/>

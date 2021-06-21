@@ -47,7 +47,7 @@
     </div>
     <div>
       <label>${phone}:
-		<input type="tel" name="phone" required placeholder="+375XXXXXXXXX" value="${user.phone}" pattern="\+375[\d]{9}"/>
+		<input type="tel" name="phone" required placeholder="+375XXXXXXXXX" value="${user.phone}" pattern="\+375\d{9}"/>
       </label>
     </div>
 	<div>

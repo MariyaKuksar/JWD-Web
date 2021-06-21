@@ -1,8 +1,8 @@
 package by.epam.store.model.service.impl;
 
+import static org.mockito.Mockito.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

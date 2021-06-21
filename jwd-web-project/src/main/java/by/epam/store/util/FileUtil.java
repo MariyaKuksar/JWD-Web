@@ -23,7 +23,7 @@ public final class FileUtil {
 	 * Generates new file name
 	 * 
 	 * @param fileName {@link String} current file name
-	 * @return {@link String} generated new file name
+	 * @return {@link String} generated new file name or empty string if file name is incorrect
 	 */
 	public static String generateName(String fileName) {
 		if (fileName == null || !fileName.contains(FILE_EXTENSION_SEPARATOR)) {
