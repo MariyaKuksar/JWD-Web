@@ -61,7 +61,7 @@
 
 				<td>${user.phone}</td>
 
-				<td>${user.status}</td>
+				<td><fmt:message key="local.status.${user.status}" /></td>
 
 				<td>
 					<c:if test="${user.status == 'BLOCKED'}">

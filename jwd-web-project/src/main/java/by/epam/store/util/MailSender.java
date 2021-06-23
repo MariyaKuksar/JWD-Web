@@ -27,11 +27,19 @@ public class MailSender {
 	private static final String MAIL_USER_NAME = "mail.user.name";
 	private static final String MAIL_USER_PASSWORD = "mail.user.password";
 	private static final Properties properties = new Properties();
+	private static final Authenticator authenticator;
 
 	static {
 		ClassLoader classLoader = MailSender.class.getClassLoader();
 		try (InputStream resourceAsStream = classLoader.getResourceAsStream(MAIL_PROPERTIES)) {
 			properties.load(resourceAsStream);
+			authenticator = new Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(properties.getProperty(MAIL_USER_NAME),
+						properties.getProperty(MAIL_USER_PASSWORD));
+			}
+		};
 		} catch (IOException e) {
 			logger.error("Error uploading" + MAIL_PROPERTIES, e);
 			throw new RuntimeException("Error uploading a file" + MAIL_PROPERTIES, e);
@@ -54,13 +62,7 @@ public class MailSender {
 			return false;
 		}
 		boolean result;
-		Session mailSession = Session.getDefaultInstance(properties, new Authenticator() {
-			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(properties.getProperty(MAIL_USER_NAME),
-						properties.getProperty(MAIL_USER_PASSWORD));
-			}
-		});
+		Session mailSession = Session.getDefaultInstance(properties, authenticator);
 		try {
 			MimeMessage message = new MimeMessage(mailSession);
 			message.setRecipient(Message.RecipientType.TO, new InternetAddress(email));
