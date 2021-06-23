@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,9 +21,14 @@ import org.apache.logging.log4j.Logger;
 public class ConnectionPool {
 	private static final Logger logger = LogManager.getLogger();
 	private static final int DEFAULT_POOL_SIZE = 8;
-	private static final ConnectionPool instance = new ConnectionPool();
+	private static ConnectionPool instance;
+	private static AtomicBoolean instanceCreated = new AtomicBoolean();
+	private static ReentrantLock lock = new ReentrantLock();
 	private BlockingQueue<ProxyConnection> freeConnections;
 	private BlockingQueue<ProxyConnection> givenAwayConnections;
+	
+	private ConnectionPool() {
+	}
 
 	/**
 	 * Gets instance of this class
@@ -29,10 +36,15 @@ public class ConnectionPool {
 	 * @return {@link ConnectionPool} instance
 	 */
 	public static ConnectionPool getInstance() {
+		if (!instanceCreated.get()) {
+			lock.lock();
+			if (!instanceCreated.get()) {
+				instance = new ConnectionPool();
+				instanceCreated.set(true);
+			}
+			lock.unlock();
+		}
 		return instance;
-	}
-
-	private ConnectionPool() {
 	}
 
 	/**
