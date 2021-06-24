@@ -26,9 +26,6 @@ public class ConnectionPool {
 	private static ReentrantLock lock = new ReentrantLock();
 	private BlockingQueue<ProxyConnection> freeConnections;
 	private BlockingQueue<ProxyConnection> givenAwayConnections;
-	
-	private ConnectionPool() {
-	}
 
 	/**
 	 * Gets instance of this class
@@ -45,6 +42,9 @@ public class ConnectionPool {
 			lock.unlock();
 		}
 		return instance;
+	}
+
+	private ConnectionPool() {
 	}
 
 	/**

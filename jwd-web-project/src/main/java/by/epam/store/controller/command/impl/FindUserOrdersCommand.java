@@ -1,6 +1,5 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +49,7 @@ public class FindUserOrdersCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NO_ORDERS_MESSAGE);
 			}
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_USER_ORDERS + login);
-			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, Arrays.asList(OrderStatus.values()));
+			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, OrderStatus.values());
 			router = new Router(PagePath.ORDERS, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("orders search error", e);

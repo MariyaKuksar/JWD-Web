@@ -50,7 +50,7 @@ public class FindOrderByIdCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.INFO_MESSAGE, MessageKey.INFO_NOTHING_FOUND_MESSAGE);
 			}
 			session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.FIND_ORDER_BY_ID + orderId);
-			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, Arrays.asList(OrderStatus.values()));
+			request.setAttribute(ParameterAndAttribute.ORDER_STATUS_LIST, OrderStatus.values());
 			router = new Router(PagePath.ORDERS, RouteType.FORWARD);
 		} catch (ServiceException e) {
 			logger.error("order search error", e);

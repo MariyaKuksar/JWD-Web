@@ -1,6 +1,5 @@
 package by.epam.store.controller.command.impl;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,9 +53,8 @@ public class GoToBasketPageCommand implements Command {
 				session.setAttribute(ParameterAndAttribute.ORDER_BASKET_ID, orderBasket.getOrderId());
 				session.setAttribute(ParameterAndAttribute.CURRENT_PAGE, PagePath.GO_TO_BASKET_PAGE);
 				request.setAttribute(ParameterAndAttribute.ORDER, orderBasket);
-				request.setAttribute(ParameterAndAttribute.DELIVERY_METHOD_LIST,
-						Arrays.asList(DeliveryMethod.values()));
-				request.setAttribute(ParameterAndAttribute.PAYMENT_METHOD_LIST, Arrays.asList(PaymentMethod.values()));
+				request.setAttribute(ParameterAndAttribute.DELIVERY_METHOD_LIST, DeliveryMethod.values());
+				request.setAttribute(ParameterAndAttribute.PAYMENT_METHOD_LIST, PaymentMethod.values());
 				router = new Router(PagePath.BASKET, RouteType.FORWARD);
 			} else {
 				session.setAttribute(ParameterAndAttribute.ERROR_MESSAGE,
