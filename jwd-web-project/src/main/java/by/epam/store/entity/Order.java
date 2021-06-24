@@ -12,7 +12,7 @@ import java.util.Map;
  * @author Mariya Kuksar
  */
 public class Order implements Serializable {
-	
+	private static final long serialVersionUID = 1L;
 	private Long orderId;
 	private Long userId;
 	private OrderStatus orderStatus;
