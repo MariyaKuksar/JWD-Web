@@ -62,7 +62,10 @@
                             <ul class="menu2">
                                 <li><a href="${pageContext.request.contextPath}/controller?command=go_to_profile_page">${personal_data}</a></li>
                                 <li><a href="${pageContext.request.contextPath}/controller?command=go_to_orders_page">${my_orders}</a></li>
-                                <li><a href="${pageContext.request.contextPath}/controller?command=sign_out">${sign_out}</a></li>
+                                <li> <form action="${pageContext.request.contextPath}/controller" method="post">
+				                     <input type="hidden" name="command" value="sign_out"/>
+				                     <input type="submit" value="${sign_out}"/>
+				                     </form></li>
                             </ul>
                         </li>
                         </c:if>

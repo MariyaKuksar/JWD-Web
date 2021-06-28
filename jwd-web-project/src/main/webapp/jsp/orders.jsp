@@ -149,7 +149,7 @@
 			</td>
 			<td valign="center" align="center" class="order_info">
 			    <c:if test="${sessionScope.role == 'ADMIN'}">
-				<form action="${pageContext.request.contextPath}/controller" method="post">
+				<form action="${pageContext.request.contextPath}/controller" method="get">
 					<input type="hidden" name="command" value="find_user_by_id"/>
 					<input type="hidden" name="userId" value="${order.userId}"/>
 					<input type="submit" value="${customer}"/>

@@ -65,7 +65,10 @@
 			<div class="welcom">
                 <div>
                     <p>${welcome}, ${sessionScope.login}!</p>
-                    <a href="${pageContext.request.contextPath}/controller?command=sign_out">${sign_out}</a>
+                    <form action="${pageContext.request.contextPath}/controller" method="post">
+				    <input type="hidden" name="command" value="sign_out"/>
+				    <input type="submit" value="${sign_out}"/>
+				    </form>
                 </div>
             </div>
 			</c:if>
