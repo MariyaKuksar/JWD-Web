@@ -20,15 +20,6 @@ public class ProductCategory implements Serializable {
 	}
 
 	/**
-	 * Constructs a new ProductCategory with the specified category id
-	 * 
-	 * @param categoryId {@link Long} category id
-	 */
-	public ProductCategory(Long categoryId) {
-		this.categoryId = categoryId;
-	}
-
-	/**
 	 * Constructs a new ProductCategory with the specified category id and category
 	 * name
 	 * 

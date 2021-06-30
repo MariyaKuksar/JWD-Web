@@ -48,7 +48,11 @@ class ProxyConnection implements Connection {
 	}
 
 	@Override
-	public void close() {
+	public void close() throws SQLException {
+		if (!connection.getAutoCommit()) {
+			connection.rollback();
+			connection.setAutoCommit(true);
+		}
 		ConnectionPool.getInstance().releaseConnection(this);
 	}
 

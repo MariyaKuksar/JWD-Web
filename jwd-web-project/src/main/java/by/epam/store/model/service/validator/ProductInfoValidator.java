@@ -1,4 +1,4 @@
-package by.epam.store.validator;
+package by.epam.store.model.service.validator;
 
 import java.util.ArrayList;
 import java.util.List;

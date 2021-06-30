@@ -1,4 +1,4 @@
-package by.epam.store.validator;
+package by.epam.store.model.service.validator;
 
 /**
  * Validates id

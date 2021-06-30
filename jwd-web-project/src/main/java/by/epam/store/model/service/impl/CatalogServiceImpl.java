@@ -28,9 +28,9 @@ import by.epam.store.model.dao.impl.SupplyDaoImpl;
 import by.epam.store.model.service.CatalogService;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.model.service.validator.IdValidator;
+import by.epam.store.model.service.validator.ProductInfoValidator;
 import by.epam.store.util.MessageKey;
-import by.epam.store.validator.IdValidator;
-import by.epam.store.validator.ProductInfoValidator;
 
 /**
  * The service is responsible for operations with the product catalog

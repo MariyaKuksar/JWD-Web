@@ -4,6 +4,8 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import by.epam.store.model.service.validator.IdValidator;
+
 public class IdValidatorTest {
 
 	@DataProvider(name = "validId")

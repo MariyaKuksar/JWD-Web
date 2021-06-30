@@ -25,11 +25,11 @@ import by.epam.store.model.dao.impl.ProductDaoImpl;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.OrderService;
 import by.epam.store.model.service.ServiceException;
+import by.epam.store.model.service.validator.IdValidator;
+import by.epam.store.model.service.validator.OrderInfoValidator;
+import by.epam.store.model.service.validator.ProductInfoValidator;
+import by.epam.store.model.service.validator.UserInfoValidator;
 import by.epam.store.util.PriceCalculator;
-import by.epam.store.validator.IdValidator;
-import by.epam.store.validator.OrderInfoValidator;
-import by.epam.store.validator.ProductInfoValidator;
-import by.epam.store.validator.UserInfoValidator;
 
 /**
  * The service is responsible for operations with the orders

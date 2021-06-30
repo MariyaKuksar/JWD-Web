@@ -50,10 +50,8 @@ public class ConnectionPool {
 				freeConnections.add(proxyConnection);
 			} catch (SQLException e) {
 				logger.error("database access error, connection not received", e);
+				throw new ConnectionPoolException("connection pool initialization error");
 			}
-		}
-		if (freeConnections.isEmpty()) {
-			throw new ConnectionPoolException("connection pool initialization error");
 		}
 	}
 

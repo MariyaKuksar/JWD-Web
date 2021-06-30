@@ -87,12 +87,15 @@ public class ProductDaoImpl implements ProductDao {
 	public void increaseQuantity(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_INCREASE_QUANTITY_PRODUCT)) {
+			connection.setAutoCommit(false);
 			for (Map.Entry<Product, Integer> productAndQuantity : products.entrySet()) {
 				statement.setInt(1, productAndQuantity.getValue());
 				statement.setLong(2, productAndQuantity.getKey().getProductId());
 				statement.addBatch();
 			}
 			statement.executeBatch();
+			connection.commit();
+			connection.setAutoCommit(true);
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}
@@ -102,12 +105,15 @@ public class ProductDaoImpl implements ProductDao {
 	public void reduceQuantity(Map<Product, Integer> products) throws DaoException {
 		try (Connection connection = ConnectionPool.getInstance().getConnection();
 				PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_REDUCE_QUANTITY_PRODUCT)) {
+			connection.setAutoCommit(false);
 			for (Map.Entry<Product, Integer> productAndQuantity : products.entrySet()) {
 				statement.setInt(1, productAndQuantity.getValue());
 				statement.setLong(2, productAndQuantity.getKey().getProductId());
 				statement.addBatch();
 			}
 			statement.executeBatch();
+			connection.commit();
+			connection.setAutoCommit(true);
 		} catch (ConnectionPoolException | SQLException e) {
 			throw new DaoException("database error", e);
 		}

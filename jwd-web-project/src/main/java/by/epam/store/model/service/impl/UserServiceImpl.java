@@ -22,11 +22,11 @@ import by.epam.store.model.dao.impl.UserDaoImpl;
 import by.epam.store.model.service.InvalidDataException;
 import by.epam.store.model.service.ServiceException;
 import by.epam.store.model.service.UserService;
+import by.epam.store.model.service.validator.IdValidator;
+import by.epam.store.model.service.validator.UserInfoValidator;
 import by.epam.store.util.MailSender;
 import by.epam.store.util.MessageKey;
 import by.epam.store.util.PasswordEncryption;
-import by.epam.store.validator.IdValidator;
-import by.epam.store.validator.UserInfoValidator;
 
 /**
  * The service is responsible for user operations
